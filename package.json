@@ -1,0 +1,22 @@
+{
+  "name": "my-vite-app",
+  "version": "1.0.0",
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "backend.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nishant040305/vite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nishant040305/vite/issues"
+  },
+  "homepage": "https://github.com/Nishant040305/vite#readme",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
