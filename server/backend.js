@@ -1,12 +1,12 @@
 const path = require("path");
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const express = require("express");
 const app = express();
-const MongoDB = require("../models/mongodb");
+const MongoDB = require("./models/mongodb");
 const cors = require("cors");
 const PORT = process.env.PORT;
 const web = process.env.FRONTWEB
-const userdb = require("../models/user");
+const userdb = require("./models/user");
 const router = express.Router();
 app.use(cors({
     origin:web,
@@ -18,7 +18,6 @@ app.use(express.json());
 
 //Available Routes
 
-  console.log("ok1");
 app.use('/',require('./routes/credential'));
 
 // Error handling middleware
