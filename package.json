@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run dev --prefix ./client\" \"nodemon server/backend.js\" ",
-    "release": "standard-version"
+    "release": "standard-version",
+    "install":"npm install --prefix ./client && npm install"
   },
   "repository": {
     "type": "git",
