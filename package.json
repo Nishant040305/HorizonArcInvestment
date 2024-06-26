@@ -1,13 +1,13 @@
 {
   "name": "my-vite-app",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "backend.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run dev --prefix ./client\" \"nodemon server/backend.js\" ",
     "release": "standard-version",
-    "install":"npm install --prefix ./client && npm install"
+    "install": "npm install --prefix ./client && npm install"
   },
   "repository": {
     "type": "git",
