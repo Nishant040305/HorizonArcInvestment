@@ -1,14 +1,13 @@
 .sideBar{
     background: white;
     height: 100vh;
-    width: 23rem;
+    width: 24rem;
     display: flex;
     justify-content: space-around;
     flex-direction: column;
     flex-wrap: wrap;
     align-content: space-around;
     align-items: flex-start;
-
 }
 .profilePic{
     width:14rem;
