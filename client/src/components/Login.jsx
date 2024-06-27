@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import ".././assets/Login.css";
 // import "dotenv";
 import axios from "axios";
+import { Button } from 'flowbite-react';
+
 const loginwithgoogle =()=>{
     window.open(`http://localhost:5000/auth/google/callback`,"_self")
 }
@@ -126,8 +128,8 @@ const Login =()=>{
 
                     <input className ="Login-email-input" onChange={handleMobile}placeholder="     Enter your Mobile Number" value={number}></input>
                     <input className ="Login-email-input" onChange={handleEmail}placeholder="     Enter your  Email" value={email}></input>
-
-                    <button className=" btn Login-email-buttton" onClick={()=>{login_email()}}>Continue</button>
+                
+                    <button className=" btn Login-email-buttton " onClick={()=>{login_email()}}>Continue</button>
                 </div>}
 
             </div>

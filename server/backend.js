@@ -7,6 +7,7 @@ const cors = require("cors");
 const PORT = process.env.PORT;
 const web = process.env.FRONTWEB
 const userdb = require("./models/user");
+const cookieParser = require('cookie-parser');
 const router = express.Router();
 app.use(cors({
     origin:web,
@@ -15,7 +16,8 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
+app.use(express.urlencoded({extended:false}))
+app.use(cookieParser);
 //Available Routes
 
 app.use('/',require('./routes/credential'));

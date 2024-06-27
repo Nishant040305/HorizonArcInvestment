@@ -6,7 +6,7 @@ const {body,validationResult} = require("express-validator");
 const bcrypt  = require("bcryptjs");
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const { request } = require('http');
+const {getUser,createUser} = require('../services/credential');
 let authToken = '';
 async function Authenticate(){
   await fetch("https://production.deepvue.tech/v1/authorize",{
@@ -184,8 +184,9 @@ const SaveData =async (req,res)=>{
   console.log(req.body);
   let user = new User(req.body)
   await user.save();
-  let _id = await User.findOne({pan:req.body.pan});
-  res.status(200).json({"_id":_id});
+  const token = createUser(user);
+  res.cookies.uid('uid',token);
+  return res.status(200).json({"_id":user._id});
 };
 
 
@@ -264,4 +265,4 @@ const getInfo =async(req,res)=>{
   let user = await User.findOne({pan:req.body.pan});
   return res.status(200).json({"_id":user._id});
 }
-module.exports = {Authenticate,PanTesting,Panexample,SaveData,PanVerification,};
+module.exports = {Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo};
