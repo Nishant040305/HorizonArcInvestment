@@ -6,11 +6,29 @@
     justify-content: space-around;
     flex-direction: column;
     flex-wrap: wrap;
-    align-content: space-around;
-    align-items: flex-start;
+    align-content: stretch;
+    align-items: center;
 
 }
 .profilePic{
     width:14rem;
     height:14rem;
+}
+.sidebar-button{
+    text-align: left;
+    cursor:pointer;
+    width:23rem;
+    padding-left:4rem;
+    margin-top:2px;
+}
+.sidebar-button:hover{
+    background-color: rgba(224, 224, 224, 0.514);
+   
+}
+.sideBar .menu{
+    width:23rem;
+    text-align: right;
+   
+    display:"flex";
+   
 }

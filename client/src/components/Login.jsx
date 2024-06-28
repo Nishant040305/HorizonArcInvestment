@@ -104,7 +104,7 @@ const Login =()=>{
                     <div className="log">
                     Sign In
                     </div>
-                    <div className="login-cross"><img src="vite.svg"></img></div>
+                    <div className="login-cross"><img src="letter-x.png"></img></div>
                 </div>
                 {otpMessage?<div className="Login-data">
                     Enter your OTP.

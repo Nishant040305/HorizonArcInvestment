@@ -4,13 +4,14 @@ import viteLogo from '/vite.svg'
 import '.././assets/App.css'
 import { Route, Routes } from 'react-router-dom';
 import Login from '.././components/Login';
-import SideBar from '../components/sideBar';
+import SideBar from '.././components/sideBar';
+import Navbar from '.././components/Navbar';
 function App() {
 
   return (
     <Routes>
       <Route path="/" element={<Login></Login>}></Route>
-      <Route path="/sideBar" element={<SideBar></SideBar>}></Route>
+      <Route path="/sideBar" element={<Navbar></Navbar>}></Route>
     </Routes>
     
   );
