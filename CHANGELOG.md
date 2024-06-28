@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/Nishant040305/HorizanArcInvestment/compare/v1.2.0...v1.3.0) (2024-06-28)
+
+
+### Features
+
+* add the navigation bar's UI ([24fb4db](https://github.com/Nishant040305/HorizanArcInvestment/commit/24fb4dbcca6a02a9104d490aa69d79ed1a09bf47))
+
 ## [1.2.0](https://github.com/Nishant040305/HorizanArcInvestment/compare/v1.1.5...v1.2.0) (2024-06-28)
 
 
