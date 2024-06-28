@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/Nishant040305/HorizanArcInvestment/compare/v1.1.5...v1.2.0) (2024-06-28)
+
+
+### Features
+
+* add SideBar component in UI layer ([3e8180c](https://github.com/Nishant040305/HorizanArcInvestment/commit/3e8180cd51a32403857e7d6625e1cecc1aeb3f88))
+
+
+### Bug Fixes
+
+* bug in import is fixed ([6328690](https://github.com/Nishant040305/HorizanArcInvestment/commit/632869004a984e9527f70783cba421148066139c))
+
 ### [1.1.4](https://github.com/Nishant040305/HorizanArcInvestment/compare/v1.1.3...v1.1.4) (2024-06-27)
 
 ### [1.1.3](https://github.com/Nishant040305/HorizanArcInvestment/compare/v1.1.2...v1.1.3) (2024-06-27)
