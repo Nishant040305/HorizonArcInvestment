@@ -1,10 +1,16 @@
 const path = require("path");
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
 const express = require('express');
 const {body,validationResult} = require("express-validator");
 const router = express.Router();
 const credController = require("../controller/credControllers");
- //to pan verification 
+const credMiddleware = require('../middleware/credMiddleware');
+
+router.get('/',credMiddleware.UserVerifier,async(req,res)=>{
+  console.log("doesnt works");
+  res.status(200).json({"errorMessage":"testing"});
+})
+
+//panVerification
 router.post('/panVerification',[
   body('email').isEmail()
 ],credController.PanVerification);
@@ -20,9 +26,6 @@ router.post('/Pan',[
 
 router.get('/pantest',credController.Panexample);
 
-router.post("/getInfo",[],async(req,res)=>{
-  console.log(req.body.pan)
-  let user = await User.findOne({pan:req.body.pan});
-  return res.status(200).json({"_id":user._id});
-})
+router.post("/getInfo",[],credController.getInfo);
+router.get('/jsonwebtoken',credController.createUser);
 module.exports = router;

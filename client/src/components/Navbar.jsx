@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import '../assets/Navbar.css';
+import '.././assets/Navbar.css';
 
 const Navbar =()=>{
     const searchByLocation =()=>{
@@ -14,7 +14,7 @@ const Navbar =()=>{
         <div className="Navbar left-0 top-0  text-black">
             <div className="Navbar-head " style={{marginRight:100}}>
                 <div className="Navbar-head nav-options-block  float-left left-0 top-0">
-                <button style={{    backgroundColor: "#f0f5f5"}}><img src="menu.png" className="w-7 h-7"></img></button>
+                <button style={{    backgroundColor: "#f0f5f5"}}><i className="fa fa-reorder" style={{fontSize:30}}></i></button>
                 <div className="nav-options">
                     <img className="w-8 h-8 m-1"src="financial-profit.png"></img>
                     <div className="spam">Stocks</div>
@@ -28,8 +28,7 @@ const Navbar =()=>{
                     <img className="w-8 h-8 m-1"src="hand.png"></img>
                     <div className="spam">Sell</div>
                 </div>
-                <input className="form-control mr-sm-2 search root" name="category"  type="search"  placeholder="Search" aria-label="Search"/>
-                <button className="btn bg-black text-white rounded-lg h-11 m-2" type="button">Search</button>
+
                 </div>
             
             <div className="" style={{display:"flex", marginRight:100}}>

@@ -41,10 +41,11 @@ const Login =()=>{
     const handleOtp =(e)=>{
         setvartp(e.target.value);
     }
+    
     const login_email = async()=>{
         try {
             console.log(`${BACKWEB}/Pan`)
-            const response = await axios.post(`${BACKWEB}/Pan`,{pan:pan,mobile:number,dob:dob,Name:fullname,email:email},
+            const response = await axios.post(`${BACKWEB}/jsonwebtoken`,{pan:pan,mobile:number,dob:dob,Name:fullname,email:email},
                 {
                     headers: {
                     'Accept': 'application/json',
@@ -56,9 +57,9 @@ const Login =()=>{
             else{
                 console.log("yes");
                 
-                setOtp(1);
-                console.log(response.data.otp);
-                setOtpMessage(1)
+                // setOtp(1);
+                // console.log(response.data.otp);
+                // setOtpMessage(1)
             }
         } catch (e) { console.error(e) }
     }
@@ -104,7 +105,7 @@ const Login =()=>{
                     <div className="log">
                     Sign In
                     </div>
-                    <div className="login-cross"><img src="letter-x.png"></img></div>
+                    <div className="login-cross"><i class="	fa fa-times" style={{fontSize:50}}></i></div>
                 </div>
                 {otpMessage?<div className="Login-data">
                     Enter your OTP.

@@ -4,9 +4,11 @@ const express = require("express");
 const app = express();
 const MongoDB = require("./models/mongodb");
 const cors = require("cors");
+const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT;
 const web = process.env.FRONTWEB
 const userdb = require("./models/user");
+const { cookie } = require("express-validator");
 const router = express.Router();
 app.use(cors({
     origin:web,
@@ -15,11 +17,11 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
+app.use(cookieParser());
 //Available Routes
 
 app.use('/',require('./routes/credential'));
-
+app.use('/buyLand',require('./routes/LandForSale'));
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

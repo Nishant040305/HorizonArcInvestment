@@ -6,7 +6,7 @@ const SideBar =()=>{
     return(
         <div className="sideBar text-black">
             <div  className="menu absolute top-0 ">
-            <button className="bg-white "><img src="menu.png" className="w-7 h-7"></img></button>
+            <button className="bg-white m-1"><i class="fa fa-reorder " style={{fontSize:25}}></i></button>
 
             </div>
             <div>
@@ -17,16 +17,16 @@ const SideBar =()=>{
             <div className="container"style={{fontSize: 24,alignContent:"center", textAlign:"left",display:"flex",justifyContent:"centre"}} >
                 <ul>
                     <li>
-                    <button  className="bg-white sidebar-button" > 
+                    <button  className=" sidebar-button" > 
                         <div style={{display:"flex", alignItems:"center"}}>
-                        <img className="w-9 h-9"src="user.png"></img><spam style={{marginLeft:60}}>Profile</spam>
+                        <i class="	fas fa-user-circle " ></i><spam style={{marginLeft:60}}>Profile</spam>
 
                         </div>
 
                         </button>
                     </li>
                     <li>
-                    <button className="bg-white sidebar-button">
+                    <button className=" sidebar-button">
                     <div style={{display:"flex", alignItems:"center"}}>
                         <img className="w-9 h-9"src="bar-chart.png"></img><spam style={{marginLeft:60}}>Trending Stocks</spam>
 
@@ -34,7 +34,7 @@ const SideBar =()=>{
                         </button>
                     </li>
                     <li>
-                    <button className="bg-white sidebar-button">
+                    <button className=" sidebar-button">
                     <div style={{display:"flex", alignItems:"center"}}>
                         <img className="w-9 h-9"src="project.png"></img><spam style={{marginLeft:60}}>Portfolio</spam>
 
@@ -43,7 +43,7 @@ const SideBar =()=>{
                         </button>
                     </li>
                     <li>
-                    <button className="bg-white sidebar-button">
+                    <button className="sidebar-button">
                     <div style={{display:"flex", alignItems:"center"}}>
                         <img className="w-9 h-9"src="history.png"></img><spam style={{marginLeft:60}}>History</spam>
 
@@ -54,9 +54,9 @@ const SideBar =()=>{
                     
                 </ul>
             </div>
-           <button className="bg-white sidebar-button">
+           <button className="sidebar-button">
             <div style={{display:"flex", alignItems:"center",fontSize: 24}}>
-                    <img className="w-9 h-9"src="call.png"></img><spam style={{marginLeft:60}}>Help Centre</spam>
+                    <i class="fas fa-phone text-green-500" style={{fontSize:40}}></i><spam style={{marginLeft:60}}>Help Centre</spam>
             </div>
 
             </button>

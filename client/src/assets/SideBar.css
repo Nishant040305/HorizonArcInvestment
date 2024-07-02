@@ -1,13 +1,14 @@
 .sideBar{
-    background: white;
+    background: rgb(255, 255, 255);
     height: 100vh;
-    width: 23rem;
+    width: 24rem;
     display: flex;
     justify-content: space-around;
     flex-direction: column;
     flex-wrap: wrap;
     align-content: stretch;
     align-items: center;
+    border:1px solid black;
 
 }
 .profilePic{
@@ -20,9 +21,10 @@
     width:23rem;
     padding-left:4rem;
     margin-top:2px;
+    background-color:white;
 }
 .sidebar-button:hover{
-    background-color: rgba(224, 224, 224, 0.514);
+    background-color: rgb(238, 234, 234);
    
 }
 .sideBar .menu{
@@ -31,4 +33,11 @@
    
     display:"flex";
    
+}
+.fa-user-circle{
+    font-size:40px;
+    border-radius:50%;
+    background: linear-gradient(90deg, rgba(0,255,150,1) 0%, rgba(24,186,254,1) 55%, rgba(90,95,236,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

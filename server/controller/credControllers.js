@@ -1,12 +1,11 @@
 const path = require("path");
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
-const express = require('express');
 const User = require("../models/user"); 
 const {body,validationResult} = require("express-validator");
 const bcrypt  = require("bcryptjs");
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const { request } = require('http');
+const jwtToken = require('jsonwebtoken');
 let authToken = '';
 async function Authenticate(){
   await fetch("https://production.deepvue.tech/v1/authorize",{
@@ -264,4 +263,10 @@ const getInfo =async(req,res)=>{
   let user = await User.findOne({pan:req.body.pan});
   return res.status(200).json({"_id":user._id});
 }
-module.exports = {Authenticate,PanTesting,Panexample,SaveData,PanVerification,};
+const createUser = async(req,res) =>{
+  const jwtoken = jwtToken.sign({ pan:'ALRPS4679R',email: 'nishant040305@gmail.com', Name: 'Nishant Mohan',image:"https://lh3.googleusercontent.com/a/ACg8ocLIiWPNraDN3nfZ7rpQjGFqdpcpwE9ugPxL5VmVupt9KL5Rgg5Y=s360-c-no",dob:'2005-03-04',mobile:"9651602279"}, process.env.jwt_secreat);
+  res.cookie('uid',jwtoken);
+  console.log(req.cookies.uid);
+  res.status(200).json({"jwtToke":req.cookies.uid});
+}
+module.exports = {Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser};

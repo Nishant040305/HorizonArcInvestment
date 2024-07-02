@@ -20,8 +20,11 @@
   },
   "homepage": "https://github.com/Nishant040305/HorizanArcInvestment#readme",
   "dependencies": {
+    "@react-pdf-viewer/core": "^3.12.0",
+    "@react-pdf/renderer": "^3.4.4",
     "bcryptjs": "^2.4.3",
     "concurrently": "^8.2.2",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
@@ -33,7 +36,9 @@
     "nodemailer": "^6.9.14",
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pdfjs-dist": "^3.4.120",
+    "react-pdf": "^9.0.0"
   },
   "devDependencies": {
     "standard-version": "^9.5.0"
