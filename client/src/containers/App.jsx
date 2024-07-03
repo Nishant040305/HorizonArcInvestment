@@ -11,6 +11,7 @@ import Navbar from '.././components/Navbar';
 import ReactDOM from 'react-dom';
 import BuyOption from '.././components/BuyLandIndi';
 import Recomendation from '../components/Recomendation';
+import BuyTab from './BuyTab';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
       <Route path="/nav" element = {<Navbar></Navbar>}></Route>
       <Route path='/buy' element ={<BuyOption></BuyOption>}></Route>
       <Route path='/recomd' element ={<Recomendation></Recomendation>}></Route>
+      <Route path='/buyTab' element={<BuyTab></BuyTab>}></Route>
     </Routes>
     
   );
