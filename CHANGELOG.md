@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/Nishant040305/HorizanArcInvestment/compare/v1.4.0...v1.5.0) (2024-07-04)
+
+
+### Features
+
+* Add the filter component and Stock Tab UI ([14c914c](https://github.com/Nishant040305/HorizanArcInvestment/commit/14c914ce59a39dbc1bc83236efd59d138a0aa2fc))
+* Add the Footer and BuyTab Integrated UI ([6eb5522](https://github.com/Nishant040305/HorizanArcInvestment/commit/6eb55220a9499cb4be3daf4b8d18899bdca37c6d))
+
 ## [1.4.0](https://github.com/Nishant040305/HorizanArcInvestment/compare/v1.3.0...v1.4.0) (2024-07-02)
 
 
