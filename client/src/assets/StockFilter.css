@@ -1,0 +1,134 @@
+.stockfilter{
+    background-color: white;
+    color:rgb(0, 0, 0);
+    width:20rem;
+    border-radius:1rem;
+    padding-bottom: 5rem;
+    border:1px solid rgb(185, 185, 185);
+    box-shadow: 0 4px 8px 0 rgba(122, 122, 122, 0.056), 0 6px 20px 0 rgba(147, 147, 147, 0.197);
+
+    
+}
+.stock-applied-filter{
+    padding-top:10px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    color: #091e42;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-evenly;
+}
+.stockSelect{
+    display:flex;
+    flex-direction:row;
+    align-items: baseline;
+    border:1px solid rgb(63, 63, 255);
+    padding:5px;
+    color:#0c2653;
+    width:fit-content;
+    margin:6px;
+
+}
+.stockSelect:hover{
+    background-color:rgb(226, 232, 253);
+}
+.stock-filter-list{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    margin-left:20px;
+    margin-top:20px;
+    padding-bottom:40px;
+    border-bottom:1px solid rgb(204, 204, 204);
+}
+.stock-budget{
+    padding-top:10px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    color: #091e42;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-around;
+}
+.slider{
+
+    width:80%;
+    height:2px;
+    margin-top:60px;
+    background-color: aqua;
+    margin-left:30px;
+}
+.slider .thumb{
+    width:15px;
+    height:15px;
+    cursor:grab;
+    background:white;
+    border:1px solid aqua;
+    border-radius:50%;
+    top:-7px;
+}
+.track-0,.track-2{
+    height:2px;
+    background-color:rgb(225, 225, 225);
+}
+.stock-budget-input{
+    margin-top:40px;
+    display:flex;
+    flex-direction:row;
+    
+    justify-content: space-evenly;
+    
+    
+}
+.stock-budget-input-data{
+    text-align: left;
+    
+    border:1px solid rgb(221, 221, 221);
+    background-color:rgb(252, 252, 252);
+    color:rgb(157, 157, 157);
+    width:5rem;
+    padding:5px;
+    padding-left:20px;
+}
+.stock-budget-input-data2{
+    text-align: left;
+    
+    border:1px solid rgb(221, 221, 221);
+    background-color:rgb(252, 252, 252);
+    color:rgb(157, 157, 157);
+    width:fit-content;
+    padding:5px;
+    padding-left:20px;
+}
+.stock-type-prop{
+    padding-top:10px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    color: #091e42;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-around;
+}
+.stockfilter .linesha{
+    margin-top:40px;
+    width:100%;
+    height:1px;
+    background: rgb(216, 216, 216);
+}
+.stockSelectte{
+    display:flex;
+    flex-direction:row;
+    align-items: baseline;
+    border:1px solid rgb(59, 59, 59);
+    padding:5px;
+    color:#0c2653;
+    width:fit-content;
+    margin:6px;
+
+}
+.stockSelectte:hover{
+    background-color:rgb(233, 233, 233);
+}

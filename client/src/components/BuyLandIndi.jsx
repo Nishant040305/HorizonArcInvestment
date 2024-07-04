@@ -16,7 +16,7 @@ function BuyOption(props) {
         </div>
         <div className="buy-cart-info-highlights"><strong>Highlights:</strong><div className="highlights">Road Facing</div><div className="highlights">Near Prachi Hospital</div></div>
         <div className='buy-cart-info-detail'>Property for sale in sector-40 , noida A residential land of 300 sq m is available for sale in sector-40, noida. Property details: Completion done. Lease rent one-Time paid. North east facing, 9 meter road Prime location property. Sale demand: 8 crores. Features: Nearby metro station, markets, schools, hospital, etc. Additional information: We have other options available for sale in various se...</div>
-        <button className="contact-but"><i class="fas fa-phone" style={{color:'white', marginRight:5}} /><strong>Contact</strong></button>
+        {props.tab=="buy"?<button className="contact-but"><i class="fas fa-phone" style={{color:'white', marginRight:5}} /><strong>Contact</strong></button>:<button className="contact-but" style={{backgroundColor:'green'}}><strong>Buy Shares</strong></button>}
       </div>
     
     </div>

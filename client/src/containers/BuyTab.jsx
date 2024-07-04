@@ -4,6 +4,7 @@ import BuyOption from '../components/BuyLandIndi';
 import Recomendation from '../components/Recomendation';
 import '../assets/BuyTab.css';
 import Footer from '../components/Footer';
+import StockFilter from '../components/StockFilter';
 const Filter =()=>{
     return(
         <div className="buyTabfilter" style={{display:"flex",flexDirection:"row"}}>
@@ -17,29 +18,41 @@ export default function BuyTab() {
     <div className="BuyTab">
       <Navbar></Navbar>
       <div className='BuyTab-block'>
+      <div className='stock-filter'>
+        <StockFilter></StockFilter>
+      </div>
         <div className="buyoption-block">
             <Filter></Filter>
-            <BuyOption></BuyOption>
-            <BuyOption></BuyOption>
-            <BuyOption></BuyOption>
-            <BuyOption></BuyOption>
-            <BuyOption></BuyOption>
-            <BuyOption></BuyOption>
-            <BuyOption></BuyOption>
-            <BuyOption></BuyOption>
-            <BuyOption></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
+            <BuyOption tab="buy"></BuyOption>
             
         </div>
-        <div className="BuyRecommand">
-            <strong style={{fontSize:20}}>Recomendations</strong>
-            <Recomendation></Recomendation>
-            <Recomendation></Recomendation>
-            <Recomendation></Recomendation>
-            <Recomendation></Recomendation>
-            <Recomendation></Recomendation>
-            <Recomendation></Recomendation>
-
-        </div>
+      
       </div>
       <div className="buyfootpage r">
               <div className='pageCat' style={{marginRight:70}}>Pages 5 to 12</div>

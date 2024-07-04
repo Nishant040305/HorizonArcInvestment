@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import reactLogo from '.././assets/react.svg'
 import viteLogo from '/vite.svg'
 import '.././assets/App.css'
 import { Route, Routes } from 'react-router-dom';
@@ -12,6 +11,8 @@ import ReactDOM from 'react-dom';
 import BuyOption from '.././components/BuyLandIndi';
 import Recomendation from '../components/Recomendation';
 import BuyTab from './BuyTab';
+import StockTab from './StockTab';
+import StockFilter from '../components/StockFilter';
 
 function App() {
 
@@ -23,6 +24,8 @@ function App() {
       <Route path='/buy' element ={<BuyOption></BuyOption>}></Route>
       <Route path='/recomd' element ={<Recomendation></Recomendation>}></Route>
       <Route path='/buyTab' element={<BuyTab></BuyTab>}></Route>
+      <Route path='/stockTab' element={<StockTab></StockTab>}></Route>
+      <Route path='/stockfilter' element={<StockFilter></StockFilter>}></Route>
     </Routes>
     
   );

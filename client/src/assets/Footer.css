@@ -9,7 +9,7 @@
 }
 
 .product .header,.footer{
-    background-color:#000000;
+    background-color:#1d1d1d;
     padding: 20px;
     padding-left: 80px;
    
@@ -64,14 +64,6 @@
     width: 40vw;
 }
 
-.product .fa-magnifying-glass{
-    background-color:#002f34;
-    color: #fff;
-    padding: 12px;
-    border-radius: 5px;
-    position: relative;
-    bottom: 20px;
-}
 
 .product .icons{
     position: relative;
@@ -265,7 +257,7 @@
 .product .footer-credit-bg{
     padding: 20px;
     padding-right: 80px;
-    background-color: #000000;
+    background-color: #1d1d1d;
 }
 .product .footer-credit-p{
     color: #fff;

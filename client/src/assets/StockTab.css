@@ -1,17 +1,17 @@
-.BuyTab{
+.StockTab{
     background-color: rgb(248, 248, 248);
     width:100%;
 }
-.BuyTab-block{
+.StockTab-block{
     display:flex;
-    flex-direction:row;
+    flex-direction:row-reverse;
     justify-content: center;
-    
+    height:fit-content;
     align-items: flex-start;
 }
-.BuyRecommand{
-    border-left:1px solid rgb(66, 66, 66);
-    border-left-style:dotted;
+.StockRecommand{
+    border-right:1px solid rgb(66, 66, 66);
+    border-right-style:dotted;
     align-content:center;
     overflow-y: visible;
 
@@ -30,22 +30,12 @@
     margin-top:1rem;
 }
 
-/*::-webkit-scrollbar {
-    width: 0px;
-}
-.buyoption-block{
-    overflow-y: auto;
-    align-items: flex-start;
-    max-height:100vh;
-}
-.BuyRecommand{
-    overflow-y: auto;
-    align-items: flex-start;
-    max-height:100vh;
-}*/
-.buyfootpage{
+.Stockfootpage{
     margin-top:2rem;
     display:flex;
     align-items:center;
     padding-left:35vw;
+}
+.stock-filter{
+    margin-top:6.5rem;
 }
