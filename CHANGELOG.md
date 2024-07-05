@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/Nishant040305/HorizanArcInvestment/compare/v1.5.0...v1.6.0) (2024-07-05)
+
+
+### Features
+
+* Add the Sell Tab UI Layer ([0f54733](https://github.com/Nishant040305/HorizanArcInvestment/commit/0f547330a9d520e6866d778e141e1896c02ee627))
+
 ## [1.5.0](https://github.com/Nishant040305/HorizanArcInvestment/compare/v1.4.0...v1.5.0) (2024-07-04)
 
 
