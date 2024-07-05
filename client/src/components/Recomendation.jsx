@@ -12,7 +12,7 @@ function Recomendation(props) {
         <div className='recomnd-cart-info-area'><div className="total_area">1250sqft<spam style={{fontSize:18,fontWeight:400,marginLeft:10}}>(200sqm)</spam></div></div>
         </div>
         <div className="recomnd-cart-info-highlights"><strong>Highlights:</strong><div className="highlights">Road Facing</div><div className="highlights">Near Prachi Hospital</div></div>
-        {props.tab=="buy"?<button className="contact-but"><i class="fas fa-phone" style={{color:'white', marginRight:5}} /><strong>Contact</strong></button>:<button className="contact-but" style={{backgroundColor:'green'}}><strong>Buy Shares</strong></button>}
+        {props.tab=="buy"?<button className="contact-but"><i className="fas fa-phone" style={{color:'white', marginRight:5}} /><strong>Contact</strong></button>:<button className="contact-but" style={{backgroundColor:'green'}}><strong>Buy Shares</strong></button>}
 
       </div>
     

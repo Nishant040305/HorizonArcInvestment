@@ -11,10 +11,10 @@ const Navbar =()=>{
 
     const [location,setLocation] = useState('');
      return(
-        <div className="Navbar left-0 top-0  text-black">
-            <div className="Navbar-head " style={{marginRight:100}}>
+        <div className="Navbar left-0   text-black">
+            <div className="Navbar-head " >
                 <div className="Navbar-head nav-options-block  float-left left-0 top-0">
-                <button style={{    backgroundColor: "#f0f5f5"}}><i className="fa fa-reorder" style={{fontSize:30}}></i></button>
+                <button style={{backgroundColor: "#f0f5f5",visibility:"hidden"}}><i className="fa fa-reorder" style={{fontSize:30}}></i></button>
                 <div className="nav-options">
                     <img className="w-8 h-8 m-1"src="financial-profit.png"></img>
                     <div className="spam">Stocks</div>

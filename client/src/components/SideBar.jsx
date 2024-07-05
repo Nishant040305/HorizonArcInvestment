@@ -1,12 +1,15 @@
-import React from "react";
+import React,{useState} from "react";
 import '.././assets/SideBar.css';
 
 
 const SideBar =()=>{
+    const [expand,setexpand] = useState(1);
+
     return(
-        <div className="sideBar text-black">
-            <div  className="menu absolute top-0 ">
-            <button className="bg-white m-1"><i class="fa fa-reorder " style={{fontSize:25}}></i></button>
+        <>
+        {!expand?<div className={!expand?"sideBar text-black":"sidebar active text-black"}>
+            <div  className="menu absolute top-0 " onClick={()=>{setexpand(!expand)}}>
+            <button className="bg-white m-1 top-4"><i className="fa fa-reorder " style={{fontSize:25}}></i></button>
 
             </div>
             <div>
@@ -19,7 +22,7 @@ const SideBar =()=>{
                     <li>
                     <button  className=" sidebar-button" > 
                         <div style={{display:"flex", alignItems:"center"}}>
-                        <i class="	fas fa-user-circle " ></i><spam style={{marginLeft:60}}>Profile</spam>
+                        <i className="	fas fa-user-circle " ></i><spam style={{marginLeft:60}}>Profile</spam>
 
                         </div>
 
@@ -43,24 +46,30 @@ const SideBar =()=>{
                         </button>
                     </li>
                     <li>
-                    <button className="sidebar-button">
+                    <button className=" sidebar-button">
                     <div style={{display:"flex", alignItems:"center"}}>
-                        <img className="w-9 h-9"src="history.png"></img><spam style={{marginLeft:60}}>History</spam>
+                        <i className="	fa fa-envelope text-yellow-400" style={{fontSize:40}}></i><spam style={{marginLeft:60}}>Messages</spam>
 
                         </div>
 
                         </button>
                     </li>
+                   
                     
                 </ul>
             </div>
-           <button className="sidebar-button">
+           <label className="sidebar-button">
             <div style={{display:"flex", alignItems:"center",fontSize: 24}}>
-                    <i class="fas fa-phone text-green-500" style={{fontSize:40}}></i><spam style={{marginLeft:60}}>Help Centre</spam>
+                    <i className="fas fa-phone text-green-500" style={{fontSize:40}}></i><spam style={{marginLeft:60}}>Help Centre</spam>
+                    
             </div>
+            
+            </label>
+            </div>:<div  className="menu absolute top-1 left-1" onClick={()=>{setexpand(!expand)}}>
+            <button className="bg-white m-1"><i className="fa fa-reorder " style={{fontSize:25}}></i></button>
 
-            </button>
-            </div>
+            </div>}
+            </>
         
     )
 }

@@ -13,6 +13,7 @@ import Recomendation from '../components/Recomendation';
 import BuyTab from './BuyTab';
 import StockTab from './StockTab';
 import StockFilter from '../components/StockFilter';
+import Sellpage from './Sellpage';
 
 function App() {
 
@@ -26,15 +27,10 @@ function App() {
       <Route path='/buyTab' element={<BuyTab></BuyTab>}></Route>
       <Route path='/stockTab' element={<StockTab></StockTab>}></Route>
       <Route path='/stockfilter' element={<StockFilter></StockFilter>}></Route>
+      <Route path='/sell' element={<Sellpage></Sellpage>}></Route>
     </Routes>
     
   );
 }
-// const App = () => (
-//   <PDFViewer>
-//     <MyDocument />
-//   </PDFViewer>
-// );
 
-// ReactDOM.render(<App />, document.getElementById('root'));
 export default App;

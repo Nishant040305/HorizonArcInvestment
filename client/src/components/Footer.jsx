@@ -4,7 +4,7 @@ import '../assets/Footer.css';
 const Footer =()=>{
     return(
         <div className="product">
-<footer style={{marginTop: 30}}>
+<footer >
         <div className="footer">
             <div className="footer-column">
                 <p className="footer-links-head"><strong>POPULAR LOCATIONS</strong></p>

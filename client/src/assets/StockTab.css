@@ -34,7 +34,7 @@
     margin-top:2rem;
     display:flex;
     align-items:center;
-    padding-left:35vw;
+    justify-content: center;
 }
 .stock-filter{
     margin-top:6.5rem;

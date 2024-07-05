@@ -9,6 +9,10 @@
     align-content: stretch;
     align-items: center;
     border:1px solid black;
+    position:absolute;
+    top:0px;
+    z-index: 1000;
+    left:0px;
 
 }
 .profilePic{
@@ -27,17 +31,24 @@
     background-color: rgb(238, 234, 234);
    
 }
-.sideBar .menu{
+.sideBar .menu {
     width:23rem;
     text-align: right;
    
     display:"flex";
    
 }
+
 .fa-user-circle{
     font-size:40px;
     border-radius:50%;
     background: linear-gradient(90deg, rgba(0,255,150,1) 0%, rgba(24,186,254,1) 55%, rgba(90,95,236,1) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+.active{
+    left:-100%;
+    transition:all 1s;
+    display:none;
+    
 }

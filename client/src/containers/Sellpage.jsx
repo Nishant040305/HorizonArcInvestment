@@ -1,12 +1,15 @@
 import React,{useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import ".././assets/Login.css";
+import ".././assets/Sellpage.css";
 // import "dotenv";
 import axios from "axios";
+import SideBar from '../components/sideBar';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 const loginwithgoogle =()=>{
     window.open(`http://localhost:5000/auth/google/callback`,"_self")
 }
-const Login =()=>{
+const Sell =()=>{
     let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
     const [userId,setUserId] = useState('');
     const [name,setName] = useState('');
@@ -17,11 +20,33 @@ const Login =()=>{
     const navigate = useNavigate();
     const [email,setEmail] = useState('');
     const [fullname,setFullname] = useState('');
+    const [gatanum,setGatanum] = useState('');
+    const [state,setState] = useState('');
+    const [district,setDistrict] = useState('');
+    const [mandal,setMandal] = useState('');
+    const [loc,setLoc] = useState('');
+
     const [dob,setDob] = useState('');
     const [pan, setPan] = useState('');
     const [number,setNumber] = useState('');
+
     const handleEmail =(e)=>{
         setEmail(e.target.value)
+    }
+    const handleGatanum=(e)=>{
+        setGatanum(e.target.value)
+    }
+    const handleState=(e)=>{
+        setState(e.target.value)
+    }
+    const handleDistrict=(e)=>{
+        setDistrict(e.target.value)
+    }
+    const handleMandal=(e)=>{
+        setMandal(e.target.value)
+    }
+    const handleLoc=(e)=>{
+        setLoc(e.target.value)
     }
     const handleFullname =(e)=>{
         setFullname(e.target.value)
@@ -98,19 +123,19 @@ const Login =()=>{
     return(
         
     <div className="loginpage">
-         <img className="login-image" src="vite.svg" alt="Login" />
+         <img className="login-image selling-img" src="https://img.freepik.com/premium-photo/new-york-city-skyscraper-background-snowy-mountains-ink-black-white-drawing_1015980-600208.jpg?w=740" alt="Login" />
         <div className="Login-info">
             <div className="Login-email">
                 <div className = "Login-title">
                     <div className="log">
-                    Sign In
+                    <small>Details for Selling the Land</small>
                     </div>
-                    <div className="login-cross"><i className="	fa fa-times" style={{fontSize:50}}></i></div>
+                    <div className="login-cross"><i className="	fa fa-close" style={{fontSize:50}}></i></div>
                 </div>
                 {otpMessage?<div className="Login-data">
                     Enter your OTP.
                 </div>:<div className="Login-data">
-                    Enter your email to log in.
+                    <small>Kindly Provide the details as per your pan card and and khatauni.</small>
                 </div>}
                 {otpMessage?<div className="Login-content">
                 
@@ -119,21 +144,29 @@ const Login =()=>{
                 </div>
                 </div>:
                 <div className="Login-content">
+                    <input className ="Login-email-input" onChange={handleGatanum}placeholder="     Enter your Gata Number of the land" value={gatanum}></input>
+
+                    <div style={{display:'flex'}}>
+                    <input className ="Login-email-input" onChange={handleState}placeholder="     Enter your State" value={state}></input>
+                    <input className ="Login-email-input" onChange={handleDistrict}placeholder="     Enter your District" value={district}></input>
+                    </div>
+                    <div style={{display:'flex'}}>
+                    <input className ="Login-email-input" onChange={handleMandal}placeholder="     Enter your Mandal" value={mandal}></input>
+                    <input className ="Login-email-input" onChange={handleLoc}placeholder="     Enter your Village/City" value={loc}></input>
+                    </div>
                     <input className ="Login-email-input" onChange={handleFullname}placeholder="     Enter your FullName" value={fullname}></input>
                     <div style={{display:"flex",flexDirection:"row"}}>
                         <input className ="Login-email-input" onChange={handlePan}placeholder="     Enter your PAN" value={pan}></input>
-                        <input className ="Login-email-input" onChange={handleDob} type="date" placeholder="     Enter your Date of Birth" value={dob}></input>
+                        <input className ="Login-email-input" onChange={handleMobile}placeholder="     Enter your Mobile Number" value={number}></input>
                     </div>
 
-                    <input className ="Login-email-input" onChange={handleMobile}placeholder="     Enter your Mobile Number" value={number}></input>
                     <input className ="Login-email-input" onChange={handleEmail}placeholder="     Enter your  Email" value={email}></input>
 
-                    <button className=" btn Login-email-buttton" onClick={()=>{login_email()}}>Continue</button>
+                    <button className=" btn Login-email-buttton sell-butt" onClick={()=>{login_email()}}>Continue</button>
                 </div>}
 
             </div>
             <div className="line" style={{display:"flex"}}>
-                <hr></hr> OR <hr></hr>
             </div>
             <div className="Login-Oauth">
                 <div className="Login-term">
@@ -148,4 +181,18 @@ const Login =()=>{
     </div>
     )
 }
-export default Login;
+
+
+const Sellpage=()=>{
+    return(
+        <>
+        
+    <div className="sell" >
+        <Navbar></Navbar>
+        <SideBar></SideBar>
+        <Sell></Sell>
+    </div>
+    <Footer></Footer>
+    </>)
+}
+export default Sellpage;

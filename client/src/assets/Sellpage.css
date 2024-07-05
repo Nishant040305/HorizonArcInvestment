@@ -1,0 +1,164 @@
+.sell .loginpage{
+    
+    display:flex;
+    flex-direction: row;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.172), 0 2px 5px 0 rgba(0, 0, 0, 0.219);
+    /* z-index: 10; */
+    background-color: white;
+    flex-wrap: wrap;
+    align-content: center;
+   
+}
+.log{
+    color:rgb(47, 47, 47)
+}
+.Login-info{
+    width:38rem;
+}
+
+.Login-title{
+    margin-top:12px;
+    display:flex;
+    justify-content: space-between;
+}
+.Login-title .log {
+    font-size: 36px;
+    font-weight: 600;
+    padding-left: 32px;
+    padding-top: 0px;
+}
+
+
+.loginpage img{
+    width:30rem;
+    height: 37rem;
+}
+.login-cross img{
+    padding-top:10px;
+    width: 26px;
+    height: 39px;
+}
+
+.Login-data{
+    display:flex;
+    margin-left:32px;
+    margin-top:25px;
+    font-size:20px;
+    font-weight:500;
+    color:rgba(148,150,152,255);
+}
+.Login-content{
+    display:flex;
+    flex-direction: column;
+    padding-left: 32px;
+    padding-top:20px;
+    
+}
+.Login-email-input{
+    margin-top:3px;
+    color:black;
+    background-color:rgb(255, 255, 255);
+    border:1px solid rgba(208, 208, 208, 0.311);
+    border-radius: 10px;
+    height:3rem;
+}
+
+.Login-email-buttton{
+    margin-top:25px;
+    background-color:rgba(0,189,214,255);
+    border:0;
+    border-radius: 30px 30px 30px 30px;
+    height:2.5rem;
+    color:white;
+}
+.line{
+    padding: 40px;
+    padding-bottom: 1rem;
+    color: rgba(148,150,152,255);
+}
+.line hr{
+    margin:1rem;
+    width:20rem;
+}
+.Login-term .term{
+    padding-left:2rem;
+    margin-bottom: 3rem;
+    color:rgba(148,150,152,255);
+}
+.Login-oauth-button{
+    display:flex;
+    flex-direction: column;
+    margin:32px;
+}
+
+.Login-oauth-button button{
+    background-color: aliceblue;
+    font-weight: 500;
+}
+.google{
+    color:red;
+}
+.facebook{
+    color:blue;
+}
+.google img{
+    width:30px;
+    height:30px;
+}
+
+.facebook img{
+    width:20px;
+    height:20px;
+}
+@media only screen and (max-width:415px) {
+   
+    .loginpage{
+        width: 40rem;
+    }
+}
+input {
+    border: none;
+    box-sizing: border-box;
+    outline: 0;
+    padding: .75rem;
+    position: relative;
+    width: 100%;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
+.sell{
+    display:flex;
+    justify-content: center;
+    
+}
+.selling-img{
+    padding-top:2rem;
+}
+.sell-butt{
+    background-color: #404040;
+}
+.sell{
+    width:100%;
+    height:100vh;
+    background-image:url('https://img.freepik.com/free-photo/new-york-city_649448-1679.jpg?w=1060&t=st=1720156110~exp=1720156710~hmac=c46483544b41bc6e96744143e733972873d89be9007c70c9dd225b2360299cc1');
+    background-size:cover;
+}
+@media screen and (max-width:1675px){
+    .selling-img{
+        display:none;
+    }
+    .sell .loginpage{
+        width:38rem;
+    }
+}

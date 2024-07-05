@@ -5,6 +5,7 @@ import Recomendation from '../components/Recomendation';
 import '../assets/BuyTab.css';
 import Footer from '../components/Footer';
 import StockFilter from '../components/StockFilter';
+import SideBar from '../components/sideBar';
 const Filter =()=>{
     return(
         <div className="buyTabfilter" style={{display:"flex",flexDirection:"row"}}>
@@ -17,6 +18,7 @@ export default function BuyTab() {
   return (
     <div className="BuyTab">
       <Navbar></Navbar>
+      <SideBar></SideBar>
       <div className='BuyTab-block'>
       <div className='stock-filter'>
         <StockFilter></StockFilter>
@@ -54,9 +56,9 @@ export default function BuyTab() {
         </div>
       
       </div>
-      <div className="buyfootpage r">
-              <div className='pageCat' style={{marginRight:70}}>Pages 5 to 12</div>
-              <strong style={{alignItems:'centre'}}> <i class="material-icons" style={{paddingTop:7}}>chevron_left</i></strong>
+      <div className="buyfootpage ">
+              <div className='pageCat'>Pages 5 to 12</div>
+              <strong style={{alignItems:'centre'}}> <i className="material-icons" style={{paddingTop:7}}>chevron_left</i></strong>
               <strong>Previous</strong>
               <button className="rounded-full bg-white">1</button>
               <button className="rounded-full bg-white">2</button>
@@ -67,7 +69,7 @@ export default function BuyTab() {
               <button className="rounded-full bg-white">7</button>
               <button className="rounded-full bg-white">8</button>
               <strong>Next Page</strong>
-              <strong style={{alignItems:'centre'}}> <i class="material-icons" style={{paddingTop:7}}>chevron_right</i></strong>
+              <strong style={{alignItems:'centre'}}> <i className="material-icons" style={{paddingTop:7}}>chevron_right</i></strong>
 
             </div>
       <Footer></Footer>
