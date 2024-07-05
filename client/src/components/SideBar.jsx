@@ -1,10 +1,9 @@
 import React,{useState} from "react";
 import '.././assets/SideBar.css';
-
-
+import { useNavigate } from "react-router-dom";
 const SideBar =()=>{
     const [expand,setexpand] = useState(1);
-
+    const Navigate = useNavigate();
     return(
         <>
         {!expand?<div className={!expand?"sideBar text-black":"sidebar active text-black"}>
@@ -29,7 +28,7 @@ const SideBar =()=>{
                         </button>
                     </li>
                     <li>
-                    <button className=" sidebar-button">
+                    <button className=" sidebar-button" onClick={()=>{setexpand(1-expand);  Navigate('/stockTab')}}>
                     <div style={{display:"flex", alignItems:"center"}}>
                         <img className="w-9 h-9"src="bar-chart.png"></img><spam style={{marginLeft:60}}>Trending Stocks</spam>
 

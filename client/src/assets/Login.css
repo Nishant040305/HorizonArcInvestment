@@ -1,6 +1,5 @@
 .loginpage{
-    margin-top:10rem;
-    width:70rem;
+    width:fit-content;
     display:flex;
     flex-direction: row;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.272), 0 6px 20px 0 rgba(0, 0, 0, 0.519);
@@ -9,6 +8,8 @@
     background-color: white;
     flex-wrap: wrap;
     align-content: center;
+    top:21vh;
+    left:21vw;
    
 }
 .log{
@@ -138,4 +139,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     right: 0;
     top: 0;
     width: auto;
+}
+.active-log{
+    display:none;
 }

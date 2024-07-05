@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run dev --prefix ./client\" \"nodemon server/backend.js\" ",
     "release": "standard-version",
+    "maintain":"npm run release -- --skip.bump --skip.tag --skip.commit",
     "install": "npm install --prefix ./client && npm install"
   },
   "repository": {

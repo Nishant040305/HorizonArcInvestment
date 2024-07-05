@@ -6,6 +6,8 @@ import '../assets/BuyTab.css';
 import Footer from '../components/Footer';
 import StockFilter from '../components/StockFilter';
 import SideBar from '../components/sideBar';
+import Login from '../components/Login';
+import { useSelector } from 'react-redux';
 const Filter =()=>{
     return(
         <div className="buyTabfilter" style={{display:"flex",flexDirection:"row"}}>
@@ -15,9 +17,11 @@ const Filter =()=>{
     )
 }
 export default function BuyTab() {
+  const user = useSelector(state=>state);
   return (
     <div className="BuyTab">
-      <Navbar></Navbar>
+      <Login></Login>
+      <Navbar image={user.user.image} name={user.user.fullName}></Navbar>
       <SideBar></SideBar>
       <div className='BuyTab-block'>
       <div className='stock-filter'>

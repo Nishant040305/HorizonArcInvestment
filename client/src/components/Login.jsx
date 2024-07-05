@@ -97,20 +97,20 @@ const Login =()=>{
     }
     return(
         
-    <div className="loginpage">
-         <img className="login-image" src="vite.svg" alt="Login" />
+    <div className="loginpage active-log">
+         <img className="login-image" src="https://img.freepik.com/free-photo/observation-urban-building-business-steel_1127-2397.jpg?w=1060&t=st=1720159831~exp=1720160431~hmac=79382a1c2c14b889a33d9dd9a94d3fc6aaf4a84884f40f76a1cd2b8ad61e775b" alt="Login" />
         <div className="Login-info">
             <div className="Login-email">
                 <div className = "Login-title">
                     <div className="log">
                     Sign In
                     </div>
-                    <div className="login-cross"><i className="	fa fa-times" style={{fontSize:50}}></i></div>
+                    <div className="login-cross"><i className="	fa fa-close" style={{fontSize:42}}></i></div>
                 </div>
                 {otpMessage?<div className="Login-data">
                     Enter your OTP.
                 </div>:<div className="Login-data">
-                    Enter your email to log in.
+                    Enter your details to signin.
                 </div>}
                 {otpMessage?<div className="Login-content">
                 
