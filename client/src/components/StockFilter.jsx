@@ -80,6 +80,7 @@ export default function StockFilter() {
           className="stock-budget-input-data"
           ref={v0ref}
           contentEditable="true"
+          suppressContentEditableWarning={true}
           onBlur={validateAndUpdateValues}
         >
           {value[0]}
@@ -90,6 +91,7 @@ export default function StockFilter() {
           className="stock-budget-input-data"
           ref={v1ref}
           contentEditable="true"
+          suppressContentEditableWarning={true}
           onBlur={validateAndUpdateValues}
         >
           {value[1]}

@@ -10,8 +10,7 @@ import { useSelector ,useDispatch} from 'react-redux';
 function BuyOption(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const selector = useSelector(state=>state);
-  const url = selector.url;
+  const url =useSelector(state=>state.url);
   const action = {
     Area:{amount:1250,unit:"sqft"},
     Location:"Lehra, Prayagraj",
