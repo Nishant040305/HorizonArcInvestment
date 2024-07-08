@@ -3,24 +3,7 @@ import { useSelector } from "react-redux";
 import "./BNavbar.css";
 import { numTowords, numFormat } from "../../Lib/ImportantFunc";
 
-const DivBar = () => {
-  let over = document.getElementById("Overview");
-  let rec = document.getElementById("rec");
-  let article = document.getElementById("articles");
-  const handleScroll = (e)=>{
-    e.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
-  }
-  return (  
-    <div className="Bbar">
-      <div className="Bbar-head-active" onClick={()=>{handleScroll(over)}}>Overview</div>
-
-
-      <div className="Bbar-head" onClick={()=>{handleScroll(rec)}}>Recommandeation</div>
-
-      <div className="Bbar-head" onClick={()=>{handleScroll(article)}}>Articles</div>
-    </div>
-  );
-};
+import DivBar from "./divBar";
 const BNavbar = () => {
   const land = useSelector((state) => state.land);
   return (

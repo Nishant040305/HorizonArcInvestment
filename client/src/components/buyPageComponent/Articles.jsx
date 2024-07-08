@@ -1,4 +1,4 @@
-import React from 'react'
+import React ,{useRef} from 'react'
 import "./Articles.css";
 
 const Data=()=>{
@@ -46,10 +46,16 @@ const BlockData=()=>{
         </div>
     )
 }
-export default function Articles() {
+const Articles=React.forwardRef((props, ref) =>{
+
+    const handleFocusInput = () => {
+        if (ref.current) {
+            ref.current.focus();
+        }
+    };
   return (
     <>
-    <div className='articles' id = 'articles'>
+    <div className='articles' ref={ref} >
         <div style={{fontSize:30,fontWeight:500,textAlign:"left"}}>Intresting Reads</div>
         <div className='flex flex-row'>
         <Data></Data>
@@ -62,4 +68,5 @@ export default function Articles() {
     <BlockData></BlockData>
     </>
   )
-}
+});
+export default Articles;

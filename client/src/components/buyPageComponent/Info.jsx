@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useRef} from "react";
 import './info.css';
 import { useSelector } from "react-redux";
 import { numTowords } from "../../Lib/ImportantFunc";
@@ -45,12 +45,18 @@ const InfoBlock =()=>{
     )
 }
 
-const Overview=()=>{
+const Overview=React.forwardRef((props, ref) =>{
+
+    const handleFocusInput = () => {
+        if (ref.current) {
+            ref.current.focus();
+        }
+    };
     return(
-        <div className="Overview" id="Overview">
+        <div className="Overview" ref={ref} >
             <img className="overview" src="https://img.freepik.com/free-photo/amazing-aerial-shot-singapore-cityscape-with-lots-skyscrapers_181624-18618.jpg?w=1060&t=st=1719822907~exp=1719823507~hmac=72467b1d3ff99b6937deb45b5d3e5120eb61220f2f5b93c65a801ca9f3840b2f"></img>
             <InfoBlock></InfoBlock>
         </div>
     )
-}
+});
 export default Overview;

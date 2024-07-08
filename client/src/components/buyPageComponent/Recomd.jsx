@@ -1,10 +1,16 @@
-import React from 'react'
+import React,{useRef} from 'react'
 import Recomendation from '../Recomendation';
 import './Recomd.css'
-export default function Recomd() {
+const Recomd=React.forwardRef((props, ref) =>{
+
+  const handleFocusInput = () => {
+      if (ref.current) {
+          ref.current.focus();
+      }
+  };
   return (
     
-    <div className='rec' id = 'rec'>
+    <div className='rec' ref={ref} >
     <div style={{fontSize:30,fontWeight:500,textAlign:"left"}}>Similar Properties</div>
     <div className='recbuy'>
     <Recomendation tab = "buy"></Recomendation>
@@ -18,4 +24,6 @@ export default function Recomd() {
     </div>
   
   )
-}
+});
+
+export default Recomd;
