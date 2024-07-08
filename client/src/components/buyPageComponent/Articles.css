@@ -1,0 +1,23 @@
+.articles{
+    margin-left:10vw;
+}
+.news{
+    width:fit-content;
+    height: fit-content;
+    margin:20px;
+}
+.ArticleBlock{
+    margin-top:6vh;
+    padding-left:10vw;
+    padding-bottom:10vw;
+    /* background-color: rgb(208, 229, 255); */
+    background-color:#F5F7FA;
+}
+.datablock{
+    color:rgb(112, 112, 112);
+    font-size: 14px;
+    font-weight: 600;
+}
+.block{
+    padding-right:10vw;
+}

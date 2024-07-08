@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import viteLogo from '/vite.svg'
 import '.././assets/App.css'
 import { Route, Routes } from 'react-router-dom';
-import Login from '.././components/Login';
-import SideBar from '.././components/sideBar';
-import Navbar from '.././components/Navbar';
+import Login from '../components/Login';
+import SideBar from '../components/sideBar';
+import Navbar from '../components/Navbar';
 // import { PDFViewer } from '@react-pdf/renderer';
 // import MyDocument from '.././components/BuyLandIndi';
 import ReactDOM from 'react-dom';
@@ -14,20 +14,26 @@ import BuyTab from './BuyTab';
 import StockTab from './StockTab';
 import StockFilter from '../components/StockFilter';
 import Sellpage from './Sellpage';
-
+import { useSelector } from 'react-redux';
+import InfoBlock from '../components/buyPageComponent/Info';
+import BNavbar from '../components/buyPageComponent/BNavbar';
+import Overview from '../components/buyPageComponent/Info';
+import PlaceNearby from '../components/buyPageComponent/placeInfo';
+import Index from './buyStockPage';
 function App() {
-
+  const url = useSelector(state=>state.url);
   return (
     <Routes>
-      <Route path="/" element={<Login></Login>}></Route>
-      <Route path="/sidebar" element = {<SideBar></SideBar>}></Route>
-      <Route path="/nav" element = {<Navbar></Navbar>}></Route>
-      <Route path='/buy' element ={<BuyOption></BuyOption>}></Route>
-      <Route path='/recomd' element ={<Recomendation></Recomendation>}></Route>
-      <Route path='/buyTab' element={<BuyTab></BuyTab>}></Route>
-      <Route path='/stockTab' element={<StockTab></StockTab>}></Route>
-      <Route path='/stockfilter' element={<StockFilter></StockFilter>}></Route>
-      <Route path='/sell' element={<Sellpage></Sellpage>}></Route>
+      <Route path={url.login} element={<Login></Login>}></Route>
+      <Route path={url.sideBar} element = {<SideBar></SideBar>}></Route>
+      <Route path={url.nav} element = {<Navbar></Navbar>}></Route>
+      <Route path={url.buyComp} element ={<BuyOption></BuyOption>}></Route>
+      <Route path={url.recomd} element ={<Recomendation></Recomendation>}></Route>
+      <Route path={url.buy} element={<BuyTab></BuyTab>}></Route>
+      <Route path={url.stock} element={<StockTab></StockTab>}></Route>
+      <Route path={url.filter} element={<StockFilter></StockFilter>}></Route>
+      <Route path={url.sell} element={<Sellpage></Sellpage>}></Route>
+      <Route path={url.page} element ={<Index></Index>}></Route>
     </Routes>
     
   );

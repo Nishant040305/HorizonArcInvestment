@@ -1,0 +1,41 @@
+.buyInfoComponent{
+    background-color: rgb(252, 255, 251);
+    width:50vw;
+    padding:2vh;
+    height:fit-content;
+    display:flex;
+    flex-direction:column;
+    flex-wrap: wrap;
+}
+.buy-info-comp-data{
+    width: 48%;
+    height:10vh;
+    margin:10px 5px 10px 5px;
+    background-color: rgba(247, 255, 251, 0.762);
+    font-size: 20px;
+    text-align:left;
+    padding-left:20px;
+}
+.yA{
+    color:rgb(208, 208, 0)
+
+}
+.gL{
+    color:greenyellow;
+}
+.pP{
+    color:rgb(255, 181, 193);
+}
+.rC{
+    color:rgb(213, 136, 122)
+}
+.Overview{
+    display: flex;
+    flex-direction: row;
+    margin-left: 10vw;
+    margin-top:10vh;
+}
+.overview{
+    width:25vw;
+    height:28.5vh;
+}

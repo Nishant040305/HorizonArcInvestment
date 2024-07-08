@@ -1,9 +1,13 @@
 import React,{useState} from "react";
 import '.././assets/SideBar.css';
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const SideBar =()=>{
     const [expand,setexpand] = useState(1);
     const Navigate = useNavigate();
+    
+    const url = useSelector(state=>state.url);
+    const user = useSelector(state=>state.user);
     return(
         <>
         {!expand?<div className={!expand?"sideBar text-black":"sidebar active text-black"}>
@@ -12,8 +16,8 @@ const SideBar =()=>{
 
             </div>
             <div>
-            <img className="rounded-full profilePic" src="https://lh3.googleusercontent.com/a/ACg8ocLIiWPNraDN3nfZ7rpQjGFqdpcpwE9ugPxL5VmVupt9KL5Rgg5Y=s360-c-no"></img>
-            <div style={{fontSize: 30}}>Nishant Mohan</div>
+            <img className="rounded-full profilePic" src={user.image}></img>
+            <div style={{fontSize: 30}}>{user.fullName}</div>
             </div>
             
             <div className="container"style={{fontSize: 24,alignContent:"center", textAlign:"left",display:"flex",justifyContent:"centre"}} >
@@ -21,33 +25,33 @@ const SideBar =()=>{
                     <li>
                     <button  className=" sidebar-button" > 
                         <div style={{display:"flex", alignItems:"center"}}>
-                        <i className="	fas fa-user-circle " ></i><spam style={{marginLeft:60}}>Profile</spam>
+                        <i className="	fas fa-user-circle " ></i><div style={{marginLeft:60}}>Profile</div>
 
                         </div>
 
                         </button>
                     </li>
                     <li>
-                    <button className=" sidebar-button" onClick={()=>{setexpand(1-expand);  Navigate('/stockTab')}}>
+                    <button className=" sidebar-button" onClick={()=>{setexpand(1-expand);  Navigate(url.stock)}}>
                     <div style={{display:"flex", alignItems:"center"}}>
-                        <img className="w-9 h-9"src="bar-chart.png"></img><spam style={{marginLeft:60}}>Trending Stocks</spam>
+                        <img className="w-9 h-9"src="bar-chart.png"></img><div style={{marginLeft:60}}>Trending Stocks</div>
 
                         </div>
-                        </button>
-                    </li>
-                    <li>
-                    <button className=" sidebar-button">
-                    <div style={{display:"flex", alignItems:"center"}}>
-                        <img className="w-9 h-9"src="project.png"></img><spam style={{marginLeft:60}}>Portfolio</spam>
-
-                        </div>
-
                         </button>
                     </li>
                     <li>
                     <button className=" sidebar-button">
                     <div style={{display:"flex", alignItems:"center"}}>
-                        <i className="	fa fa-envelope text-yellow-400" style={{fontSize:40}}></i><spam style={{marginLeft:60}}>Messages</spam>
+                        <img className="w-9 h-9"src="project.png"></img><div style={{marginLeft:60}}>Portfolio</div>
+
+                        </div>
+
+                        </button>
+                    </li>
+                    <li>
+                    <button className=" sidebar-button">
+                    <div style={{display:"flex", alignItems:"center"}}>
+                        <i className="	fa fa-envelope text-yellow-400" style={{fontSize:40}}></i><div style={{marginLeft:60}}>Messages</div>
 
                         </div>
 
@@ -59,7 +63,7 @@ const SideBar =()=>{
             </div>
            <label className="sidebar-button">
             <div style={{display:"flex", alignItems:"center",fontSize: 24}}>
-                    <i className="fas fa-phone text-green-500" style={{fontSize:40}}></i><spam style={{marginLeft:60}}>Help Centre</spam>
+                    <i className="fas fa-phone text-green-500" style={{fontSize:40}}></i><div style={{marginLeft:60}}>Help Centre</div>
                     
             </div>
             

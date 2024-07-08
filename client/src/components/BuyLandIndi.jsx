@@ -1,10 +1,30 @@
 import React from 'react'
 import '.././assets/BuyLandIndi.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Navbar from '.././components/Navbar';
+import Navbar from './Navbar';
+import { useNavigate } from 'react-router-dom';
+import { setLand } from '../Store/BuyStockSlice';
+import { setLandAction } from '../Actions/BuyStocksetPageAction';
+import { useSelector ,useDispatch} from 'react-redux';
+
 function BuyOption(props) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const selector = useSelector(state=>state);
+  const url = selector.url;
+  const action = {
+    Area:{amount:1250,unit:"sqft"},
+    Location:"Lehra, Prayagraj",
+    Price:400000000,
+    Category:"Residential/Plot"
+  }
+  const clickhandle =()=>{
+    console.log("action",action);
+    dispatch(setLand(action));
+  navigate(url.page);
+  }
   return (
-    <div className="rounded-3xl buy-cart bg-white">
+    <div className="rounded-3xl buy-cart bg-white" onClick={()=>{clickhandle()}}>
       <img className="rounded-3xl buy-cart-img"src="https://img.freepik.com/free-photo/amazing-aerial-shot-singapore-cityscape-with-lots-skyscrapers_181624-18618.jpg?w=1060&t=st=1719822907~exp=1719823507~hmac=72467b1d3ff99b6937deb45b5d3e5120eb61220f2f5b93c65a801ca9f3840b2f"></img>
       <div className="buy-cart-info">
         <div className="buy-cart-info-location"><strong>Lehra Land Plot,Near NH230 Highway</strong></div>

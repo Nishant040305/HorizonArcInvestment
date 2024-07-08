@@ -1,0 +1,19 @@
+.place{
+    border-radius: 1rem;
+    border:1px solid rgb(0, 234, 255);
+    padding:10px;
+    margin:5px;
+}
+.place-nearby{
+    background: white;
+    border-radius: 1rem;
+    border:1px solid rgb(0, 234, 255);
+    margin-left:10vw;
+    padding-top:20px;
+    padding-bottom:20px;
+    padding-left:40px;
+    margin-top: 7vh;
+}
+.place i{
+    color:rgb(0, 140, 255);
+}

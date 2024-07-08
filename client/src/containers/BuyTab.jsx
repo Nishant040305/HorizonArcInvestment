@@ -17,11 +17,10 @@ const Filter =()=>{
     )
 }
 export default function BuyTab() {
-  const user = useSelector(state=>state);
   return (
     <div className="BuyTab">
       <Login></Login>
-      <Navbar image={user.user.image} name={user.user.fullName}></Navbar>
+      <Navbar></Navbar>
       <SideBar></SideBar>
       <div className='BuyTab-block'>
       <div className='stock-filter'>

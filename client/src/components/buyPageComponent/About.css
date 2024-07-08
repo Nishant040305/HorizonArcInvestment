@@ -1,0 +1,15 @@
+.aboutProp{
+    display:flex;
+    flex-direction:column;
+    text-align: left;
+    margin-left:10vw;
+    margin-top:4vh;
+    margin-bottom:6rem;
+}
+.aboutProp strong{
+    font-size: 23px;
+    margin-bottom:20px;
+}
+.aboutProp div{
+    color:rgb(130, 130, 130)
+}

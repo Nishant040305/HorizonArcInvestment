@@ -4,7 +4,7 @@
     flex-direction: row;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.272), 0 6px 20px 0 rgba(0, 0, 0, 0.519);
     position: absolute;
-    z-index: 1000;
+    z-index: 100;
     background-color: white;
     flex-wrap: wrap;
     align-content: center;

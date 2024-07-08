@@ -1,0 +1,65 @@
+.BNavbar{
+    background-color: white;
+    padding-left:10vw;
+    border-bottom:1px solid rgb(168, 168, 168);
+    padding-bottom: 10px;
+    height: fit-content;
+}
+.BNavbar-info{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.BNavbar-info-data-block{
+    display:flex;
+    flex-direction:row;
+    margin-left:5vw;
+}
+.BNavbar-info-data{
+    margin:1vw;
+    margin-left:0px;
+}
+.BNavbar-info-data strong{
+    font-size: 36px;
+    font-weight: 500;
+    color:rgb(86, 86, 86);
+}
+.BNavbar-info-data small{
+    font-size:20px;
+    
+}
+.BNavbar-info-data div{
+    font-size:23px;
+    color:rgb(86, 86, 86)
+}
+.BNavbar-info-data .block{
+    font-size: 36px;
+    color:rgb(86, 86, 86);
+}
+ 
+.BNav-contact{
+    width: fit-content;
+    height: fit-content;
+    margin-right:6vw;
+}
+.Bbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top:4vh;
+    font-size: 20px;
+}
+
+.Bbar-head:hover{
+    color:rgb(85, 196, 255);
+    font-weight: 500;
+    transition: all 1sec;
+}
+.Bbar-head-active{
+    padding-bottom: 16px;
+    color:rgb(85, 196, 255);
+    font-size:22px;
+    border-bottom: 3px solid rgb(85, 196, 255);
+
+}

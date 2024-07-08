@@ -1,0 +1,11 @@
+.index{
+    background-color: white;
+}
+.buy-index{
+    height: 66vh;
+    overflow-y: scroll;
+    
+}
+::-webkit-scrollbar{
+    display: none;
+}
