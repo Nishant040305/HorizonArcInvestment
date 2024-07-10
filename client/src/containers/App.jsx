@@ -16,12 +16,13 @@ import StockFilter from '../components/StockFilter';
 import Sellpage from './Sellpage';
 import { useSelector } from 'react-redux';
 import InfoBlock from '../components/buyPageComponent/Info';
-import BNavbar from '../components/buyPageComponent/BNavbar';
 import Overview from '../components/buyPageComponent/Info';
 import PlaceNearby from '../components/buyPageComponent/placeInfo';
 import Index from './buyStockPage';
+import ProfileBar from '../components/ProfilePage/profile-bar';
 function App() {
   const url = useSelector(state=>state.url);
+  console.log(url)
   return (
     <Routes>
       <Route path={url.login} element={<Login></Login>}></Route>
@@ -34,6 +35,7 @@ function App() {
       <Route path={url.filter} element={<StockFilter></StockFilter>}></Route>
       <Route path={url.sell} element={<Sellpage></Sellpage>}></Route>
       <Route path={url.page} element ={<Index></Index>}></Route>
+      <Route path='/' element={<ProfileBar></ProfileBar>}></Route>
     </Routes>
     
   );

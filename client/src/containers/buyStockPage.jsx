@@ -3,7 +3,6 @@ import PlaceNearby from "../components/buyPageComponent/placeInfo";
 import Overview from "../components/buyPageComponent/Info";
 import SideBar from "../components/sideBar";
 import Navbar from "../components/Navbar";
-import BNavbar from "../components/buyPageComponent/BNavbar";
 import '../components/buyPageComponent//index.css';
 import Traninfo from "../components/buyPageComponent/Traninfo";
 import Footer from "../components/Footer";
@@ -21,7 +20,6 @@ const Index =()=>{
         const over = document.getElementById("over");
         const rec = document.getElementById("rec");
         const article = document.getElementById("article");
-      console.log("test")
         if(e=="over"){
             over.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
         }

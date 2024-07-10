@@ -14,18 +14,26 @@ const rootReducer = combineReducers({
   land:BuyStockSlice,
   buyData:BuyDataSlice,
 });
-
-const persistConfig = {
-  key: 'root',
-  storage,
-  version: 1,
-}
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 export const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({ serializableCheck: false }),
-});
+  reducer:{
+    user:userSlice,
+  url:urlSlice,
+  land:BuyStockSlice,
+  buyData:BuyDataSlice,
+  }
+})
 
-export const persistor = persistStore(store);
+// const persistConfig = {
+//   key: 'root',
+//   storage,
+//   version: 1,
+// }
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// export const store = configureStore({
+//     reducer: persistedReducer,
+//     middleware: (getDefaultMiddleware) =>
+//         getDefaultMiddleware({ serializableCheck: false }),
+// });
+
+// export const persistor = persistStore(store);
