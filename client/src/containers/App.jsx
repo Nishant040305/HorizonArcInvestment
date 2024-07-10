@@ -20,6 +20,7 @@ import Overview from '../components/buyPageComponent/Info';
 import PlaceNearby from '../components/buyPageComponent/placeInfo';
 import Index from './buyStockPage';
 import ProfileBar from '../components/ProfilePage/profile-bar';
+import Dashboard from '../components/ProfilePage/Dashboard';
 function App() {
   const url = useSelector(state=>state.url);
   console.log(url)
@@ -35,7 +36,7 @@ function App() {
       <Route path={url.filter} element={<StockFilter></StockFilter>}></Route>
       <Route path={url.sell} element={<Sellpage></Sellpage>}></Route>
       <Route path={url.page} element ={<Index></Index>}></Route>
-      <Route path='/' element={<ProfileBar></ProfileBar>}></Route>
+      <Route path='/' element={<Dashboard></Dashboard>}></Route>
     </Routes>
     
   );

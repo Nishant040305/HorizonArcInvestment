@@ -1,0 +1,28 @@
+.profile-page{
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.profile-page-content{
+    background-color: white;
+    text-align: left;
+}
+.profile-page-data{
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    text-align: left;
+
+}
+.profile-page-head{
+    font-weight: 600;
+    margin-right: 30px;
+    width: 10vw ;
+}
+.profile-edit{
+    float:right;
+    margin-top: 20px;
+    margin-right:40px;
+}

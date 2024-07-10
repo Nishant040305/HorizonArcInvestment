@@ -1,0 +1,26 @@
+.dashboard-navbar{
+    display: flex;
+    background-color: white;
+    border-bottom:1px solid rgb(168, 168, 168);
+    padding-bottom: 30px;
+    height: fit-content;
+    color:rgb(48, 48, 55);
+    text-align: left;
+    align-items: center;
+    justify-content: space-around;
+    padding-top:10px;
+}
+.dashboard-navbar-search{
+    background-color: whitesmoke;
+    font-size: 20px;
+    padding-left: 30px;
+    border-radius: 20px;
+    border: 1px solid rgb(117, 117, 117);
+}
+.dashboard-navbar-tab{
+    display:flex;
+    flex-direction: row;
+}
+.dashboard-navbar-tab div{
+    padding-left:50px;
+}
