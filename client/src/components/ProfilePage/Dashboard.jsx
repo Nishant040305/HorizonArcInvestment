@@ -7,6 +7,7 @@ import Navbar from '../Navbar';
 import SideBar from '../sideBar';
 import NavDash from './NavDash';
 import Footer from '../Footer'
+import Messages from './Messages';
 const Dashboard = () => {
   return (
   <>
@@ -15,7 +16,7 @@ const Dashboard = () => {
   <NavDash></NavDash>
     <div className='Dashboard'>
       <ProfileBar></ProfileBar>
-      <Profile></Profile>
+      <Messages></Messages>
     </div>
   <Footer></Footer>
   </>

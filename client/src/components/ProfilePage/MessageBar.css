@@ -1,0 +1,33 @@
+.Message-bar{
+    background-color: rgb(254, 254, 254);
+    display: flex;
+    flex-direction: column;
+    max-height:80vh;
+    overflow: scroll;
+    
+
+}
+.Message-block{
+    background-color: rgb(253, 253, 253);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 20px;
+}
+.Message-block:hover{
+    background-color: rgb(247, 247, 247);
+
+}
+.p25{
+    width:26%;
+}
+.message-user-search{
+    background-color: rgb(254, 254, 254);
+    border:1px solid rgb(211, 211, 211);
+    height:3rem;
+    margin:10px;
+    margin-left:10px;
+    border-radius:10px;
+    width:initial;
+    padding-left: 10px;
+}

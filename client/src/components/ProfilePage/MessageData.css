@@ -1,0 +1,61 @@
+.MessageData{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width:100%;
+    background-image: url('https://mcdn.wallpapersafari.com/medium/27/32/jt4AoG.jpg');
+}
+.MessageData-head{
+    display: flex;
+    background-color: rgb(237, 237, 237);
+    text-align: center;
+    height:4rem;
+    padding: 10px;
+    align-items: center;
+    font-weight: 400;
+    font-size: 23px;
+    padding-left:25px;
+    
+}
+.MessageData-head img{
+    width:3rem;
+    height:3rem;
+    margin-right:20px;
+}
+.MessageData-type{
+    /* background-color:rgb(227, 227, 227) ; */
+    height:5rem; 
+    padding: 10px;
+    padding-bottom: 20px;
+
+}
+.MessageData-type input{
+    height: 3rem;
+    border-radius: 20px;
+    padding-left:20px;
+}
+.MessageArea{
+    display: flex;
+    flex-direction: column;
+
+    width:inherit;
+    height: 100%;
+}
+.Messages-send{
+    padding: 20px;
+    max-width: 70%;
+    width:fit-content;
+    font-size: 16px;
+    border-radius: 20px;
+    margin:10px;
+}
+.float-right{
+    float:right;
+}
+.float-left{
+    float:left;
+}
+.width-100{
+   
+    width:100%;
+}

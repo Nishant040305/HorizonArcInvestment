@@ -1,0 +1,7 @@
+.Messages{
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: inherit;
+}
