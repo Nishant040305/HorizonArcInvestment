@@ -1,0 +1,35 @@
+.Notification{
+    width:100%;
+    height: inherit;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+}
+.Notification-head{
+    padding-top: 20px;
+    padding-left:30px;
+    padding-bottom:10px;
+    font-size: 28px;
+    font-weight:600;
+    height: fit-content;
+    width:100%;
+    text-align:left;
+    background-color: rgb(242, 242, 242);
+}
+.Notification-message{
+    max-width: 60%;
+    width:fit-content;
+    text-align: left;
+    font-weight: 500;
+    background-color: rgb(249, 249, 249);
+    border: 1px solid rgb(244, 244, 244);
+    border-radius: 10px;
+    padding:10px;
+}
+.Notification-container{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    height: initial;
+    overflow: scroll;
+}

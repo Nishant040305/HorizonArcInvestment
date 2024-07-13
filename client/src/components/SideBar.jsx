@@ -1,13 +1,19 @@
 import React,{useState} from "react";
 import '.././assets/SideBar.css';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { change } from "../Store/DashBoardOptionsSlice";
 const SideBar =()=>{
     const [expand,setexpand] = useState(1);
     const Navigate = useNavigate();
-    
+    const dispatch = useDispatch();
     const url = useSelector(state=>state.url);
     const user = useSelector(state=>state.user);
+    const Portfolio =(e)=>{
+        setexpand(1-expand);
+        dispatch(change(e));
+        Navigate(url.dashboard);
+    }
     return(
         <>
         {!expand?<div className={!expand?"sideBar text-black":"sidebar active text-black"}>
@@ -23,9 +29,9 @@ const SideBar =()=>{
             <div className="container"style={{fontSize: 24,alignContent:"center", textAlign:"left",display:"flex",justifyContent:"centre"}} >
                 <ul>
                     <li>
-                    <button  className=" sidebar-button" > 
+                    <button  className=" sidebar-button"  onClick={()=>Portfolio('profile')} > 
                         <div style={{display:"flex", alignItems:"center"}}>
-                        <i className="	fas fa-user-circle " ></i><div style={{marginLeft:60}}>Profile</div>
+                        <i className="	fas fa-user-circle "></i><div style={{marginLeft:60}}>Profile</div>
 
                         </div>
 
@@ -40,16 +46,16 @@ const SideBar =()=>{
                         </button>
                     </li>
                     <li>
-                    <button className=" sidebar-button">
+                    <button className=" sidebar-button" onClick={()=>Portfolio('shares')}>
                     <div style={{display:"flex", alignItems:"center"}}>
-                        <img className="w-9 h-9"src="project.png"></img><div style={{marginLeft:60}}>Portfolio</div>
+                        <img className="w-9 h-9"src="project.png" ></img><div style={{marginLeft:60}}>Portfolio</div>
 
                         </div>
 
                         </button>
                     </li>
                     <li>
-                    <button className=" sidebar-button">
+                    <button className=" sidebar-button" onClick={()=>Portfolio('messages')}>
                     <div style={{display:"flex", alignItems:"center"}}>
                         <i className="	fa fa-envelope text-yellow-400" style={{fontSize:40}}></i><div style={{marginLeft:60}}>Messages</div>
 

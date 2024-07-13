@@ -4,10 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
 import { setLand } from '../Store/BuyStockSlice';
-import { setLandAction } from '../Actions/BuyStocksetPageAction';
 import { useSelector ,useDispatch} from 'react-redux';
 
-function BuyOption(props) {
+const BuyOption=(props)=> {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const url =useSelector(state=>state.url);

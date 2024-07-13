@@ -1,11 +1,12 @@
 .profile-bar{
-    width:18vw;
-    height: 80vh;
+    /* width:18vw; */
+    min-height: 80vh;
     background-color: rgb(252, 252, 252);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding-top:20px;
+    border-right:1px solid rgb(214, 214, 214);
 }
 .backColor{
     background-color: rgb(252, 252, 252);
@@ -14,14 +15,30 @@
 .butt-prof-bar{
     width:100%;
     text-align: left;
-    padding-left: 30px;
+    
     border-radius: 0px;
     font-size: 20px;
     display:flex;
+    flex-direction: row;
     justify-content: space-between;
 }
 .butt-prof-bar:hover{
     background-color: rgb(236, 236, 236);
     border:0px;
 
+}
+.butt-prof-bar-arrow:hover{
+    background-color: rgb(236, 236, 236);
+    border:0px;
+
+}
+.width18vw{
+    width:17vw;
+}
+.float-right{
+    float:right;
+
+}
+.width-100{
+    width:100%;
 }

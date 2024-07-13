@@ -1,0 +1,40 @@
+.FindPeopleBlock{
+
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px;
+    margin:5px;
+    border-radius: 10px;
+    margin-left:5rem;
+    
+}
+.Findpeople{
+    padding-top:10px;
+    width:100%;
+    display: flex;
+    max-height: 90vh;
+    flex-direction: column;
+    overflow: scroll;
+    padding-top:5rem;
+    padding-left:5rem;
+    background-size: cover;
+    background-image: url('https://images.unsplash.com/photo-1618022325802-7e5e732d97a1?q=80&w=1948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA==');
+
+}
+.Findpeople-name{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 500;
+    color:white;
+
+}

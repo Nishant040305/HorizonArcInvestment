@@ -4,7 +4,7 @@ const urlSlice = createSlice(
     {
         name:"urls",
         initialState:{
-            stock:"/stockTab",
+            stock:"/",
             buy:'/buyTab',
             sell:"/sellTab",
             login:"/login",
@@ -17,7 +17,8 @@ const urlSlice = createSlice(
             filter:"stockFilter",
             buyComp:"/cartComponent",
             page:"/buyStockPage",
-            profile:"/profilePage"
+            profile:"/profilePage",
+            dashboard:"/dashboard",
         },
         reducers:{
 
