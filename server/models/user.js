@@ -2,20 +2,31 @@ const mongoose = require("mongoose");
 const {Schema} = mongoose;
 const userSchema = new Schema(
     {
-        pan:{
+        
+        fullName:{
             type:String,
             required:true
         },
-        Name:{
+        password:{
             type:String,
-            required:true
+            
         },
-        mobile:{
-            type:Number,
-            required:true
+        AccountNumber:{
+            type:String
+        },
+        IFSC:{
+            type:String
         },
         email:{
-            type:String
+            type:String,
+            require:true
+        },
+        verify:{
+            type:Boolean,
+            default:false
+        },
+        Username:{
+            type:String,
         },
         dob:{
             type:String,

@@ -37,6 +37,7 @@ function App() {
       <Route path={url.sell} element={<Sellpage></Sellpage>}></Route>
       <Route path={url.page} element ={<Index></Index>}></Route>
       <Route path={url.dashboard} element={<Dashboard></Dashboard>}></Route>
+      <Route path={url.login} element={<Login></Login>}></Route>
     </Routes>
     
   );

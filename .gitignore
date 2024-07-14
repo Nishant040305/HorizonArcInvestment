@@ -28,3 +28,5 @@ dist-ssr
 backend
 *.pdf
 .vscode
+client/src/components/admin
+notes.txt

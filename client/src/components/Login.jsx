@@ -8,44 +8,37 @@ const loginwithgoogle =()=>{
 }
 const Login =()=>{
     let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
-    const [userId,setUserId] = useState('');
-    const [name,setName] = useState('');
-    const [varotp,setvartp]  = useState('');
-    const [otp,setOtp] = useState('');
+
     const [otpMessage,setOtpMessage] = useState(false);
     const [seen,setSeen] = useState(false);
     const navigate = useNavigate();
-    const [email,setEmail] = useState('');
-    const [fullname,setFullname] = useState('');
-    const [dob,setDob] = useState('');
-    const [pan, setPan] = useState('');
-    const [number,setNumber] = useState('');
-    const handleEmail =(e)=>{
-        setEmail(e.target.value)
+    const [userVer,setUserver] = useState({
+        Username:"",
+        password:"",
+    })
+    const [user,setUser] = useState({
+        fullName:"",
+        email:"",
+        password:"",
+    })
+    const handleUser=(e)=>{
+        setUser(
+            {
+                ...user,
+                [e.target.name]:e.target.value
+            }
+        )
     }
-    const handleFullname =(e)=>{
-        setFullname(e.target.value)
-    }
-    const handleMobile =(e)=>{
-        setNumber(e.target.value)
-    }
-    const handleDob =(e)=>{
-        setDob(e.target.value)
-    }
-    const handlePan =(e)=>{
-        setPan(e.target.value)
-    }
-    const handleName =(e)=>{
-        setName(e.target.value);
-    }
-    const handleOtp =(e)=>{
-        setvartp(e.target.value);
+    const handleUserVer =(e)=>{
+        setUserver({
+            ...userVer,
+            [e.target.name] : e.target.value
+        })
     }
     
     const login_email = async()=>{
         try {
-            console.log(`${BACKWEB}/Pan`)
-            const response = await axios.post(`${BACKWEB}/jsonwebtoken`,{pan:pan,mobile:number,dob:dob,Name:fullname,email:email},
+            const response = await axios.post(`${BACKWEB}/register`,user,
                 {
                     headers: {
                     'Accept': 'application/json',
@@ -53,80 +46,57 @@ const Login =()=>{
             });
             if (response.status !== 200) {
                 throw new Error('Failed to Send Email');
+                
             }
             else{
-                console.log("yes");
-                
-                // setOtp(1);
-                // console.log(response.data.otp);
-                // setOtpMessage(1)
+                setOtpMessage(1);
             }
         } catch (e) { console.error(e) }
     }
     const login_Confirm = async()=>{
-        if(varotp==otp){
-            console.log("here we go");
-            const response = await axios.post(`${BACKWEB}/ConfirmDetail`,{pan:pan,mobile:number,dob:dob,Name:fullname,email:email},
-                {headers: {
-                'Accept': 'application/json',
-            }
+        try{
+            const response = await axios.post(`${BACKWEB}/register`,user,
+                {
+                    headers: {
+                    'Accept': 'application/json',
+                }
             });
-            if (response.status !==200){
-                throw new Error('Internal Server Error');
-            }
-            else{
-                setUserId(response.data._id);
-                
-            }
-        }
-        else if(varotp!=otp){
-            const response = await axios.post(`${BACKWEB}/getInfo`,{pan:pan},
-                {headers: {
-                'Accept': 'application/json',
-            }
-            });
-            if (response.status !==200){
-                throw new Error('Internal Server Error');
-            }
-            else{
-                setUserId(response.data._id);
-                
-            }
+        }catch(e){
+            console.log(e);
         }
         
     }
     return(
         
-    <div className="loginpage active-log">
+    <div className="loginpage ">
          <img className="login-image" src="https://img.freepik.com/free-photo/observation-urban-building-business-steel_1127-2397.jpg?w=1060&t=st=1720159831~exp=1720160431~hmac=79382a1c2c14b889a33d9dd9a94d3fc6aaf4a84884f40f76a1cd2b8ad61e775b" alt="Login" />
         <div className="Login-info">
             <div className="Login-email">
                 <div className = "Login-title">
                     <div className="log">
-                    Sign In
+                    {!otpMessage?"Sign In":"Log In"}
                     </div>
                     <div className="login-cross"><i className="	fa fa-close" style={{fontSize:42}}></i></div>
                 </div>
                 {otpMessage?<div className="Login-data">
-                    Enter your OTP.
+                    Enter your details to Login.
                 </div>:<div className="Login-data">
                     Enter your details to signin.
                 </div>}
                 {otpMessage?<div className="Login-content">
                 
-                <input className ="Login-email-input" onChange={handleOtp}placeholder="     Enter your OTP" value={varotp}></input>
+                <input className ="Login-email-input" onChange={handleUserVer} name="Username" placeholder="Enter your Username" value={userVer.Username}></input>
+                <input className ="Login-email-input" onChange={handleUserVer} name="password"placeholder="Enter your OTP" value={userVer.password}></input>
                 <div style={{display:"flex",flexDirection:"row"}}><button style={{marginTop:50 ,width:250}}className=" btn Login-email-buttton" onClick={()=>{login_Confirm()}}>Confirm</button><div className='btn Login-email-buttton' style={{marginTop:50 ,width:250}}>RESEND</div>
                 </div>
                 </div>:
                 <div className="Login-content">
-                    <input className ="Login-email-input" onChange={handleFullname}placeholder="     Enter your FullName" value={fullname}></input>
+                    <input className ="Login-email-input" onChange={handleUser}placeholder="Enter your FullName" name="fullName" value={user.fullName}></input>
                     <div style={{display:"flex",flexDirection:"row"}}>
-                        <input className ="Login-email-input" onChange={handlePan}placeholder="     Enter your PAN" value={pan}></input>
-                        <input className ="Login-email-input" onChange={handleDob} type="date" placeholder="     Enter your Date of Birth" value={dob}></input>
                     </div>
 
-                    <input className ="Login-email-input" onChange={handleMobile}placeholder="     Enter your Mobile Number" value={number}></input>
-                    <input className ="Login-email-input" onChange={handleEmail}placeholder="     Enter your  Email" value={email}></input>
+                    <input className ="Login-email-input" onChange={handleUser}placeholder="Enter your Password" name="password" value={user.password}></input>
+                    <input className ="Login-email-input" onChange={handleUser}placeholder="Enter your  Email" name="email" value={user.email}></input>
 
                     <button className=" btn Login-email-buttton" onClick={()=>{login_email()}}>Continue</button>
                 </div>}

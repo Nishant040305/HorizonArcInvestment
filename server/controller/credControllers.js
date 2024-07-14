@@ -6,7 +6,11 @@ const bcrypt  = require("bcryptjs");
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const jwtToken = require('jsonwebtoken');
+const Token = require('../models/token');
+const sendEmail = require('../utils/sendEmail');
+const Usergenerate = require('../utils/Username');
 let authToken = '';
+
 async function Authenticate(){
   await fetch("https://production.deepvue.tech/v1/authorize",{
     method:"GET",
@@ -28,87 +32,6 @@ function generateOtp() {
     // Generate a 6 digit random number
     let otp = crypto.randomInt(100000, 999999);
     return otp;
-}
-function panTestvar(panNumber){
-    if(panNumber=="ALRPS4679R"){
-        return {"status":200,"info":{
-          "code": 200,
-          "timestamp": 1718660140474,
-          "transaction_id": "3b2e9637ffc24d71b523540dea55d569",
-          "sub_code": "SUCCESS",
-          "message": "Pan Verified Successfully.",
-          "data": {
-            "pan_number": "ALRPS4679R",
-            "full_name": "BRIJ MOHAN SRIVASTAVA",
-            "full_name_split": [
-              "BRIJ",
-              "MOHAN",
-              "SRIVASTAVA"
-            ],
-            "masked_aadhaar": "XXXXXXXX2279",
-            "address": {
-              "line_1": "lehra gohri ",
-              "line_2": "",
-              "street_name": "Lehra",
-              "zip": "211013",
-              "city": "ALLAHABAD",
-              "state": "UTTAR PRADESH",
-              "country": "INDIA",
-              "full": "lehra gohri Lehra 211013 ALLAHABAD UTTAR PRADESH INDIA"
-            },
-            "email": "Brijmohan.srivastava@yahoo.com",
-            "phone_number": "9670106492",
-            "gender": "M",
-            "dob": "1966-02-05",
-            "aadhaar_linked": true,
-            "category": "person"
-          }
-        }}
-      }
-      else{
-        console.log("Wrong Pan")
-        return json({"status":404,"errorMessage":"wrong PanNumber"})
-        
-      }
-}
-async function sendEmail(userEmail, otp,username) {
-    // Create a transporter
-    let transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.email,
-            pass: process.env.pass
-        }
-    });
-    // Email options
-    let mailOptions = {
-        from: process.env.email,
-        to: userEmail,
-        subject: 'Password Change Request',
-        text: ` 
-        Dear ${userEmail},
-        
-        We received a request to reset the password for your account associated with this email address. If you made this request, this is your OTP.
-        
-        OTP to reset your password:
-        ${otp}
-        
-        If you didn't request a password reset, please ignore this email or contact support if you have any questions.
-        
-        Your security is important to us. We recommend that you never share your password with anyone.
-        
-        Thank you,
-        Shiksha
-        `
-    };
-    // Send email
-     transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log("failed"+otp)
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
 }
 
  //to pan verification 
@@ -263,10 +186,76 @@ const getInfo =async(req,res)=>{
   let user = await User.findOne({pan:req.body.pan});
   return res.status(200).json({"_id":user._id});
 }
+
+//User Authentication
 const createUser = async(req,res) =>{
-  const jwtoken = jwtToken.sign({ pan:'ALRPS4679R',email: 'nishant040305@gmail.com', Name: 'Nishant Mohan',image:"https://lh3.googleusercontent.com/a/ACg8ocLIiWPNraDN3nfZ7rpQjGFqdpcpwE9ugPxL5VmVupt9KL5Rgg5Y=s360-c-no",dob:'2005-03-04',mobile:"9651602279"}, process.env.jwt_secreat);
-  res.cookie('uid',jwtoken);
-  console.log(req.cookies.uid);
-  res.status(200).json({"jwtToke":req.cookies.uid});
+  let user = await User.findOne({email:req.body.email});
+  if(!user){
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+		const hashPassword = await bcrypt.hash(req.body.password, salt);
+
+		user = await new User({ ...req.body, password: hashPassword }).save();
+
+		const token = await new Token({
+			userId: user._id,
+			token: crypto.randomBytes(32).toString("hex"),
+      email:user.email
+		}).save();
+		const url = `${process.env.BACKWEB}/users/${user.id}/verify/${token.token}`;
+		await sendEmail(user.email, "Verify Email", url);
+
+		return res.status(201).josn({ message: "An Email sent to your account please verify" });
+  }
+  else if(!user.verify){
+    const token = await new Token({
+			userId: user._id,
+			token: crypto.randomBytes(32).toString("hex"),
+      email:user.email
+		}).save();
+		const url = `${process.env.BACKWEB}/users/${user.id}/verify/${token.token}`;
+		await sendEmail(user.email, "Verify Email", url);
+
+		return res.status(201).josn({ message: "An Email sent to your account please verify" });
+  }
+  return res.status(400).json({message:"User All ready Exist"})
+
 }
-module.exports = {Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser};
+const VerifyUser = async(req,res)=>{
+  try {
+		const user = await User.findOne({ _id: req.params.id });
+		if (!user) return res.status(400).send({ message: "Invalid link" });
+
+		const token = await Token.findOne({
+			userId: user._id,
+			token: req.params.token,
+		});
+		if (!token) return res.status(400).send({ message: "Invalid link" });
+    const userUpdate= await User.findOneAndUpdate({ _id: user._id},{ verify: true,Username:Usergenerate(token.email,user._id) },{new:true});
+		await Token.deleteOne({_id:token._id}) ;
+    const jwtData = jwtToken.sign({...userUpdate,password:"XXXXXX"},process.env.jwt_secreat)
+    res.cookie('uid',jwtData)
+		res.status(200).json({ message: "Email verified successfully" });
+	} catch (error) {
+    console.log(error)
+		res.status(500).json({ message: "Internal Server Error" });
+	}
+}
+const LogIn = async(req,res)=>{
+  try{
+    let user = await User.findOne({Username:req.body.Username});
+    if(!user){
+      return res.status(400).json({error:"please try to login with correct credentials"})
+    }
+    const passwordCompare = bcrypt.compare(req.body.password,user.password);
+    if(!passwordCompare||!user.verify){
+      return res.status(400).json({error:"please try to login with correct credentials"})
+    }
+    const jwtData = jwtToken.sign({...user,password:"XXXXXX"},process.env.jwt_secreat)
+    res.cookie('uid',jwtData)
+		res.status(200).json({ message: "Login successful" });
+  }catch(e){
+    res.status(500).json('Internal Server Error');
+  }
+}
+
+module.exports = {Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser,VerifyUser,LogIn};

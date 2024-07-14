@@ -6,26 +6,16 @@ const credController = require("../controller/credControllers");
 const credMiddleware = require('../middleware/credMiddleware');
 
 router.get('/',credMiddleware.UserVerifier,async(req,res)=>{
-  console.log("doesnt works");
-  res.status(200).json({"errorMessage":"testing"});
+  res.status(200).json({info:req.user})
 })
 
-//panVerification
-router.post('/panVerification',[
-  body('email').isEmail()
-],credController.PanVerification);
-
-//For saving the Data into Database
+router.post('/panVerification',[body('email').isEmail()],credController.PanVerification);
 router.post('/ConfirmDetail',[],credController.SaveData)
-
-//testing panapi
-router.post('/Pan',[
-  body('email').isEmail()
-],credController.PanTesting
-);
-
+router.post('/register',[body('email').isEmail()],credController.createUser)
+router.post('/Pan',[body('email').isEmail()],credController.PanTesting);
 router.get('/pantest',credController.Panexample);
-
 router.post("/getInfo",[],credController.getInfo);
-router.get('/jsonwebtoken',credController.createUser);
+router.post('/register',[body('email').isEmail(),body('password').isLength(6),body('fullName').isLength(3)],credController.createUser);
+router.post('/login',[body('password').isLength(6)],credController.LogIn)
+router.get('/users/:id/verify/:token/',credController.VerifyUser);
 module.exports = router;
