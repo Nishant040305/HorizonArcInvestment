@@ -33,6 +33,20 @@ const userSchema = new Schema(
         },
         image:{
             type:String
+        },
+        StocksHold:{
+            type: [
+                {
+                    _id: {
+                        type: Schema.Types.ObjectId,
+                        ref: "stock",
+                    },
+                    Stocks: {
+                        type: Number,
+                        default: 0, 
+                    },
+                },
+            ],
         }
     }
 )

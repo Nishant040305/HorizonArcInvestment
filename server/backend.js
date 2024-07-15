@@ -21,7 +21,8 @@ app.use(cookieParser());
 //Available Routes
 
 app.use('/',require('./routes/credential'));
-app.use('/buyLand',require('./routes/LandForSale'));
+app.use('/buyTab',require('./routes/LandForSale'));
+app.use('/stockTab',require('./routes/StocksTab'));
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

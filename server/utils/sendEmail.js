@@ -21,7 +21,7 @@ async function sendEmail(userEmail,subject,text) {
     // Send email
      transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-            console.log("failed"+otp)
+            console.log("failed",error)
         } else {
             console.log('Email sent: ' + info.response);
         }

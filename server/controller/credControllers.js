@@ -204,7 +204,7 @@ const createUser = async(req,res) =>{
 		const url = `${process.env.BACKWEB}/users/${user.id}/verify/${token.token}`;
 		await sendEmail(user.email, "Verify Email", url);
 
-		return res.status(201).josn({ message: "An Email sent to your account please verify" });
+		return res.status(201).json({ message: "An Email sent to your account please verify" });
   }
   else if(!user.verify){
     const token = await new Token({
@@ -215,7 +215,7 @@ const createUser = async(req,res) =>{
 		const url = `${process.env.BACKWEB}/users/${user.id}/verify/${token.token}`;
 		await sendEmail(user.email, "Verify Email", url);
 
-		return res.status(201).josn({ message: "An Email sent to your account please verify" });
+		return res.status(201).json({ message: "An Email sent to your account please verify" });
   }
   return res.status(400).json({message:"User All ready Exist"})
 
