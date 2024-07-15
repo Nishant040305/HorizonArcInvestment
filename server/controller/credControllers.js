@@ -28,11 +28,7 @@ async function Authenticate(){
     }
   })
 }
-function generateOtp() {
-    // Generate a 6 digit random number
-    let otp = crypto.randomInt(100000, 999999);
-    return otp;
-}
+
 
  //to pan verification 
 const  PanVerification = async(req,res)=>{
@@ -201,7 +197,7 @@ const createUser = async(req,res) =>{
 			token: crypto.randomBytes(32).toString("hex"),
       email:user.email
 		}).save();
-		const url = `${process.env.BACKWEB}/users/${user.id}/verify/${token.token}`;
+		const url = `${process.env.FRONTWEB}/users/${user.id}/verify/${token.token}`;
 		await sendEmail(user.email, "Verify Email", url);
 
 		return res.status(201).json({ message: "An Email sent to your account please verify" });
@@ -212,7 +208,7 @@ const createUser = async(req,res) =>{
 			token: crypto.randomBytes(32).toString("hex"),
       email:user.email
 		}).save();
-		const url = `${process.env.BACKWEB}/users/${user.id}/verify/${token.token}`;
+		const url = `${process.env.FRONTWEB}/users/${user.id}/verify/${token.token}`;
 		await sendEmail(user.email, "Verify Email", url);
 
 		return res.status(201).json({ message: "An Email sent to your account please verify" });
@@ -221,20 +217,22 @@ const createUser = async(req,res) =>{
 
 }
 const VerifyUser = async(req,res)=>{
+
+
+  console.log("yes");
   try {
 		const user = await User.findOne({ _id: req.params.id });
-		if (!user) return res.status(400).send({ message: "Invalid link" });
-
+		if (!user) return res.status(400).json({ message: "Invalid link" });
+    
 		const token = await Token.findOne({
 			userId: user._id,
 			token: req.params.token,
 		});
-		if (!token) return res.status(400).send({ message: "Invalid link" });
+		if (!token) return res.status(400).json({ message: "Invalid link" });
     const userUpdate= await User.findOneAndUpdate({ _id: user._id},{ verify: true,Username:Usergenerate(token.email,user._id) },{new:true});
-		await Token.deleteOne({_id:token._id}) ;
     const jwtData = jwtToken.sign({...userUpdate,password:"XXXXXX"},process.env.jwt_secreat)
     res.cookie('uid',jwtData)
-		res.status(200).json({ message: "Email verified successfully" });
+		res.status(200).json({info:userUpdate.Username, message: "Email verified successfully" });
 	} catch (error) {
     console.log(error)
 		res.status(500).json({ message: "Internal Server Error" });

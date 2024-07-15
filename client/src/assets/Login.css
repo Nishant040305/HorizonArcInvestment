@@ -144,3 +144,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .active-log{
     display:none;
 }
+.Verify{
+    background-color: white;
+    width:100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.verify-img{
+    width:50%;
+    height:50%;
+}

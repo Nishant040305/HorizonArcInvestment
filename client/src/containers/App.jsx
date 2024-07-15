@@ -21,6 +21,7 @@ import PlaceNearby from '../components/buyPageComponent/placeInfo';
 import Index from './buyStockPage';
 import ProfileBar from '../components/DashboardComponent/DashNavSide/profile-bar';
 import Dashboard from './Dashboard';
+import VerifyComponent from '../components/VerifyComponent';
 function App() {
   const url = useSelector(state=>state.url);
   // console.log(url)
@@ -38,6 +39,7 @@ function App() {
       <Route path={url.page} element ={<Index></Index>}></Route>
       <Route path={url.dashboard} element={<Dashboard></Dashboard>}></Route>
       <Route path={url.login} element={<Login></Login>}></Route>
+      <Route path='/users/:id/verify/:token' element ={<VerifyComponent></VerifyComponent>}></Route>
     </Routes>
     
   );
