@@ -6,6 +6,7 @@
     /* z-index: 10; */
     background-color: white;
     flex-wrap: wrap;
+    justify-content: center;
     align-content: center;
     padding-right:20px;
    
@@ -155,7 +156,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-image:url('https://img.freepik.com/free-photo/new-york-city_649448-1679.jpg?w=1060&t=st=1720156110~exp=1720156710~hmac=c46483544b41bc6e96744143e733972873d89be9007c70c9dd225b2360299cc1');
     background-size:cover;
 }
-@media screen and (max-width:1675px){
+@media screen and (max-width:1400px){
     .selling-img{
         display:none;
     }

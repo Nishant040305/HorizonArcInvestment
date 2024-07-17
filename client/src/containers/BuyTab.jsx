@@ -17,12 +17,15 @@ const Filter =()=>{
     )
 }
 export default function BuyTab() {
+  const user = useSelector(state=>state.user);
+  const seen = useSelector(state=>state.loginSeen);
   return (
-    <div className="BuyTab">
-      <Login></Login>
+    <div className={`BuyTab `}>
+
+      {!(seen.seen||seen.seenlog)&&<Login></Login>}
       <Navbar></Navbar>
-      <SideBar></SideBar>
-      <div className='BuyTab-block'>
+      {(seen.seen)?<SideBar></SideBar>:<></>}
+      <div className={`BuyTab-block ${!(seen.seen||seen.seenlog)?"backdrop-background-blur":""}`}>
       <div className='stock-filter'>
         <StockFilter></StockFilter>
       </div>

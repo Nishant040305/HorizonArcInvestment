@@ -12,10 +12,10 @@ import Articles from "../components/buyPageComponent/Articles";
 import { useSelector } from "react-redux";
 import "../components/buyPageComponent/BNavbar.css";
 import { numTowords, numFormat } from "../Lib/ImportantFunc";
-
+import Login from "../components/Login";
 const Index =()=>{
     const land = useSelector((state) => state.land);
-
+    const seen = useSelector(state=>state.loginSeen);
     const handleScroll = (e)=>{
         const over = document.getElementById("over");
         const rec = document.getElementById("rec");
@@ -33,10 +33,13 @@ const Index =()=>{
     }
     return(
 
-        <div className="index" >
+        <div className={`index`} >
+            {!(seen.seen||seen.seenlog)&&<Login></Login>}
             <Navbar></Navbar>
-            <SideBar></SideBar>
-            <div className="BNavbar">
+
+            {(seen.seen)?<SideBar></SideBar>:<></>}
+
+            <div className={`BNavbar ${!(seen.seen||seen.seenlog)?"backdrop-background-blur":""}`}>
       <div className="BNavbar-info">
         <div className="BNavbar-info-data-block">
           <div
@@ -77,7 +80,7 @@ const Index =()=>{
         <div className="Bbar-head" onClick={()=>{handleScroll("article")}}>Articles</div>
       </div>
     </div>
-            <div className="buy-index">
+            <div className={`buy-index ${!(seen.seen||seen.seenlog)?"backdrop-background-blur":""}`}>
                 <div id="over">
                 <Overview ></Overview>
                 </div>

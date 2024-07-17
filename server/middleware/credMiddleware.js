@@ -3,7 +3,6 @@ const path  = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const jwt = "NaJidhiusSOuvikBihsNishant";
 const UserVerifier =async(req,res,next)=>{
-   
     try{
         const data = req.cookies?.uid;
         if(!data) return res.status(404).json({"errorMessage":"user not verified"});
@@ -11,11 +10,13 @@ const UserVerifier =async(req,res,next)=>{
 
         try{
             const decode = jwtToken.verify(data,process.env.jwt_secreat);
-            req.user = decode;
+            req.user = {...decode,
+                password:"XXXXXX"
+            };
+            
             next();
 
         }catch(err){
-            console.log(data);
             res.status(400).json({
                 "errorMessage":"Invalid user"
             })

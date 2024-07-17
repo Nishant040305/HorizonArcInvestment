@@ -6,7 +6,7 @@ const Profile=()=> {
   return (
     <div className='profile-page p-10'>
       <div className='profile-page-content'>
-      <img className='rounded-circle w-48 h-48 mb-9 ml-20' src="https://lh3.googleusercontent.com/a/ACg8ocLIiWPNraDN3nfZ7rpQjGFqdpcpwE9ugPxL5VmVupt9KL5Rgg5Y=s360-c-no"></img>
+      <img className='rounded-circle w-48 h-48 mb-9 ml-20' src={user.image}></img>
       <div className='profile-page-data'>
         <div className='profile-page-head'>Name:</div><div className='profile-page-info'>{user.fullName}</div>
       </div>

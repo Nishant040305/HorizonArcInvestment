@@ -99,7 +99,6 @@ const  PanVerification = async(req,res)=>{
 
 
 const SaveData =async (req,res)=>{
-  console.log(req.body);
   let user = new User(req.body)
   await user.save();
   let _id = await User.findOne({pan:req.body.pan});
@@ -178,7 +177,6 @@ const Panexample =async (req,res)=>{
 }
 
 const getInfo =async(req,res)=>{
-  console.log(req.body.pan)
   let user = await User.findOne({pan:req.body.pan});
   return res.status(200).json({"_id":user._id});
 }
@@ -190,7 +188,7 @@ const createUser = async(req,res) =>{
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
 		const hashPassword = await bcrypt.hash(req.body.password, salt);
 
-		user = await new User({ ...req.body, password: hashPassword }).save();
+		user = await new User({ ...req.body,password: hashPassword }).save();
 
 		const token = await new Token({
 			userId: user._id,
@@ -200,18 +198,25 @@ const createUser = async(req,res) =>{
 		const url = `${process.env.FRONTWEB}/users/${user.id}/verify/${token.token}`;
 		await sendEmail(user.email, "Verify Email", url);
 
-		return res.status(201).json({ message: "An Email sent to your account please verify" });
+		return res.status(200).json({ message: "An Email sent to your account please verify" });
   }
   else if(!user.verify){
+    const tok = await Token.findOne({userId:user._id});
+    if(tok){
+      const url = `${process.env.FRONTWEB}/users/${user._id}/verify/${tok.token}`;
+		  await sendEmail(user.email, "Verify Email", url);
+      return res.status(200).json({ message: "An Email sent to your account please verify" });
+
+    }
     const token = await new Token({
 			userId: user._id,
 			token: crypto.randomBytes(32).toString("hex"),
       email:user.email
 		}).save();
-		const url = `${process.env.FRONTWEB}/users/${user.id}/verify/${token.token}`;
+		const url = `${process.env.FRONTWEB}/users/${user._id}/verify/${token.token}`;
 		await sendEmail(user.email, "Verify Email", url);
 
-		return res.status(201).json({ message: "An Email sent to your account please verify" });
+		return res.status(200).json({ message: "An Email sent to your account please verify" });
   }
   return res.status(400).json({message:"User All ready Exist"})
 
@@ -219,7 +224,6 @@ const createUser = async(req,res) =>{
 const VerifyUser = async(req,res)=>{
 
 
-  console.log("yes");
   try {
 		const user = await User.findOne({ _id: req.params.id });
 		if (!user) return res.status(400).json({ message: "Invalid link" });
@@ -248,9 +252,9 @@ const LogIn = async(req,res)=>{
     if(!passwordCompare||!user.verify){
       return res.status(400).json({error:"please try to login with correct credentials"})
     }
-    const jwtData = jwtToken.sign({...user,password:"XXXXXX"},process.env.jwt_secreat)
+    const jwtData = jwtToken.sign({...user._doc,password:"XXXXXX"},process.env.jwt_secreat)
     res.cookie('uid',jwtData)
-		res.status(200).json({ message: "Login successful" });
+		res.status(200).json({info:{...user._doc,password:"XXXXXX"}, message: "Login successful" });
   }catch(e){
     res.status(500).json('Internal Server Error');
   }

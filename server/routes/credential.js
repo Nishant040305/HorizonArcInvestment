@@ -6,7 +6,7 @@ const credController = require("../controller/credControllers");
 const credMiddleware = require('../middleware/credMiddleware');
 
 router.get('/',credMiddleware.UserVerifier,async(req,res)=>{
-  res.status(200).json({info:req.user})
+  return res.status(200).json({info:req.user})
 })
 
 router.post('/panVerification',[body('email').isEmail()],credController.PanVerification);

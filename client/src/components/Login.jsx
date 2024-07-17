@@ -2,15 +2,19 @@ import React,{useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import ".././assets/Login.css";
 // import "dotenv";
+import { useSelector,useDispatch} from 'react-redux';
+import { register } from '../Store/UserAuthSlice';
+import { setSeen, setSeenlog } from '../Store/LoginSeenSlice';
 import axios from "axios";
 const loginwithgoogle =()=>{
     window.open(`http://localhost:5000/auth/google/callback`,"_self")
 }
 const Login =()=>{
     let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
-
-    const [otpMessage,setOtpMessage] = useState(false);
-    const [seen,setSeen] = useState(false);
+    axios.defaults.withCredentials = true;
+    const dispatch = useDispatch();
+    const [form,setForm] = useState(false);
+    const [seen,setSen] = useState(false);
     const navigate = useNavigate();
     const [userVer,setUserver] = useState({
         Username:"",
@@ -21,6 +25,7 @@ const Login =()=>{
         email:"",
         password:"",
     })
+    const [mssg,setMssg] = useState(null);
     const handleUser=(e)=>{
         setUser(
             {
@@ -49,20 +54,32 @@ const Login =()=>{
                 
             }
             else{
-                setOtpMessage(1);
+                setMssg(response.data.message)
+                setForm(1);
             }
         } catch (e) { console.error(e) }
     }
     const login_Confirm = async()=>{
         try{
-            const response = await axios.post(`${BACKWEB}/register`,user,
+            const response = await axios.post(`${BACKWEB}/login`,userVer,
                 {
                     headers: {
                     'Accept': 'application/json',
+                    
+                },
+                mode:"cors",
+                withCredentials:true
+
+            }).then(response=>{
+                if(response.status ==200){
+                    dispatch(register(response.data.info));
+                    dispatch(setSeen(1));
                 }
-            });
+            }).catch(e=>{
+                setMssg(e.response.data.error)
+            })
         }catch(e){
-            console.log(e);
+            
         }
         
     }
@@ -74,20 +91,20 @@ const Login =()=>{
             <div className="Login-email">
                 <div className = "Login-title">
                     <div className="log">
-                    {!otpMessage?"Sign In":"Log In"}
+                    {!form?"Sign In":"Log In"}
                     </div>
-                    <div className="login-cross"><i className="	fa fa-close" style={{fontSize:42}}></i></div>
+                    <div className="login-cross" onClick={()=>dispatch(setSeenlog(1))}><i className="	fa fa-close" style={{fontSize:35}}></i></div>
                 </div>
-                {otpMessage?<div className="Login-data">
+                {form?<div className="Login-data">
                     Enter your details to Login.
                 </div>:<div className="Login-data">
                     Enter your details to signin.
                 </div>}
-                {otpMessage?<div className="Login-content">
-                
+                {form?<div className="Login-content">
+                <div className='text-red-500'>{mssg}</div>
                 <input className ="Login-email-input" onChange={handleUserVer} name="Username" placeholder="Enter your Username" value={userVer.Username}></input>
                 <input className ="Login-email-input" onChange={handleUserVer} name="password"placeholder="Enter your OTP" value={userVer.password}></input>
-                <div style={{display:"flex",flexDirection:"row"}}><button style={{marginTop:50 ,width:250}}className=" btn Login-email-buttton" onClick={()=>{login_Confirm()}}>Confirm</button><div className='btn Login-email-buttton' style={{marginTop:50 ,width:250}}>RESEND</div>
+                <div style={{display:"flex",flexDirection:"row" , justifyContent:"center"}}><button style={{marginTop:50 ,width:250}}className=" btn Login-email-buttton" onClick={()=>{login_Confirm()}}>Confirm</button><button className='btn Login-email-buttton' style={{marginTop:50 ,width:250}} onClick={()=>login_email()}>RESEND</button>
                 </div>
                 </div>:
                 <div className="Login-content">
@@ -98,9 +115,11 @@ const Login =()=>{
                     <input className ="Login-email-input" onChange={handleUser}placeholder="Enter your Password" name="password" value={user.password}></input>
                     <input className ="Login-email-input" onChange={handleUser}placeholder="Enter your  Email" name="email" value={user.email}></input>
 
-                    <button className=" btn Login-email-buttton" onClick={()=>{login_email()}}>Continue</button>
+                    <button className=" btn Login-email-buttton" onClick={(e)=>{login_email()}}>Continue</button>
                 </div>}
-
+                <div className='mt-10'>
+                    {!form?<div className='text-blue-500' onClick={()=>setForm(1-form)}>click here to Login</div>:<div className='text-blue-500' onClick={()=>setForm(1-form)}>Click here to register</div>}
+                        </div>
             </div>
             <div className="line" style={{display:"flex"}}>
                 <hr></hr> OR <hr></hr>
@@ -109,9 +128,11 @@ const Login =()=>{
                 <div className="Login-term">
                     <div className="term">
                     By continuing, you agree to the updated <strong>Terms of Sale</strong>,<strong>Terms of Service</strong> and <strong>Privacy Policy.</strong>
+                   
 
                     </div>
-                   
+                   <div>
+                   </div>
                 </div>
             </div>
         </div>

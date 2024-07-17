@@ -69,7 +69,6 @@ const Sell =()=>{
     
     const login_email = async()=>{
         try {
-            console.log(`${BACKWEB}/Pan`)
             const response = await axios.post(`${BACKWEB}/jsonwebtoken`,{pan:pan,mobile:number,dob:dob,Name:fullname,email:email},
                 {
                     headers: {
@@ -80,17 +79,14 @@ const Sell =()=>{
                 throw new Error('Failed to Send Email');
             }
             else{
-                console.log("yes");
                 
                 // setOtp(1);
-                // console.log(response.data.otp);
                 // setOtpMessage(1)
             }
         } catch (e) { console.error(e) }
     }
     const login_Confirm = async()=>{
         if(varotp==otp){
-            console.log("here we go");
             const response = await axios.post(`${BACKWEB}/ConfirmDetail`,{pan:pan,mobile:number,dob:dob,Name:fullname,email:email},
                 {headers: {
                 'Accept': 'application/json',

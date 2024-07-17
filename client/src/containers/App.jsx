@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import viteLogo from '/vite.svg'
 import '.././assets/App.css'
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Login from '../components/Login';
 import SideBar from '../components/sideBar';
 import Navbar from '../components/Navbar';
@@ -22,23 +22,47 @@ import Index from './buyStockPage';
 import ProfileBar from '../components/DashboardComponent/DashNavSide/profile-bar';
 import Dashboard from './Dashboard';
 import VerifyComponent from '../components/VerifyComponent';
-function App() {
+import axios from "axios";
+import { useDispatch } from 'react-redux';
+import { register } from '../Store/UserAuthSlice';
+import { setSeen } from '../Store/LoginSeenSlice';
+const App=() =>{
+  let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
-  // console.log(url)
+  const seen = useSelector(state=>state.loginSeen);
+  const dispatch = useDispatch();
+  axios.defaults.withCredentials = true;
+  const User= async()=>{
+    try{
+        const response = await axios.get(`${BACKWEB}/`,
+            {
+                headers: {
+                'Accept': 'application/json',
+                
+            },
+            mode:"cors",
+            withCredentials:true
+
+        }).then(response=>{
+            if(response.status ==200){
+                dispatch(register(response.data.info));
+                dispatch(setSeen(1));
+            }
+        })
+    }catch(e){
+    }
+    
+}
+useEffect(()=>{
+  User()
+},[]);
   return (
     <Routes>
-      <Route path={url.login} element={<Login></Login>}></Route>
-      <Route path={url.sideBar} element = {<SideBar></SideBar>}></Route>
-      <Route path={url.nav} element = {<Navbar></Navbar>}></Route>
-      <Route path={url.buyComp} element ={<BuyOption></BuyOption>}></Route>
-      <Route path={url.recomd} element ={<Recomendation></Recomendation>}></Route>
       <Route path={url.buy} element={<BuyTab></BuyTab>}></Route>
       <Route path={url.stock} element={<StockTab></StockTab>}></Route>
-      <Route path={url.filter} element={<StockFilter></StockFilter>}></Route>
       <Route path={url.sell} element={<Sellpage></Sellpage>}></Route>
       <Route path={url.page} element ={<Index></Index>}></Route>
-      <Route path={url.dashboard} element={<Dashboard></Dashboard>}></Route>
-      <Route path={url.login} element={<Login></Login>}></Route>
+      <Route path={url.dashboard} element={!seen.seen? <Navigate replace to={url.stock} />:<Dashboard></Dashboard>}></Route>
       <Route path='/users/:id/verify/:token' element ={<VerifyComponent></VerifyComponent>}></Route>
     </Routes>
     

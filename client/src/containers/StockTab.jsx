@@ -6,6 +6,10 @@ import '../assets/StockTab.css';
 import Footer from '../components/Footer';
 import StockFilter from '../components/StockFilter';
 import SideBar from '../components/sideBar';
+import { useSelector } from 'react-redux';
+import Login from '../components/Login';
+
+
 const Filter =()=>{
     return(
         <div className="StockTabfilter" style={{display:"flex",flexDirection:"row"}}>
@@ -16,12 +20,16 @@ const Filter =()=>{
 }
 
 export default function StockTab() {
+  const user = useSelector(state=>state.user);
+  const seen = useSelector(state=>state.loginSeen);
+  
   return (
-    <div className="StockTab">
+    <div className={`StockTab `}>
+      {!(seen.seen||seen.seenlog)&&<Login></Login>}
 
       <Navbar></Navbar>
-      <SideBar></SideBar>
-      <div className='StockTab-block'>
+      {(seen.seen)?<SideBar></SideBar>:<></>}
+      <div className={`StockTab-block ${!(seen.seen||seen.seenlog)?"backdrop-background-blur":""}`}>
         <div>
           <Filter></Filter>
         <div className="Stockoption-block">

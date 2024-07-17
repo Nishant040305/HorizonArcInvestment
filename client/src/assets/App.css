@@ -42,3 +42,9 @@
 .read-the-docs {
   color: #888;
 }
+.backdrop-background-blur{
+  filter: blur(8px);
+  pointer-events: none;
+  max-height: 100vh;
+  overflow-y: scroll;
+}

@@ -17,7 +17,6 @@ const VerifyComponent = () => {
           mode:"cors",
           withCredentials: true 
         }).then(response=>{
-          console.log(response)
           setUsername(response.data.info);
 
         }).catch(e=>{

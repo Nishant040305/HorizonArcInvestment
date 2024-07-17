@@ -1,7 +1,9 @@
 import React,{useState} from "react";
 import '.././assets/Navbar.css';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSeen, setSeenlog } from "../Store/LoginSeenSlice";
+import { register } from "../Store/UserAuthSlice";
 const Navbar =(props)=>{
     const navigate = useNavigate();
     const searchByLocation =()=>{
@@ -10,10 +12,26 @@ const Navbar =(props)=>{
     const handlelocation=(e)=>{
         setLocation(e.target.value);
     }
-
+    
     const [location,setLocation] = useState('');
     const user = useSelector(state=>state.user);
     const url  = useSelector(state=>state.url);
+    const seen = useSelector(state=>state.loginSeen);
+    const dispatch = useDispatch();
+    const Sellpg=()=>{
+        if(!seen.seen) dispatch(setSeenlog(0))
+        else{
+            navigate(url.sell)
+    }
+  
+    }
+    function deleteCookie(name) {
+        document.cookie = `cookie_name=${name}; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+        dispatch(register({}));
+        dispatch(setSeen(0));
+        dispatch(setSeenlog(1));
+      }
+      
      return(
         <div className="Navbar left-0   text-black">
             <div className="Navbar-head " >
@@ -28,22 +46,21 @@ const Navbar =(props)=>{
                     <img className="w-8 h-8 m-1"src="buy.png" ></img>
                     <div className="spam">Buy</div>
                 </div>
-                <div className="nav-options" onClick={()=>{navigate(url.sell)}}>
+                <div className="nav-options" onClick={()=>Sellpg()}>
                     <img className="w-8 h-8 m-1"src="hand.png"></img>
                     <div className="spam">Sell</div>
                 </div>
 
                 </div>
-            
-            <div className="" style={{display:"flex", marginRight:100}}>
+            <>
+            {seen.seen?<div className="" style={{display:"flex", marginRight:100}}>
                 <hr className="vertical-line"></hr>
                 <div className="personal-data">
                 <img className="w-12 h-12 rounded-full" src={user.image}></img>
                 <div className="text-name"style={{marginLeft:10,textWrap:"nowrap"}}>{user.fullName}</div>
-                <button className="btn bg-black text-white logout-button ">Logout</button>
-            </div>
+                <button className="btn bg-black text-white logout-button  " onClick={()=>deleteCookie('uid')}>Logout</button>
                 </div>
-            
+            </div>:<button className="btn bg-white text-black border-slate-700 logout-button "style={{marginRight:100,fontWeight:500}} onClick={()=>dispatch(setSeenlog(0))}>Login</button>}</>
             </div>
         
             
