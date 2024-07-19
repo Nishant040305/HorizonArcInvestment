@@ -18,28 +18,18 @@ const FindPeopleBlock =(props)=>{
 
 const FindPeople = () => {
     const user = useSelector(state=>state.user)
+    const globalUser = useSelector(state=>state.globalUsers);
+    console.log(globalUser)
   return (
     <div className='Findpeople'>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock><FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
-      <FindPeopleBlock name={user.fullName} image={user.image}></FindPeopleBlock>
+      {globalUser.map((info, index) => (
+              
+              <FindPeopleBlock 
+                  key={info._id || index} 
+                  image={info.image}
+                  name={info.Username}
+              />
+              ))}
 
     </div>
   )

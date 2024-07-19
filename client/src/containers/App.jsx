@@ -28,12 +28,32 @@ import { register } from '../Store/UserAuthSlice';
 import { setSeen } from '../Store/LoginSeenSlice';
 import {  setStock } from '../Store/BuyStockSlice';
 import { setBuyData } from '../Store/BuyDataSlice';
+import { setglobalUser } from '../Store/globalUser';
 const App=() =>{
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
   const seen = useSelector(state=>state.loginSeen);
   const dispatch = useDispatch();
   axios.defaults.withCredentials = true;
+  const globalUser =async()=>{
+    try{
+        const response = await axios.get(`${BACKWEB}/User/getAllUser`,
+            {
+                headers: {
+                'Accept': 'application/json',
+                
+            },
+            mode:"cors",
+            withCredentials:true
+
+        }).then(response=>{
+            if(response.status ==200){
+                dispatch(setglobalUser(response.data.info));
+            }
+        })
+    }catch(e){
+    }
+  }
   const User= async()=>{
     try{
         const response = await axios.get(`${BACKWEB}/`,
@@ -49,6 +69,7 @@ const App=() =>{
             if(response.status ==200){
                 dispatch(register(response.data.info));
                 dispatch(setSeen(1));
+                globalUser();
             }
         })
     }catch(e){

@@ -6,17 +6,19 @@ import BuyDataSlice from './Store/BuyDataSlice';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'
 import { persistStore } from 'redux-persist';
+
 import DashBoardOptionsSlice from './Store/DashBoardOptionsSlice';
 
 import loginSeenSlice from './Store/LoginSeenSlice';
-
+import globalUserSlice from './Store/globalUser';
 const rootReducer = combineReducers({
   user:userSlice,
   url:urlSlice,
   stock:BuyStockSlice,
   buyData:BuyDataSlice,
   dashboard:DashBoardOptionsSlice,
-  loginSeen:loginSeenSlice
+  loginSeen:loginSeenSlice,
+  globalUsers:globalUserSlice
 });
 export const store = configureStore({
   reducer:{
@@ -26,6 +28,7 @@ export const store = configureStore({
   buyData:BuyDataSlice,
   dashboard:DashBoardOptionsSlice,
   loginSeen:loginSeenSlice,
+  globalUsers:globalUserSlice
   }
 })
 
