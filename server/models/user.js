@@ -17,6 +17,22 @@ const userSchema = new Schema(
         IFSC:{
             type:String
         },
+        friends:{
+            type:[
+                    {
+                        _id:{
+                            type:Schema.Types.ObjectId,
+                            ref:'user',
+                        },
+                        Username:{
+                            type:String,
+                        },
+                        image:{
+                            type:String,
+                        }
+                    }],
+            default:[]
+        },
         email:{
             type:String,
             require:true

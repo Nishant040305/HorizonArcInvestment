@@ -23,6 +23,7 @@ app.use(cookieParser());
 app.use('/',require('./routes/credential'));
 app.use('/buyTab',require('./routes/LandForSale'));
 app.use('/stockTab',require('./routes/StocksTab'));
+app.use('/User',require('./routes/DashFriend'));
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
