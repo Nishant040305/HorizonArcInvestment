@@ -1,4 +1,4 @@
-import React,{useRef} from "react";
+import React,{useRef, useState,useEffect} from "react";
 import PlaceNearby from "../components/buyPageComponent/placeInfo";
 import Overview from "../components/buyPageComponent/Info";
 import SideBar from "../components/sideBar";
@@ -13,8 +13,17 @@ import { useSelector } from "react-redux";
 import "../components/buyPageComponent/BNavbar.css";
 import { numTowords, numFormat } from "../Lib/ImportantFunc";
 import Login from "../components/Login";
+import { useNavigate, useParams } from "react-router-dom";
+
 const Index =()=>{
-    const land = useSelector((state) => state.land);
+    const {id,tab} = useParams();
+    const navigate = useNavigate();
+    const BuyLandData = useSelector(state=>state.buyData);
+    const StockLandData = useSelector(state=>state.stock);
+    const url = useSelector(state=>state.url);
+    const [land,setLand] = useState(null);
+ 
+ 
     const seen = useSelector(state=>state.loginSeen);
     const handleScroll = (e)=>{
         const over = document.getElementById("over");
@@ -31,6 +40,14 @@ const Index =()=>{
 
         }
     }
+    useEffect(()=>{
+      if(tab=="buy"){
+        setLand(BuyLandData[BuyLandData.findIndex(x=>x._id===id)])
+      }
+       else if(tab=="stock"){
+        setLand(StockLandData[StockLandData.findIndex(x=>x._id===id)])
+       }
+    },[tab,id,StockLandData,BuyLandData])
     return(
 
         <div className={`index`} >
@@ -51,21 +68,23 @@ const Index =()=>{
           >
             <strong>
               <i className="fa fa-inr" style={{ fontSize: 25 }}></i>
-              {numTowords(land.Price)}
+              {numTowords(land?.Price[land?.Price.length-1])}
             </strong>
-            <small>{` @ ${numFormat(land.Price / land.Area.amount)} per ${
-              land.Area.unit
+            <small>{` @ ${numFormat(land?.Price[land?.Price.length-1]/ land?.Area?.amount)} per ${
+              land?.Area?.unit
             }`}</small>
           </div>
           <div className="BNavbar-info-data flex-col text-left">
-            <div className="block">{land.Category}</div>
-            <div>{land.Location}</div>
+            <div className="block">{`${land?.Category}`}</div>
+            <div>{`${land?.Village}, ${land?.District} near ${land?.Highlights}`}</div>
           </div>
         </div>
         <div className="BNavbar-info-data-block flex-col">
-          <button className="bg-blue-400 text-white BNav-contact">
+          {tab=="buy"?<button className="bg-blue-400 text-white BNav-contact">
           &nbsp;&nbsp;&nbsp;&nbsp;  Contact&nbsp;&nbsp;&nbsp;&nbsp;
-          </button>
+          </button>:<button className="bg-green-400 pl-7 pr-6 text-white BNav-contact">
+          Buy Shares
+          </button>}
           <button className="bg-slate-200 text-blue-300 BNav-contact mt-2">
             <i className="fa-regular fa-heart"></i>&nbsp;&nbsp;&nbsp;ShortList
           </button>
@@ -82,12 +101,12 @@ const Index =()=>{
     </div>
             <div className={`buy-index ${!(seen.seen||seen.seenlog)?"backdrop-background-blur":""}`}>
                 <div id="over">
-                <Overview ></Overview>
+                <Overview props={land}></Overview>
                 </div>
 
-            <PlaceNearby></PlaceNearby>
+            <PlaceNearby ></PlaceNearby>
             <Traninfo></Traninfo>
-            <AboutProp></AboutProp>
+            <AboutProp props={land?.Description}></AboutProp>
             <div id="rec">
             <Recomd ></Recomd>
             </div>

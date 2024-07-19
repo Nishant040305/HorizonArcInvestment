@@ -1,6 +1,6 @@
-export const setBuyData=(state,action)=>{
+export const setBuyDataLand=(state,action)=>{
     switch(action.type){
-        case "buyStockPage/setAllBuyData":
+        case "buyData/setBuyData":
             return action.payload;
 
         case "buyStockPage/setOneBuyData":

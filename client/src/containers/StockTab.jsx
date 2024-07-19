@@ -22,7 +22,8 @@ const Filter =()=>{
 export default function StockTab() {
   const user = useSelector(state=>state.user);
   const seen = useSelector(state=>state.loginSeen);
-  
+  const StockLandData = useSelector(state=>state.stock)
+  console.log(StockLandData);
   return (
     <div className={`StockTab `}>
       {!(seen.seen||seen.seenlog)&&<Login></Login>}
@@ -33,36 +34,28 @@ export default function StockTab() {
         <div>
           <Filter></Filter>
         <div className="Stockoption-block">
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
-            <StockOption></StockOption>
+        {StockLandData.map((info, index) => (
+              
+              <StockOption 
+                  key={info._id || index} 
+                  Images={info.Images[0]} 
+                  Price={info.Price[info.Price.length-1]} 
+  
+                  amount={info.Area.amount}
+                  gataNumber={info.gataNumber}
+                  unit = {info.Area.unit}
+                  State={info.State}
+                  District={info.District} 
+                  Village = {info.Village}
+                  Description={info.Description} 
+                  Highlights={info.Highlights}
+                  Category={info.Category}
+                  Property={info.Property}
+                  id={info._id}
+                  tab ="stock"
+              />
+              ))}
+        
 
             
         </div>

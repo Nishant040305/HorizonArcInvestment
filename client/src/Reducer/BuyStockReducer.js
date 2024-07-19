@@ -1,6 +1,6 @@
 export const setLandReducer=(state,action)=>{
     switch (action.type) {
-        case 'land/setLand':
+        case 'stock/setStock':
             return action.payload;
             break;
     

@@ -19,6 +19,8 @@ const Filter =()=>{
 export default function BuyTab() {
   const user = useSelector(state=>state.user);
   const seen = useSelector(state=>state.loginSeen);
+  const BuyLandData = useSelector(state=>state.buyData);
+  console.log(BuyLandData);
   return (
     <div className={`BuyTab `}>
 
@@ -31,34 +33,27 @@ export default function BuyTab() {
       </div>
         <div className="buyoption-block">
             <Filter></Filter>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            <BuyOption tab="buy"></BuyOption>
-            
+            {BuyLandData.map((info, index) => (
+              
+            <BuyOption 
+                key={info._id || index} 
+                Images={info.Images[0]} 
+                Price={info.Price[3]} 
+
+                amount={info.Area.amount}
+                gataNumber={info.gataNumber}
+                unit = {info.Area.unit}
+                State={info.State}
+                District={info.District} 
+                Village = {info.Village}
+                Description={info.Description} 
+                Highlights={info.Highlights}
+                Category={info.Category}
+                Property={info.Property}
+                id={info._id}
+                tab="buy"
+            />
+            ))}
         </div>
       
       </div>

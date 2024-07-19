@@ -1,7 +1,8 @@
-import React,{useRef} from "react";
+import React,{useEffect, useRef,useState} from "react";
 import './info.css';
 import { useSelector } from "react-redux";
 import { numTowords } from "../../Lib/ImportantFunc";
+import { useNavigate, useParams } from "react-router-dom";
 const icons = {
     Area:{ic:"fas fa-pencil-ruler",
         style:"yA",
@@ -28,17 +29,21 @@ const Data=(props)=>{
         </div>
     )
 }
-const InfoBlock =()=>{
-    const land = useSelector(state=>state.land);
+const InfoBlock =(props)=>{
+    const navigate = useNavigate();
+    const land = props.props
+    const url = useSelector(state=>state.url);
+    
+
     return(
         <div className="buyInfoComponent">
             <div className="flex flex-row">
-            <Data type="Area" value={land.Area.amount+land.Area.unit}></Data>
-            <Data type="Location" value={land.Location}></Data>
+            <Data type="Area" value={`${land?.Area?.amount} ${land?.Area?.unit}`}></Data>
+            <Data type="Location" value={`${land?.Village}, ${land?.District} near ${land?.Highlights}`}></Data>
             </div>
             <div className="flex flex-row">
-            <Data type="Price" value={numTowords(land.Price)}></Data>
-            <Data type="Category" value={land.Category}></Data>
+            <Data type="Price" value={numTowords(land?.Price[land?.Price.length-1])}></Data>
+            <Data type="Category" value={`${land?.Category}`}></Data>
             </div>
           
         </div>
@@ -46,7 +51,12 @@ const InfoBlock =()=>{
 }
 
 const Overview=React.forwardRef((props, ref) =>{
-
+    const {id} = useParams();
+    const navigate = useNavigate();
+    const BuyLandData = useSelector(state=>state.buyData);
+    const land = props.props;
+    const url = useSelector(state=>state.url);
+ 
     const handleFocusInput = () => {
         if (ref.current) {
             ref.current.focus();
@@ -54,8 +64,8 @@ const Overview=React.forwardRef((props, ref) =>{
     };
     return(
         <div className="Overview" ref={ref} >
-            <img className="overview" src="https://img.freepik.com/free-photo/amazing-aerial-shot-singapore-cityscape-with-lots-skyscrapers_181624-18618.jpg?w=1060&t=st=1719822907~exp=1719823507~hmac=72467b1d3ff99b6937deb45b5d3e5120eb61220f2f5b93c65a801ca9f3840b2f"></img>
-            <InfoBlock></InfoBlock>
+            <img className="overview" src={land?.Images[0]}></img>
+            <InfoBlock props={land}></InfoBlock>
         </div>
     )
 });

@@ -2,6 +2,8 @@ import React ,{useState}from 'react'
 import "./profile-bar.css";
 import { change } from '../../../Store/DashBoardOptionsSlice';
 import { useDispatch } from 'react-redux';
+import { register} from '../../../Store/UserAuthSlice';
+import { setSeen, setSeenlog } from '../../../Store/LoginSeenSlice';
 const ProfileBar=()=>{
   const[exp,setExp] = useState(1)
   const dispatch = useDispatch();
@@ -10,6 +12,12 @@ const ProfileBar=()=>{
   } 
   const OptionsChange=(e)=>{
     dispatch(change(e));
+  }
+  function deleteCookie(name) {
+    document.cookie = `cookie_name=${name}; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+    dispatch(register({}));
+    dispatch(setSeen(0));
+    dispatch(setSeenlog(1));
   }
   return (
     <div className={`profile-bar ${exp?"width18vw":"w-16"}`}>
@@ -26,7 +34,7 @@ const ProfileBar=()=>{
         <button className='backColor butt-prof-bar' onClick={()=>OptionsChange("settings")}name="settings"><div><i className='fa fa-cog mr-5 '></i>{exp?"Settings":""}</div></button>
         </div>
 
-        <button className='backColor butt-prof-bar '><div>{exp?"Logout":""}</div><i className='fa fa-sign-out mr-5 mb-11'></i></button>
+        <button className='backColor butt-prof-bar ' onClick={()=>deleteCookie('uid')}><div>{exp?"Logout":""}</div><i className='fa fa-sign-out mr-5 mb-11'></i></button>
     </div>
   )
 }

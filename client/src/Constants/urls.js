@@ -16,7 +16,7 @@ const urlSlice = createSlice(
             recomd:"/recommandation",
             filter:"stockFilter",
             buyComp:"/cartComponent",
-            page:"/buyStockPage",
+            page:"/buyStockPage/:id/:tab",
             profile:"/profilePage",
             dashboard:"/dashboard",
         },

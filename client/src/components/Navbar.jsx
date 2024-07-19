@@ -38,16 +38,16 @@ const Navbar =(props)=>{
                 <div className="Navbar-head nav-options-block  float-left left-0 top-0">
                 <button style={{backgroundColor: "#f0f5f5",visibility:"hidden"}}><i className="fa fa-reorder" style={{fontSize:30}}></i></button>
                 <div className="nav-options" onClick={()=>{navigate(url.stock)}}>
-                    <img className="w-8 h-8 m-1"src="financial-profit.png"></img>
+                   <i className="fas fa-chart-bar" style={{fontSize:35}}></i>
                     <div className="spam">Stocks</div>
                     
                 </div> 
                 <div className="nav-options" onClick={()=>{navigate(url.buy)}}>
-                    <img className="w-8 h-8 m-1"src="buy.png" ></img>
+                    <i className="fas fa-home text-3xl text-blue-300"></i>
                     <div className="spam">Buy</div>
                 </div>
                 <div className="nav-options" onClick={()=>Sellpg()}>
-                    <img className="w-8 h-8 m-1"src="hand.png"></img>
+                    <i className="fas fa-balance-scale text-3xl text-orange-300"></i>
                     <div className="spam">Sell</div>
                 </div>
 

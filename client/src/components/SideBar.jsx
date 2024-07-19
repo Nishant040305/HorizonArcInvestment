@@ -40,7 +40,7 @@ const SideBar =()=>{
                     <li>
                     <button className=" sidebar-button" onClick={()=>{setexpand(1-expand);  Navigate(url.stock)}}>
                     <div style={{display:"flex", alignItems:"center"}}>
-                        <img className="w-9 h-9"src="bar-chart.png"></img><div style={{marginLeft:60}}>Trending Stocks</div>
+                        <i className=" fas fa-chart-bar fa-flip-horizontal " ></i><div style={{marginLeft:60}}>Trending Stocks</div>
 
                         </div>
                         </button>
@@ -48,7 +48,7 @@ const SideBar =()=>{
                     <li>
                     <button className=" sidebar-button" onClick={()=>Portfolio('shares')}>
                     <div style={{display:"flex", alignItems:"center"}}>
-                        <img className="w-9 h-9"src="project.png" ></img><div style={{marginLeft:60}}>Portfolio</div>
+                        <i className="fas fa-wallet text-4xl text-orange-500"></i><div style={{marginLeft:60}}>Portfolio</div>
 
                         </div>
 

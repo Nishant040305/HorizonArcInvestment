@@ -48,3 +48,9 @@
   max-height: 100vh;
   overflow-y: scroll;
 }
+.fa-chart-bar{
+  transform: rotate(90deg) scaleX(-1);
+  color:rgb(1, 129, 31);
+  font-size: 40px;
+
+}

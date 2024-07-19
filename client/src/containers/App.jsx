@@ -26,6 +26,8 @@ import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { register } from '../Store/UserAuthSlice';
 import { setSeen } from '../Store/LoginSeenSlice';
+import {  setStock } from '../Store/BuyStockSlice';
+import { setBuyData } from '../Store/BuyDataSlice';
 const App=() =>{
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
@@ -53,8 +55,48 @@ const App=() =>{
     }
     
 }
+const StockData = async()=>{
+  try{
+    const response = await axios.get(`${BACKWEB}/stockTab`,
+        {
+            headers: {
+            'Accept': 'application/json',
+            
+        },
+        mode:"cors",
+        withCredentials:true
+
+    }).then(response=>{
+        if(response.status ==200){
+            dispatch(setStock(response.data.info));
+        }
+    })
+}catch(e){
+}
+}
+const BuyLand = async()=>{
+  try{
+    const response = await axios.get(`${BACKWEB}/buyTab`,
+        {
+            headers: {
+            'Accept': 'application/json',
+            
+        },
+        mode:"cors",
+        withCredentials:true
+
+    }).then(response=>{
+        if(response.status ==200){
+            dispatch(setBuyData(response.data.info));
+        }
+    })
+}catch(e){
+}
+}
 useEffect(()=>{
-  User()
+  StockData();
+  BuyLand();
+  User();
 },[]);
   return (
     <Routes>

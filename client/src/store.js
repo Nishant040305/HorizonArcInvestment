@@ -13,7 +13,7 @@ import loginSeenSlice from './Store/LoginSeenSlice';
 const rootReducer = combineReducers({
   user:userSlice,
   url:urlSlice,
-  land:BuyStockSlice,
+  stock:BuyStockSlice,
   buyData:BuyDataSlice,
   dashboard:DashBoardOptionsSlice,
   loginSeen:loginSeenSlice
@@ -22,7 +22,7 @@ export const store = configureStore({
   reducer:{
     user:userSlice,
   url:urlSlice,
-  land:BuyStockSlice,
+  stock:BuyStockSlice,
   buyData:BuyDataSlice,
   dashboard:DashBoardOptionsSlice,
   loginSeen:loginSeenSlice,
