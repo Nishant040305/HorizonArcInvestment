@@ -7,4 +7,5 @@ const DashFriendController = require('../controller/DashFriendControllers');
 
 router.get('/getAllUser',DashFriendController.getAllUser);
 router.get('/getFriends',DashFriendController.getFriends);
+router.post('/addFriend',DashFriendController.addFriendsAPI);
 module.exports = router;
