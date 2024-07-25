@@ -8,6 +8,9 @@ const Profile=()=> {
       <div className='profile-page-content'>
       <img className='rounded-circle w-48 h-48 mb-9 ml-20' src={user.image}></img>
       <div className='profile-page-data'>
+        <div className='profile-page-head'>Username:</div><div className='profile-page-info'>{user.Username}</div>
+      </div>
+      <div className='profile-page-data'>
         <div className='profile-page-head'>Name:</div><div className='profile-page-info'>{user.fullName}</div>
       </div>
       <div className='profile-page-data'>
