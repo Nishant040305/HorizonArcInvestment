@@ -103,8 +103,8 @@ const Login =()=>{
                 {form?<div className="Login-content">
                 <div className='text-red-500'>{mssg}</div>
                 <input className ="Login-email-input" onChange={handleUserVer} name="Username" placeholder="Enter your Username" value={userVer.Username}></input>
-                <input className ="Login-email-input" onChange={handleUserVer} name="password"placeholder="Enter your OTP" value={userVer.password}></input>
-                <div style={{display:"flex",flexDirection:"row" , justifyContent:"center"}}><button style={{marginTop:50 ,width:250}}className=" btn Login-email-buttton" onClick={()=>{login_Confirm()}}>Confirm</button><button className='btn Login-email-buttton' style={{marginTop:50 ,width:250}} onClick={()=>login_email()}>RESEND</button>
+                <input className ="Login-email-input" onChange={handleUserVer} name="password"placeholder="Enter your Password" value={userVer.password}></input>
+                <div style={{display:"flex",flexDirection:"row" , justifyContent:"center"}}><button style={{marginTop:50 ,width:250}}className=" btn Login-email-buttton" onClick={()=>{login_Confirm()}}>Confirm</button>{mssg=="An Email sent to your account please verify"?<button className='btn Login-email-buttton' style={{marginTop:50 ,width:250}} onClick={()=>login_email()}>RESEND</button>:<></>}
                 </div>
                 </div>:
                 <div className="Login-content">
