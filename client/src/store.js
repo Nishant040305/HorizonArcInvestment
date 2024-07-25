@@ -3,14 +3,12 @@ import userSlice from './Store/UserAuthSlice';
 import urlSlice from './Constants/urls';
 import BuyStockSlice from './Store/BuyStockSlice';
 import BuyDataSlice from './Store/BuyDataSlice';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'
-import { persistStore } from 'redux-persist';
-
 import DashBoardOptionsSlice from './Store/DashBoardOptionsSlice';
-
 import loginSeenSlice from './Store/LoginSeenSlice';
 import globalUserSlice from './Store/globalUser';
+import GeolocationSlice from './Store/GeolocationSlice';
+import ShortListSlice from './Store/ShortListSlice';
+import NotificationSlice from './Store/NotificationSlice';
 const rootReducer = combineReducers({
   user:userSlice,
   url:urlSlice,
@@ -18,7 +16,10 @@ const rootReducer = combineReducers({
   buyData:BuyDataSlice,
   dashboard:DashBoardOptionsSlice,
   loginSeen:loginSeenSlice,
-  globalUsers:globalUserSlice
+  globalUsers:globalUserSlice,
+  geoLocation:GeolocationSlice,
+  shortList:ShortListSlice,
+  notification:NotificationSlice,
 });
 export const store = configureStore({
   reducer:{
@@ -28,7 +29,10 @@ export const store = configureStore({
   buyData:BuyDataSlice,
   dashboard:DashBoardOptionsSlice,
   loginSeen:loginSeenSlice,
-  globalUsers:globalUserSlice
+  globalUsers:globalUserSlice,
+  geoLocation:GeolocationSlice,
+  shortList:ShortListSlice,
+  notification:NotificationSlice,
   }
 })
 
