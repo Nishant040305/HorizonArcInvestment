@@ -29,12 +29,54 @@ import { setSeen } from '../Store/LoginSeenSlice';
 import {  setStock } from '../Store/BuyStockSlice';
 import { setBuyData } from '../Store/BuyDataSlice';
 import { setglobalUser } from '../Store/globalUser';
+import { setLocation } from '../Store/GeolocationSlice';
+import { setNotification,addNotification } from '../Store/NotificationSlice';
+import { socket } from '../Lib/socket';
+
 const App=() =>{
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
   const seen = useSelector(state=>state.loginSeen);
   const dispatch = useDispatch();
   axios.defaults.withCredentials = true;
+  
+  const getNotification = async(ID)=>{
+    if(ID){
+    try{
+      const response = await axios.post(`${BACKWEB}/notification`,
+        { userId:ID,
+            headers: {
+            'Accept': 'application/json',
+            
+        },
+        mode:"cors",
+        withCredentials:true
+
+    }).then(response=>{
+      if(response.status ===200){
+        dispatch(setNotification(response.data.info));
+      }
+    })
+    }
+    catch(e){
+
+    }}
+  }
+  const GeoLocation = async()=>{
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            dispatch(setLocation({ latitude:latitude, longitude:longitude }));
+          },
+          (error) => {
+            // console.error('Error getting geolocation:', error.message);
+          }
+        );
+      } else {
+        // console.error('Geolocation is not supported by this browser.');
+      }
+  }
   const globalUser =async()=>{
     try{
         const response = await axios.get(`${BACKWEB}/User/getAllUser`,
@@ -69,10 +111,15 @@ const App=() =>{
             if(response.status ==200){
                 dispatch(register(response.data.info));
                 dispatch(setSeen(1));
-                globalUser();
+                console.log("notification loading",response.data.info._id)
+                getNotification(response.data.info._id);
+                socket.connect();
+                socket.emit('connectToServer',response.data.info.chatRoom);
+                
             }
         })
     }catch(e){
+      return null;
     }
     
 }
@@ -114,11 +161,26 @@ const BuyLand = async()=>{
 }catch(e){
 }
 }
+
 useEffect(()=>{
   StockData();
   BuyLand();
   User();
+  globalUser();
+  GeoLocation();
+  
 },[]);
+// const [data_,setData] = useState('');
+useEffect(()=>{
+  socket.on('friend-request/send',(data)=>{
+    dispatch(addNotification(data));
+
+  })
+  return ()=>{
+
+    socket.off('friend-request/send')
+  }
+},[])
   return (
     <Routes>
       <Route path={url.buy} element={<BuyTab></BuyTab>}></Route>
