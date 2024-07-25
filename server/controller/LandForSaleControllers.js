@@ -1,5 +1,5 @@
 const LandSchema = require('../models/LandForSale');
-
+const User = require('../models/user');
 const getLandInfo = async(req,res)=>{
 
     const data = await LandSchema.find({});
@@ -48,4 +48,38 @@ const UpdatePrice = async(req,res)=>{
 
     }
 }
-module.exports = {getLandInfo,InsertBuyLand,UpdatePrice};
+const addItemShortList = async(req,res)=>{
+    try{
+        const Data = await LandSchema.findById(req.body._id);
+        if(!Data){
+            return res.status(404).json({message:"No Such Land"});
+        }
+        const UserData = await User.findById(req.body.UserId,{_id:1,ShortList:1});
+        if(!UserData){
+            return res.status(404).json({message:"No Such User"})
+        }
+        if(UserData.ShortList.findIndex((item)=>item._id === Data._id)===-1){
+            await User.findByIdAndUpdate(UserData._id, { $push: { ShortList:Data  } })
+            return res.status(200).json({message:"product Added"})
+        }
+    }
+    catch(e){
+        res.status(500).json({message:"Internal Server Error"})
+    }
+}
+const RemoveItemShortList = async(req,res)=>{
+    try{
+        const UserData = await User.findById(req.body.UserId,{_id:1,ShortList:1});
+        if(!UserData){
+            return res.status(404).json({message:"No Such User"})
+        }
+        if(UserData.ShortList.findIndex((item)=>item._id === req.body._id)!==-1){
+            await User.findByIdAndUpdate(UserData._id, { $pull: { ShortList:Data  } })
+            return res.status(200).json({message:"product Added"})
+        }
+    }
+    catch(e){
+        res.status(500).json({message:"Internal Server Error"})
+    }
+}
+module.exports = {getLandInfo,InsertBuyLand,UpdatePrice,RemoveItemShortList,addItemShortList};
