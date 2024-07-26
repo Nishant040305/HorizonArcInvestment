@@ -15,17 +15,20 @@ const MessageBlock =(props)=>{
 }
 const MessageBar = () => {
     const user = useSelector(state=>state.user);
+    const globalUser = useSelector(state=>state.globalUsers);
   return (
     <div className='Message-bar p25'>
         <div style={{fontSize:28,textAlign:'left',paddingLeft:20,fontWeight:600,paddingBottom:20}}>Messages</div>
         <input className='message-user-search' placeholder='      Search...'></input>
         <div className='Message-bar'>
-        <MessageBlock image={user.image} name={user.fullName}></MessageBlock>
-      <MessageBlock image={user.image} name={user.fullName}></MessageBlock>
-      <MessageBlock image={user.image} name={user.fullName}></MessageBlock>
-      <MessageBlock image={user.image} name={user.fullName}></MessageBlock>
-      <MessageBlock image={user.image} name={user.fullName}></MessageBlock>
-      <MessageBlock image={user.image} name={user.fullName}></MessageBlock>
+        {globalUser.map((info, index) => (
+              
+              <MessageBlock 
+                  key={info._id || index} 
+                  image={info.image}
+                  name={info.Username}
+              />
+              ))}
       
         </div>
       
