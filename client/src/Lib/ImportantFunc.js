@@ -34,3 +34,17 @@ export const calculateDistance=(lat1, lon1, lat2, lon2)=> {
 
     return distance;
 }
+export const ShortListData = (shortlist, data) => {
+    const array =[]
+    console.log(shortlist,data);
+    if (!Array.isArray(shortlist)) {
+        return array;
+    }
+
+    if (!Array.isArray(data)) {
+        return array;
+    }
+
+    const shortlistSet = new Set(shortlist); 
+    return data.filter(item => shortlistSet.has(item._id)); 
+};

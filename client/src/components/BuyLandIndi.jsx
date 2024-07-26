@@ -5,11 +5,15 @@ import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
 import { useSelector ,useDispatch} from 'react-redux';
 import { numTowords } from '../Lib/ImportantFunc';
+import { removeShortlist } from '../Store/ShortListSlice';
 const BuyOption=(props)=> {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const url =useSelector(state=>state.url);
-
+  const user = useSelector(state=>state.user);
+  const removeShortlistElem =(ID)=>{
+    dispatch(removeShortlist({user:user.shortList,_id:ID}))
+  }
   const clickhandle =()=>{
 
     navigate(`/buyStockPage/${props.id}/${props.tab}`);
@@ -17,7 +21,7 @@ const BuyOption=(props)=> {
   const highlight  = props.Highlights;
   
   return (
-    <div className="rounded-3xl buy-cart bg-white" onClick={()=>{clickhandle()}}>
+    <div className="rounded-3xl buy-cart bg-white">
       <img className="rounded-3xl buy-cart-img"src={props.Images?props.Images:"https://img.freepik.com/free-photo/amazing-aerial-shot-singapore-cityscape-with-lots-skyscrapers_181624-18618.jpg?w=1060&t=st=1719822907~exp=1719823507~hmac=72467b1d3ff99b6937deb45b5d3e5120eb61220f2f5b93c65a801ca9f3840b2f"}></img>
       <div className="buy-cart-info">
         <div className="buy-cart-info-location"><strong>{props.Village?`${props.Village}, ${props.District} near ${props.Highlights}`:'Lehra Land Plot,Near NH230 Highway'}</strong></div>
@@ -29,8 +33,8 @@ const BuyOption=(props)=> {
         </div>
         <div className="buy-cart-info-highlights"><strong>Highlights:</strong><div className="highlights">{highlight?highlight[0]:'Road Facing'}</div><div className="highlights">{highlight?highlight[1]:'Near Prachi Hospital'}</div></div>
         <div className='buy-cart-info-detail'>{props.Description?props.Description:`Property for sale in sector-40 , noida A residential land of 300 sq m is available for sale in sector-40, noida. Property details: Completion done. Lease rent one-Time paid. North east facing, 9 meter road Prime location property. Sale demand: 8 crores. Features: Nearby metro station, markets, schools, hospital, etc. Additional information: We have other options available for sale in various se...`}</div>
-        {props.tab=="buy"?<button className="contact-but"><i className="fas fa-phone" style={{color:'white', marginRight:5}} /><strong>Contact</strong></button>:<button className="contact-but" style={{backgroundColor:'green'}}><strong>Buy Shares</strong></button>}
-        {(props.shortlist)&&<button className='contact-but' style={{backgroundColor:'red',display:'flex',alignItems:'flex-end'}}>Remove<i className='fa fa-close' style={{marginLeft:5,fontSize:20}}></i></button>}
+        {props.tab=="buy"?<button className="contact-but"  onClick={()=>{clickhandle()}}><i className="fas fa-phone" style={{color:'white', marginRight:5}} /><strong>Contact</strong></button>:<button className="contact-but" style={{backgroundColor:'green'}}  onClick={()=>{clickhandle()}}><strong>Buy Shares</strong></button>}
+        {(props.shortlist=="shortlist")&&<button className='contact-but' style={{backgroundColor:'red',display:'flex',alignItems:'flex-end'}} onClick={()=>removeShortlistElem(props.id)}>Remove<i className='fa fa-close' style={{marginLeft:5,fontSize:20}}></i></button>}
       </div>
     </div>
   )

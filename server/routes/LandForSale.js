@@ -8,5 +8,7 @@ router.get('/',LandForSaleController.getLandInfo);
 router.post('/InsertBuyLand',LandForSaleController.InsertBuyLand);
 router.post('/UpdatePrice',LandForSaleController.UpdatePrice);
 router.post('/addItemShortlist',LandForSaleController.addItemShortList);
-router.post('./removeItemShortlist',LandForSaleController.RemoveItemShortList);
+router.post('/removeItemShortlist',LandForSaleController.RemoveItemShortList);
+router.post('/getShorListData',LandForSaleController.getShortlistData);
+router.post('/createShort',LandForSaleController.createShortList);
 module.exports = router;

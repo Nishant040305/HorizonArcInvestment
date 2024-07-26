@@ -32,14 +32,40 @@ import { setglobalUser } from '../Store/globalUser';
 import { setLocation } from '../Store/GeolocationSlice';
 import { setNotification,addNotification } from '../Store/NotificationSlice';
 import { socket } from '../Lib/socket';
+import { setShortlist } from '../Store/ShortListSlice';
+import { ShortListData } from '../Lib/ImportantFunc';
 
 const App=() =>{
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
   const seen = useSelector(state=>state.loginSeen);
   const dispatch = useDispatch();
+  let buydata = null;
   axios.defaults.withCredentials = true;
-  
+  const getShortlistData = async(ID)=>{
+    try{
+      const response = await axios.post(`${BACKWEB}/buyTab/getShorListData`,
+        { _id:ID,
+            headers: {
+            'Accept': 'application/json',
+            
+        },
+        mode:"cors",
+        withCredentials:true
+
+    }).then(response=>{
+      if(response.status ===200&&response.data.infoLength!==0){
+          console.log("hello",response.data.info);
+          dispatch(setShortlist(response.data.info));
+
+        }
+      
+    })
+    }
+    catch(e){
+
+    }
+  }
   const getNotification = async(ID)=>{
     if(ID){
     try{
@@ -113,9 +139,9 @@ const App=() =>{
                 dispatch(setSeen(1));
                 console.log("notification loading",response.data.info._id)
                 getNotification(response.data.info._id);
+                getShortlistData(response.data.info.shortList);
                 socket.connect();
                 socket.emit('connectToServer',response.data.info.chatRoom);
-                
             }
         })
     }catch(e){
@@ -155,6 +181,7 @@ const BuyLand = async()=>{
 
     }).then(response=>{
         if(response.status ==200){
+          buydata = response.data.info;
             dispatch(setBuyData(response.data.info));
         }
     })

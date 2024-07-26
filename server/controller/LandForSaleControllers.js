@@ -1,5 +1,6 @@
 const LandSchema = require('../models/LandForSale');
 const User = require('../models/user');
+const ShortList = require('../models/ShortList');
 const getLandInfo = async(req,res)=>{
 
     const data = await LandSchema.find({});
@@ -48,38 +49,95 @@ const UpdatePrice = async(req,res)=>{
 
     }
 }
-const addItemShortList = async(req,res)=>{
-    try{
+const addItemShortList = async (req, res) => {
+    try {
+        console.log("Request received:", req.body);
+
+        // Find the Land by ID
         const Data = await LandSchema.findById(req.body._id);
-        if(!Data){
-            return res.status(404).json({message:"No Such Land"});
+        if (!Data) {
+            console.log("No such land found");
+            return res.status(404).json({ message: "No Such Land" });
         }
-        const UserData = await User.findById(req.body.UserId,{_id:1,ShortList:1});
-        if(!UserData){
-            return res.status(404).json({message:"No Such User"})
+
+        // Find the ShortList by ID
+        const shortList = await ShortList.findById(req.body.shortListID);
+        if (!shortList) {
+            console.log("No such shortlist found");
+            return res.status(404).json({ message: "No Such Shortlist" });
         }
-        if(UserData.ShortList.findIndex((item)=>item._id === Data._id)===-1){
-            await User.findByIdAndUpdate(UserData._id, { $push: { ShortList:Data  } })
-            return res.status(200).json({message:"product Added"})
+
+        console.log("ShortList and Land data found:", shortList, Data);
+
+        // Check if the land is already in the shortlist
+        const landIndex = shortList.land.findIndex(item => item._id.toString() === Data._id.toString());
+
+        if (landIndex === -1) {
+            console.log("Land not in shortlist, adding now");
+
+            // Update the ShortList with the new land
+            await ShortList.findByIdAndUpdate(shortList._id, { $push: { land: Data } });
+            return res.status(200).json({ message: "Product Added" });
+        } else {
+            console.log("Land already in shortlist");
+            return res.status(200).json({ message: "Product Already in Shortlist" });
         }
+    } catch (e) {
+        console.error("Internal Server Error:", e);
+        return res.status(500).json({ message: "Internal Server Error" });
     }
-    catch(e){
-        res.status(500).json({message:"Internal Server Error"})
+};
+
+const RemoveItemShortList = async (req, res) => {
+    try {
+        console.log(req.body);
+        // Find the ShortList by ID
+        const shortList = await ShortList.findById(req.body.shortListID);
+        if (!shortList) {
+            return res.status(404).json({ message: "No Such Shortlist" });
+        }
+        
+        // Find the index of the item to remove
+        const landIndex = shortList.land.findIndex(item => item._id.toString() === req.body._id.toString());
+
+        if (landIndex !== -1) {
+            // Remove the item from the shortlist
+            console.log(shortList);
+            
+            await ShortList.findByIdAndUpdate(
+                req.body.shortListID,
+                { $pull: { land: shortList.land[landIndex] } }
+            );
+            const test = await ShortList.findById(req.body.shortListID);
+            return res.status(200).json({ message: test });
+        } else {
+            return res.status(404).json({ message: "Item not found in shortlist" });
+        }
+    } catch (e) {
+        console.error("Error removing item from shortlist:", e);
+        return res.status(500).json({ message: "Internal Server Error" });
     }
-}
-const RemoveItemShortList = async(req,res)=>{
+};
+
+const getShortlistData =async(req,res)=>{
     try{
-        const UserData = await User.findById(req.body.UserId,{_id:1,ShortList:1});
-        if(!UserData){
-            return res.status(404).json({message:"No Such User"})
-        }
-        if(UserData.ShortList.findIndex((item)=>item._id === req.body._id)!==-1){
-            await User.findByIdAndUpdate(UserData._id, { $pull: { ShortList:Data  } })
-            return res.status(200).json({message:"product Added"})
-        }
-    }
-    catch(e){
-        res.status(500).json({message:"Internal Server Error"})
+        const data = await ShortList.findById(req.body._id);
+        
+        if(!data) return res.status(404).json({message:"ShortList Not found"});
+        return res.status(200).json({info:data.land,infoLength:data.land.length});
+    }catch(e){
+        return res.status(500).json({message:"Internal server Error"})
     }
 }
-module.exports = {getLandInfo,InsertBuyLand,UpdatePrice,RemoveItemShortList,addItemShortList};
+const createShortList = async(req,res)=>{
+    try{
+        const shortlist =await new ShortList({
+            userId:req.body._id,
+        }).save();
+        const user = await User.findByIdAndUpdate(req.body._id,{shortList:shortlist._id});
+        return res.status(200).json({message:"successfull"});
+    }catch(e){
+        return res.status(500).json({message:"Internal Server Error"})
+    }
+}
+module.exports = {createShortList,getLandInfo,InsertBuyLand,getShortlistData,UpdatePrice,RemoveItemShortList,addItemShortList};

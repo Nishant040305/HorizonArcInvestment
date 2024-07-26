@@ -9,33 +9,45 @@ import Footer from "../components/Footer";
 import AboutProp from "../components/buyPageComponent/About";
 import Recomd from "../components/buyPageComponent/Recomd";
 import Articles from "../components/buyPageComponent/Articles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../components/buyPageComponent/BNavbar.css";
 import { numTowords, numFormat } from "../Lib/ImportantFunc";
 import Login from "../components/Login";
 import { useNavigate, useParams } from "react-router-dom";
+import { addShortlist } from "../Store/ShortListSlice";
+import axios from "axios";
 
 const Index =()=>{
+    let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
     const {id,tab} = useParams();
     const navigate = useNavigate();
     const BuyLandData = useSelector(state=>state.buyData);
     const StockLandData = useSelector(state=>state.stock);
     const url = useSelector(state=>state.url);
+    const user = useSelector(state=>state.user);
+    const dispatch = useDispatch();
     const [land,setLand] = useState(null);
- 
- 
+    const ShortList = useSelector(state=>state.shortList);
+    const [select,setSelect] = useState(null);
+    const [tabSelect,setTabselect] = useState('over');
+    const addToShortList =async()=>{
+      if(seen.seen&&!select) setSelect(1-select);
+      if(seen.seen) dispatch(addShortlist({user:user.shortList,land:land}));}
     const seen = useSelector(state=>state.loginSeen);
     const handleScroll = (e)=>{
         const over = document.getElementById("over");
         const rec = document.getElementById("rec");
         const article = document.getElementById("article");
         if(e=="over"){
+            setTabselect('over');
             over.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
         }
         else if(e=="rec"){
+            setTabselect('rec')
             rec.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
         }
         else if(e=="article"){
+            setTabselect('article')
             article.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
 
         }
@@ -85,18 +97,17 @@ const Index =()=>{
           </button>:<button className="bg-green-400 pl-7 pr-6 text-white BNav-contact">
           Buy Shares
           </button>}
-          <button className="bg-slate-200 text-blue-300 BNav-contact mt-2">
-            <i className="fa-regular fa-heart"></i>&nbsp;&nbsp;&nbsp;ShortList
-          </button>
+          {tab=="buy"?<button className="bg-slate-200 text-blue-300 BNav-contact mt-2 pl-5 pr-8" onClick={()=>addToShortList()}>
+          <i className={`${seen.seen&&select?'fa-solid':'fa-regular'} fa-heart`}></i>ShortList</button>:<></>}
         </div>
       </div>
       <div className="Bbar">
-        <div className="Bbar-head-active" onClick={()=>{handleScroll("over")}}>Overview</div>
+        <div className={`${tabSelect=="over"?'Bbar-head-active':'Bbar-head'}`} onClick={()=>{handleScroll("over")}}>Overview</div>
   
   
-        <div className="Bbar-head" onClick={()=>{handleScroll("rec")}}>Recommandeation</div>
+        <div className={`${tabSelect=="rec"?'Bbar-head-active':'Bbar-head'}`} onClick={()=>{handleScroll("rec")}}>Recommandeation</div>
   
-        <div className="Bbar-head" onClick={()=>{handleScroll("article")}}>Articles</div>
+        <div className={`${tabSelect=="article"?'Bbar-head-active':'Bbar-head'}`} onClick={()=>{handleScroll("article")}}>Articles</div>
       </div>
     </div>
             <div className={`buy-index ${!(seen.seen||seen.seenlog)?"backdrop-background-blur":""}`}>

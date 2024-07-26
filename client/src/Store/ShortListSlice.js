@@ -4,7 +4,7 @@ import {setShortlistReducer} from '../Reducer/ShortlistReducer';
 
 const ShortlistSlice = createSlice({
     name:"shortList",
-    initialState:[],
+    initialState:{data:[],dataLength:0},
     reducers:{
         setShortlist:setShortlistReducer,
         addShortlist:setShortlistReducer,

@@ -36,7 +36,7 @@
     "nodemailer": "^6.9.14",
     "path": "^0.12.7",
     "socket.io": "^4.7.5",
-    "tunnel": "^0.0.6"
+    "socks-proxy-agent": "^8.0.4"
   },
   "devDependencies": {
     "standard-version": "^9.5.0"
