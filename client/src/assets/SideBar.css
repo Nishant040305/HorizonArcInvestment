@@ -1,7 +1,7 @@
 .sideBar{
     background: rgb(255, 255, 255);
     height: 100vh;
-    width: 24rem;
+    width: 22rem;
     display: flex;
     justify-content: space-around;
     flex-direction: column;
@@ -22,8 +22,8 @@
 .sidebar-button{
     text-align: left;
     cursor:pointer;
-    width:23rem;
-    padding-left:4rem;
+    width:100%;
+    padding-left:1rem;
     margin-top:2px;
     background-color:white;
 }
@@ -32,7 +32,7 @@
    
 }
 .sideBar .menu {
-    width:23rem;
+    width:22rem;
     text-align: right;
    
     display:"flex";
