@@ -53,9 +53,9 @@ const Navbar =(props)=>{
 
                 </div>
             <>
-            {seen.seen?<div className="" style={{display:"flex", marginRight:100}}>
+            {seen.seen?<div className="" style={{display:"flex", marginRight:100}} >
                 <hr className="vertical-line"></hr>
-                <div className="personal-data">
+                <div className="personal-data" onClick={()=>navigate(url.dashboard)}>
                 <img className="w-12 h-12 rounded-full" src={user.image}></img>
                 <div className="text-name"style={{marginLeft:10,textWrap:"nowrap"}}>{user.fullName}</div>
                 <button className="btn bg-black text-white logout-button  " onClick={()=>deleteCookie('uid')}>Logout</button>

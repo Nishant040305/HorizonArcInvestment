@@ -17,11 +17,11 @@ const SideBar =()=>{
     return(
         <>
         {!expand?<div className={!expand?"sideBar text-black":"sidebar active text-black"}>
-            <div  className="menu absolute top-0 " onClick={()=>{setexpand(!expand)}}>
+            <div  className="menu absolute top-0 left-0" onClick={()=>{setexpand(!expand)}}>
             <button className="bg-white m-1 top-4"><i className="fa fa-reorder " style={{fontSize:25}}></i></button>
 
             </div>
-            <div>
+            <div onClick={()=>Portfolio('profile')}>
             <img className="rounded-full profilePic" src={user.image}></img>
             <div style={{fontSize: 30}}>{user.fullName}</div>
             </div>
