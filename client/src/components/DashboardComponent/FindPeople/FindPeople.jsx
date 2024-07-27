@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import './FindPeople.css';
 import {socket} from '../../../Lib/socket';
+import { UserFilter } from '../../../Lib/Filter';
 const FindPeopleBlock =(props)=>{
   const user = useSelector(state=>state.user);
   const sendFriendRequest =(receiverId)=>{
@@ -18,8 +19,7 @@ const FindPeopleBlock =(props)=>{
           <div className='Findpeople-name'>
           <img className="rounded-full w-10 h-10 mr-10 ml-3" src={props.image}></img> 
           <div className=''>{props.name}</div>
-          </div>
-            
+          </div> 
             <div><button className='bg-green-400 text-white'>Friend</button></div>
 
         </div>
@@ -30,10 +30,12 @@ const FindPeopleBlock =(props)=>{
 const FindPeople = () => {
     const user = useSelector(state=>state.user)
     const globalUser = useSelector(state=>state.globalUsers);
-    console.log(globalUser)
+    const filter = useSelector(state=>state.filter);
+    console.log(globalUser);
+    const userFiltered = UserFilter(filter.globalUser,globalUser);
   return (
     <div className='Findpeople'>
-      {globalUser.map((info, index) => (
+      {userFiltered.length?userFiltered.map((info, index) => (
               
               <FindPeopleBlock 
                   key={info._id||index} 
@@ -41,8 +43,8 @@ const FindPeople = () => {
                   image={info.image}
                   name={info.Username}
               />
-              ))}
-
+              )):<div className='flex flex-row justify-center'><img className='findpeople-no-image' src="5639817.webp"></img></div>}
+    
     </div>
   )
 }

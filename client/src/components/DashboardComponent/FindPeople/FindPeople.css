@@ -26,8 +26,9 @@
     padding-top:5rem;
     padding-left:5rem;
     background-size: cover;
-    background-image: url('https://images.unsplash.com/photo-1618022325802-7e5e732d97a1?q=80&w=1948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA==');
-
+    /* background-image: url('https://images.unsplash.com/photo-1618022325802-7e5e732d97a1?q=80&w=1948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA==');
+    background-image: url('4880206.jpg'); */
+    background-color: rgb(247, 247, 247);
 }
 .Findpeople-name{
     display: flex;
@@ -35,6 +36,10 @@
     align-items: center;
     font-size: 20px;
     font-weight: 500;
-    color:white;
+    color:rgb(22, 20, 26);
 
+}
+.findpeople-no-image{
+    width:500px;
+    height:500px;
 }

@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 export const PriceFilter = (Filter,Array)=>{
     const FilterData = [];
     for(let i = 0;i<Array.length;i++){
@@ -28,3 +30,13 @@ export const locationFilter =(Filter,Array)=>{
     }));
 }
 
+export const UserFilter = (filter, array) => {
+    const user = useSelector(state=>state.user);
+    const arr = [];
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].Username.toLowerCase().includes(filter.toLowerCase())&&array[i]._id!=user._id) {
+            arr.push(array[i]);
+        }
+    }
+    return arr;
+}
