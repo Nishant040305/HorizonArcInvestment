@@ -9,6 +9,7 @@ import globalUserSlice from './Store/globalUser';
 import GeolocationSlice from './Store/GeolocationSlice';
 import ShortListSlice from './Store/ShortListSlice';
 import NotificationSlice from './Store/NotificationSlice';
+import FilterDataSlice from './Store/FilterDataSlice';
 const rootReducer = combineReducers({
   user:userSlice,
   url:urlSlice,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   geoLocation:GeolocationSlice,
   shortList:ShortListSlice,
   notification:NotificationSlice,
+  filter:FilterDataSlice
 });
 export const store = configureStore({
   reducer:{
@@ -33,6 +35,7 @@ export const store = configureStore({
   geoLocation:GeolocationSlice,
   shortList:ShortListSlice,
   notification:NotificationSlice,
+  filter:FilterDataSlice
   }
 })
 

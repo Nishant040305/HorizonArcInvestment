@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './NavDash.css';
 import { change } from '../../../Store/DashBoardOptionsSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { searchGlobalUser } from '../../../Store/FilterDataSlice';
 const NavDash = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
   const url = useSelector(state=>state.url);
+  const [FriendSearch,setFriendSearch] = useState('');
+  const handleChange =(e)=>{
+    setFriendSearch(e.target.value);
+    dispatch(searchGlobalUser(e.target.value));
+  }
   const OptionsChange=(e)=>{
     dispatch(change(e));
   }
@@ -17,7 +23,7 @@ const NavDash = () => {
         <i className='fa fa-home' style={{fontSize:25,marginRight:20}}> </i> DashBoard
         </div>
         <div className='flex flex-row items-center bg-slate-50 border'>
-        <input className=" bg-slate-50 w-full   border-gray-300  text-gray-900 focus:border-cyan-500 focus:ring-cyan-500  dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 p-2.5 text-sm pr-10 rounded-lg" type="text" placeholder="Find People..."  /><i className='fa fa-search text-slate-600'></i>
+        <input className=" bg-slate-50 w-full   border-gray-300  text-gray-900 focus:border-cyan-500 focus:ring-cyan-500  dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 p-2.5 text-sm pr-10 rounded-lg" type="text" placeholder="Find People..."  onClick={()=>OptionsChange('findpeople')} value={FriendSearch} onChange={(e)=>handleChange(e)}/><i className='fa fa-search text-slate-600'></i>
         </div>
         <div className='dashboard-navbar-tab'>
             <div onClick={()=>Navigate(url.buy)}>

@@ -1,0 +1,22 @@
+.bg-white{
+    background-color: white;
+}
+.form-control{
+    background-color: white;
+    padding:10px;
+}
+.text-black{
+    color:black;
+}
+div{
+    color:black;
+}
+.text-white{
+    color:white;
+}
+.rounded-full{
+    border-radius:50%;
+}
+.rounded-circle{
+    border-radius:50%;
+}
