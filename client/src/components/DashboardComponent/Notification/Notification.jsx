@@ -10,7 +10,7 @@ const FriendRequest = (props)=>{
 
   const AcceptFriendRequest=()=>{
   
-    socket.emit('friend-request/accept',{notification:notification[props.index],userInfo:{image:user.image,Username:user.Username}});
+    socket.emit('friend-request/accept',{notification:notification[props.index],userInfo:{image:user.image,Username:user.Username,receiverId:user._id}});
     dispatch(removeNotification(props.index));
   }
   const RejectFriendRequest=()=>{

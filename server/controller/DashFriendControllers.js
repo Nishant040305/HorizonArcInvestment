@@ -31,8 +31,8 @@ const addFriends = async(userId1,userId2)=>{
         }
 
         // Add ChatRoom to their chatRoom arrays
-        user1.friends.push({_id:user1._id,Username:user1.Username,image:user1.image});
-        user2.friends.push({_id:user2._id,Username:user2.Username,image:user2.image});
+        user2.friends.push({_id:user1._id,Username:user1.Username,image:user1.image});
+        user1.friends.push({_id:user2._id,Username:user2.Username,image:user2.image});
 
         // Save the updated users
         await user1.save();

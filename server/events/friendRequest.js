@@ -26,14 +26,16 @@ module.exports = (io, socket) => {
 
     socket.on('friend-request/accept', async (requestData) => {
         const { notification, userInfo } = requestData;
+        console.log(notification);
         await Notification.findByIdAndDelete(notification._id);
         const chatRoom = await new ChatRoom({
-            users: [notification.SenderId, notification.receiverId],
+            users: [notification.SenderId, userInfo.receiverId],
             usersImage: [notification.message.image, userInfo.image],
             userUsername: [notification.message.Username, userInfo.Username]
         }).save();
-        ChatRoomController.AddTwoUserToChat(notification.SenderId, notification.receiverId, chatRoom._id);
-        FriendController.addFriends(notification.SenderId, notification.receiverId);
+        ChatRoomController.AddTwoUserToChat(notification.SenderId, userInfo.receiverId, chatRoom._id);
+        console.log(notification.SenderId, userInfo.receiverId);
+        FriendController.addFriends(notification.SenderId, userInfo.receiverId);
     });
 
     socket.on('friend-request/reject', async (requestData) => {

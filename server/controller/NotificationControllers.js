@@ -7,7 +7,7 @@ const getNotification =async(req,res)=>{
 
         const notification = await Notification.find({
             receiverId:{$in: [req.body.userId] }
-        },{senderId:1,message:1,NotifType:1,createdAt:1})
+        },{SenderId:1,message:1,NotifType:1,createdAt:1})
         return res.status(200).json({info:notification});
     }
     catch(e){
