@@ -15,12 +15,13 @@ const FindPeopleBlock =(props)=>{
     })
   }
     return(
-        <div className='FindPeopleBlock' onClick={()=>{sendFriendRequest(props._id)}}>
+        <div className='FindPeopleBlock' >
           <div className='Findpeople-name'>
           <img className="rounded-full w-10 h-10 mr-10 ml-3" src={props.image}></img> 
-          <div className=''>{props.name}</div>
+          <div className='text-black'>{props.name}</div>
           </div> 
-            <div><button className='bg-green-400 text-white'>Friend</button></div>
+            <div>
+              {props.friend?<div className='bg-gray-100 text-gray-700 div-friend' >Friend</div>:<button className='bg-green-400 text-white'onClick={()=>{sendFriendRequest(props._id)}}>Friend</button>}</div>
 
         </div>
     )
@@ -42,6 +43,7 @@ const FindPeople = () => {
                   _id = {info._id}
                   image={info.image}
                   name={info.Username}
+                  friend = {info.friend}
               />
               )):<div className='flex flex-row justify-center'><img className='findpeople-no-image' src="5639817.webp"></img></div>}
     

@@ -2,10 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { setUser } from "../Reducer/UserAuthReducer";
 const userSlice = createSlice({
     name:"user",
-    initialState:{},
+    initialState:null,
     reducers:{
-        register:setUser
+        register:setUser,
+        setFriend:setUser,
     }
 })
-export const {register} = userSlice.actions;
+export const {register,setFriend} = userSlice.actions;
 export default userSlice.reducer;

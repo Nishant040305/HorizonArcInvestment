@@ -10,6 +10,7 @@ const Token = require('../models/token');
 const sendEmail = require('../utils/sendEmail');
 const Usergenerate = require('../utils/Username');
 const shortList = require('../models/ShortList');
+const Friend = require('../models/Friend');
 let authToken = '';
 
 async function Authenticate(){
@@ -235,7 +236,8 @@ const VerifyUser = async(req,res)=>{
 		});
 		if (!token) return res.status(400).json({ message: "Invalid link" });
     const _short_Data = await new shortList({userId:user._id}).save();
-    const userUpdate= await User.findOneAndUpdate({ _id: user._id},{ verify: true,Username:Usergenerate(token.email,user._id),chatRoom:[user._id],shortList:_short_Data },{new:true});
+    const _Friend_List = await new Friend({userId:user._id}).save();
+    const userUpdate= await User.findOneAndUpdate({ _id: user._id},{ verify: true,Username:Usergenerate(token.email,user._id),chatRoom:[],shortList:_short_Data,friendsId:_Friend_List },{new:true});
     const jwtData = jwtToken.sign({...userUpdate,password:"XXXXXX"},process.env.jwt_secreat)
     res.cookie('uid',jwtData)
 		res.status(200).json({info:userUpdate.Username, message: "Email verified successfully" });

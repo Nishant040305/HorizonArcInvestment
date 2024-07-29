@@ -35,8 +35,24 @@ export const UserFilter = (filter, array) => {
     const arr = [];
     for (let i = 0; i < array.length; i++) {
         if (array[i].Username.toLowerCase().includes(filter.toLowerCase())&&array[i]._id!=user._id) {
-            arr.push(array[i]);
+            if((user.friends.findIndex((item)=>item._id===array[i]._id))===-1){
+                let b = {
+                    ...array[i],
+                    friend:false
+                }
+                arr.push(b);
+            }
+            else{
+                let b = {
+                    ...array[i],
+                    friend:true
+                }
+                arr.push(b);
+            }
+            
+            
         }
+        
     }
     return arr;
 }

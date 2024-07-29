@@ -1,5 +1,5 @@
 const User = require('../models/user');
-
+const Friends = require('../models/Friend');
 const getAllUser = async (req, res) => {
     try {
         const projection = { Username: 1, image: 1, _id: 1 }; // Specify the fields you want
@@ -11,9 +11,9 @@ const getAllUser = async (req, res) => {
     }
 };
 const getFriends = async(req,res)=>{
-    const Id = req.query.userId;
+    const Id = req.body._id;
     try {
-        const data = await User.findById(Id);
+        const data = await Friends.findById(Id);
         res.status(200).json({ info: data.friends });
     } catch (error) {
         console.error('Error fetching user data:', error);
@@ -22,8 +22,8 @@ const getFriends = async(req,res)=>{
 }
 const addFriends = async(userId1,userId2)=>{
     try {
-        const user1 = await User.findById(userId1);
-        const user2 = await User.findById(userId2);
+        const user1 = await Friends.findById(userId1);
+        const user2 = await Friends.findById(userId2);
 
         if (!user1 || !user2) {
             console.log('User not found');

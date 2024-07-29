@@ -43,3 +43,12 @@
     width:500px;
     height:500px;
 }
+.div-friend{
+    padding-top:0.6rem;
+    padding-bottom:0.6rem;
+    padding-right:1.2rem;
+    padding-left:1.2rem;
+    border-radius:8px;
+    font-weight: 600;
+    font-size: 1em;
+}
