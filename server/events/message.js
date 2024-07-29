@@ -1,6 +1,8 @@
+const Message = require('../models/messages');
 module.exports = (io, socket) => {
-    socket.on('message', (requestData) => {
-        const roomName = requestData.chatRoom;
-        io.to(roomName).emit(requestData);
+    socket.on('message', async(requestData) => {
+        const roomName = requestData.ChatRoomId;
+        console.log(roomName,requestData);
+        io.to(roomName).emit('message',requestData);
     });
 };

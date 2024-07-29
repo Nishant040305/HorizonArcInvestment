@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const Message = require('../models/messages');
+const ChatRoom = require('../models/ChatRoom');
 const AddTwoUserToChat = async(User1,User2,ChatRoom)=>{
     try {
         const user1 = await User.findById(User1);
@@ -32,4 +34,52 @@ const AddToChatRoom = async(req,res)=>{
         return res.status(500).json({message:"Internal Server Error"})
     }
 }
-module.exports = {AddTwoUserToChat,AddToChatRoom};
+const getChats = async(req,res)=>{
+    try{
+        const data = {};
+        let chatData = [];
+        const chatRoom = req.body.chatRoom;
+        console.log('yess')
+        console.log(chatRoom.length)
+        for(let i = 0;i<chatRoom.length;i++){
+            data[chatRoom[i]] = await Message.find({ChatRoomId:chatRoom[i]});
+            chatData[i] =await ChatRoom.findById(chatRoom[i]);
+        }
+        return res.status(200).json({info:{message:data,chatRoom:chatData}});
+
+    }
+    catch(e){
+        return res.status(500).json({message:'Internal Server Error'});
+    }
+}
+const getRoomChat = async(req,res)=>{
+    try{
+        const data = await Message.find({ChatRoomId:req.body.chatRoomId});
+        return res.status(200).json({info:data});
+    }catch(e){
+        return res.status(500).json({message:"Internal Server Error"})
+    }
+}
+const AddMessage = async(req,res)=>{
+    try{
+        await new Message({
+            ChatRoomId:req.body.payload.ChatRoomId,
+            message:req.body.payload.message,
+            SenderId:req.body.payload.SenderId
+        }).save();
+        return res.status(200).json({message:"Message Send"})
+
+    }catch(e){
+        return res.status(500).json({message:"Internal Server Error"})
+    }
+}
+const deleteMessage = async(req,res)=>{
+    try{
+        await Message.findByIdAndDelete(req.body._id);
+        return res.status(200).json({messge:"Message Deleted"})
+
+    }catch(e){
+        return res.status(500).json({message:'Internal Server Error'})
+    }
+}
+module.exports = {deleteMessage,AddTwoUserToChat,AddToChatRoom,getChats,getRoomChat,AddMessage};

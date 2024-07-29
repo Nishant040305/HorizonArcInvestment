@@ -1,10 +1,31 @@
-import React from 'react'
+import React,{useRef, useState,useEffect} from 'react'
 import './MessageData.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { SendMessage } from '../../../Store/MessageSlice';
+import { socket } from '../../../Lib/socket';
 const MessageWrite=()=>{
+  const dispatch = useDispatch();
+  const chat = useSelector(state=>state.message)
+  const user = useSelector(state=>state.user);
+  const [text,setText] = useState('');
+    const handleChange =(e)=>{
+      setText(e.target.value);
+    }
+    const sendMessageFunc =(e)=>{
+      if(text!=''){
+        dispatch(SendMessage({ChatRoomId:chat.presentChat._id,message:text,SenderId:user._id,createdAt:Date.now()}))
+        setText('')
+        socket.emit('message',{ChatRoomId:chat.presentChat._id,message:text,SenderId:user._id,createdAt:Date.now()});
+       
+      }
+    }
     return(
         <div className='MessageData-type bg-slate-200'>
-            <input type="text" className='bg-white text-black' placeholder='Type a message'></input>
+            <input type="text" className='bg-white text-black' placeholder='Type a message' value={text} onChange ={(e)=>handleChange(e)} onKeyDown={(e) => {
+    if (e.key === 'Enter') {
+      sendMessageFunc(e);
+    }
+  }}></input>
         </div>
     )
 }
@@ -19,16 +40,29 @@ const Message_Send =(props)=>{
   )
 }
 const MessageData = () => {
+    const chat = useSelector(state=>state.message);
     const user = useSelector(state=>state.user);
+    const image = chat.presentChat.ChatIcon=='NULL'?(user._id==chat.presentChat.users[0]?chat.presentChat.usersImage[1]:chat.presentChat.usersImage[0]):chat.presentChat.ChatIcon;
+    const name = chat.presentChat.ChatIcon=='NULL'?(user._id==chat.presentChat.users[0]?chat.presentChat.userUsername[1]:chat.presentChat.userUsername[0]):chat.presentChat.ChatIcon;
+    const messageAreaRef = useRef(null);
+
+  useEffect(() => {
+    if (messageAreaRef.current) {
+      messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
+    }
+  }, [chat.message[chat.presentChat._id]]);
   return (
      
     <div className='MessageData '>
-      <div className='MessageData-head bg-slate-100'><img src={user.image} className='rounded-full w-16 h-16'/>Nishant Mohan</div>
-      <div className='MessageArea'>
-        <Message_Send text="hello there my name is nishant mohan" user="1"></Message_Send>
-        <Message_Send text="hello there my name is nishant mohan" user="0"></Message_Send>
+      <div className='MessageData-head bg-slate-100'><img src={image} className='rounded-full w-16 h-16'/>{name}</div>
+      <div className='MessageArea' ref={messageAreaRef}>
+      {chat.message[chat.presentChat._id].map((info,index)=>(
+     
+        <Message_Send key={index} text={info.message} user={info.SenderId===user._id}></Message_Send>
 
-      </div>
+  ))}
+   </div>
+
       <MessageWrite></MessageWrite>
     </div>
   )

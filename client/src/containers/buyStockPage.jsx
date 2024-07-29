@@ -105,7 +105,7 @@ const Index =()=>{
         <div className={`${tabSelect=="over"?'Bbar-head-active':'Bbar-head'}`} onClick={()=>{handleScroll("over")}}>Overview</div>
   
   
-        <div className={`${tabSelect=="rec"?'Bbar-head-active':'Bbar-head'}`} onClick={()=>{handleScroll("rec")}}>Recommandeation</div>
+        <div className={`${tabSelect=="rec"?'Bbar-head-active':'Bbar-head'}`} onClick={()=>{handleScroll("rec")}}>Recommendation</div>
   
         <div className={`${tabSelect=="article"?'Bbar-head-active':'Bbar-head'}`} onClick={()=>{handleScroll("article")}}>Articles</div>
       </div>
