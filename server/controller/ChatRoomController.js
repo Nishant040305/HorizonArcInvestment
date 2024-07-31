@@ -39,8 +39,6 @@ const getChats = async(req,res)=>{
         const data = {};
         let chatData = [];
         const chatRoom = req.body.chatRoom;
-        console.log('yess')
-        console.log(chatRoom.length)
         for(let i = 0;i<chatRoom.length;i++){
             data[chatRoom[i]] = await Message.find({ChatRoomId:chatRoom[i]});
             chatData[i] =await ChatRoom.findById(chatRoom[i]);

@@ -1,23 +1,41 @@
+import { PriceFilter,AreaFilter } from "../Lib/Filter";
+import { useSelector } from "react-redux";
 export const FilterReducer =(state,action)=>{
-    console.log(action.type);
+
     switch (action.type) {
-        case 'filter/setBuyStockData':
-            return state;
+        case 'filterData/setBuyStockData':
+            return action.payload;
             break;
-        case 'filter/setPriceFilterStocks':
+        case 'filterData/setPriceFilterStocks':
+            let data_ ={
+                ...state,
+                stock:PriceFilter(action.payload.filter,action.payload.data)
+            }
+            return data_;
+        case 'filterData/setPriceFilterBuy':
+            let data ={
+                ...state,
+                buy:PriceFilter(action.payload.filter,action.payload.data)
+            }
+            return data;
+        case 'filterData/setAreaFilterStock':
+            let data__ ={
+                ...state,
+                stock:AreaFilter(action.payload.filter,action.payload.data)
+            }
+            return data__;
+        case 'filterData/setAreaFilterBuy':
+            let data___ ={
+                ...state,
+                buy:AreaFilter(action.payload.filter,action.payload.data)
+            }
+            return data___;
+        case 'filterData/setLocationFilterBuy':
             return state;
-        case 'filter/setPriceFilterBuy':
-            return state;
-        case 'filter/setAreaFilterStock':
-            return state;
-        case 'filter/setAreaFilterBuy':
-            return state;
-        case 'filter/setLocationFilterBuy':
-            return state;
-        case 'filter/setLocationFilterStock':
+        case 'filterData/setLocationFilterStock':
             return state;
         case 'filterData/searchGlobalUser':
-            state.globalUser = action.payload;
+            state['globalUser'] = action.payload;
             return state;
         default:
             return state;

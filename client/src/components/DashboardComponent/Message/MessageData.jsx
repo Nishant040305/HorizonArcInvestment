@@ -13,19 +13,27 @@ const MessageWrite=()=>{
     }
     const sendMessageFunc =(e)=>{
       if(text!=''){
-        dispatch(SendMessage({ChatRoomId:chat.presentChat._id,message:text,SenderId:user._id,createdAt:Date.now()}))
         setText('')
         socket.emit('message',{ChatRoomId:chat.presentChat._id,message:text,SenderId:user._id,createdAt:Date.now()});
-       
+        e.target.value ='';
       }
     }
+    const sendMessageFunct=(e)=>{
+      if(text!=''){
+        socket.emit('message',{ChatRoomId:chat.presentChat._id,message:text,SenderId:user._id,createdAt:Date.now()});
+        setText('')
+        e.target.value = '';
+      }
+    }
+    
     return(
-        <div className='MessageData-type bg-slate-200'>
+        <div className='MessageData-type bg-slate-200 flex flex-row'>
             <input type="text" className='bg-white text-black' placeholder='Type a message' value={text} onChange ={(e)=>handleChange(e)} onKeyDown={(e) => {
     if (e.key === 'Enter') {
       sendMessageFunc(e);
     }
   }}></input>
+  <button className='bg-slate-200' onClick={(e)=>sendMessageFunct(e)}><i className="fa-solid fa-circle-right bg-slate-200 text-green-500" style={{fontSize:35}}></i></button>
         </div>
     )
 }
@@ -42,25 +50,25 @@ const Message_Send =(props)=>{
 const MessageData = () => {
     const chat = useSelector(state=>state.message);
     const user = useSelector(state=>state.user);
-    const image = chat.presentChat.ChatIcon=='NULL'?(user._id==chat.presentChat.users[0]?chat.presentChat.usersImage[1]:chat.presentChat.usersImage[0]):chat.presentChat.ChatIcon;
-    const name = chat.presentChat.ChatIcon=='NULL'?(user._id==chat.presentChat.users[0]?chat.presentChat.userUsername[1]:chat.presentChat.userUsername[0]):chat.presentChat.ChatIcon;
+    const image = chat?.presentChat?.ChatIcon=='NULL'?(user._id==chat?.presentChat?.users[0]?chat?.presentChat?.usersImage[1]:chat?.presentChat?.usersImage[0]):chat?.presentChat?.ChatIcon;
+    const name = chat?.presentChat?.ChatIcon=='NULL'?(user._id==chat?.presentChat?.users[0]?chat?.presentChat?.userUsername[1]:chat?.presentChat?.userUsername[0]):chat?.presentChat?.ChatIcon;
     const messageAreaRef = useRef(null);
 
   useEffect(() => {
     if (messageAreaRef.current) {
       messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
     }
-  }, [chat.message[chat.presentChat._id]]);
+  }, [chat?.message[chat?.presentChat?._id]]);
   return (
      
     <div className='MessageData '>
       <div className='MessageData-head bg-slate-100'><img src={image} className='rounded-full w-16 h-16'/>{name}</div>
       <div className='MessageArea' ref={messageAreaRef}>
-      {chat.message[chat.presentChat._id].map((info,index)=>(
+      {chat.presentChat?chat?.message[chat?.presentChat?._id].map((info,index)=>(
      
-        <Message_Send key={index} text={info.message} user={info.SenderId===user._id}></Message_Send>
+        <Message_Send key={index} text={info?.message} user={info?.SenderId===user?._id}></Message_Send>
 
-  ))}
+  )):<></>}
    </div>
 
       <MessageWrite></MessageWrite>

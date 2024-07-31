@@ -2,7 +2,6 @@ let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
 import axios from "axios";
 const AddItemBackend =async(shortListID,_id)=>{
     try{
-        console.log(`${BACKWEB}/buyTab/addItemShortlist`);
         const response = await axios.post(`${BACKWEB}/buyTab/addItemShortlist`,{
           shortListID:shortListID,_id:_id,
             headers: {
@@ -14,7 +13,6 @@ const AddItemBackend =async(shortListID,_id)=>{
 
     }).then(response=>{
       if(response.status ===200){
-        console.log("yess")
       }
     })
     }
@@ -35,7 +33,6 @@ const removeItemBackend =async(shortListID,_id)=>{
     
         }).then(response=>{
           if(response.status ===200){
-            console.log(response.data.message);
           }
         })
         }
@@ -47,7 +44,6 @@ const removeItemBackend =async(shortListID,_id)=>{
 export const setShortlistReducer = (state,action)=>{
     switch (action.type) {
         case 'shortList/setShortlist':
-            console.log("yes");
             const data = {data:action.payload,dataLength:(action.payload).length};
             return data;
             break;
@@ -56,7 +52,6 @@ export const setShortlistReducer = (state,action)=>{
             if(index===-1){
                 state.data.push(action.payload.land);
                 state.dataLength++;
-                console.log(action.payload.user,action.payload.land._id);
                 AddItemBackend(action.payload.user,action.payload.land._id);
             }
 

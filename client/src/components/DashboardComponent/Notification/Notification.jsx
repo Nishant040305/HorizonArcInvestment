@@ -38,12 +38,8 @@ const NotificationMess =(props)=>{
 }
 const Notification = () => {
   const notification = useSelector(state=>state.notification);
-  console.log(notification);
   const dispatch = useDispatch();
 
-   
-
-   
   return (
     <div className='Notification'>
       <div className='Notification-head '>Notification</div>

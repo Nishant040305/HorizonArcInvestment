@@ -16,7 +16,6 @@ import { useSelector } from 'react-redux';
 import ShortList from '../components/DashboardComponent/ShortList/ShortList';
 const Dashboard = () => {
   const option = useSelector(state=>state.dashboard)
-  console.log(option);
   return (
   <>
   <Navbar></Navbar>

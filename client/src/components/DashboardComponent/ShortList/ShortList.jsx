@@ -9,9 +9,7 @@ const ShortList = () => {
   const dispatch = useDispatch();
   const user = useSelector(state=>state.user);
   const BuyData = useSelector(state=>state.buyData);
-  console.log(user.shortList);
   const shortList = useSelector(state=>state.shortList);
-  console.log(shortList.dataLength);
   return (
     <div className='shortlist'>
       {shortList.dataLength!=0?shortList.data.map((info, index) => (

@@ -10,7 +10,6 @@ module.exports = (io, socket) => {
             NotifType: 'friend-request/send'
         });
 
-        console.log(notification);
         if (!notification) {
             const noti = await new Notification({
                 SenderId: requestData.SenderId,
@@ -18,15 +17,13 @@ module.exports = (io, socket) => {
                 NotifType: 'friend-request/send',
                 message: requestData.message,
             }).save();
-            console.log(noti);
-            console.log(requestData.receiverId);
+
             io.to(requestData.receiverId).emit('friend-request/send', noti);
         }
     });
 
     socket.on('friend-request/accept', async (requestData) => {
         const { notification, userInfo } = requestData;
-        console.log(notification);
         await Notification.findByIdAndDelete(notification._id);
         const chatRoom = await new ChatRoom({
             users: [notification.SenderId, userInfo.receiverId],
@@ -34,7 +31,6 @@ module.exports = (io, socket) => {
             userUsername: [notification.message.Username, userInfo.Username]
         }).save();
         ChatRoomController.AddTwoUserToChat(notification.SenderId, userInfo.receiverId, chatRoom._id);
-        console.log(notification.SenderId, userInfo.receiverId);
         FriendController.addFriends(notification.SenderId, userInfo.receiverId);
     });
 

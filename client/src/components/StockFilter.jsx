@@ -1,6 +1,9 @@
 import React, { useState ,useRef, useEffect} from 'react';
 import '../assets/StockFilter.css';
 import Slider from 'react-slider';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import {  setPriceFilterBuy, setPriceFilterStocks,setAreaFilterBuy ,setAreaFilterStock} from '../Store/FilterDataSlice';
 const Selectedfilter =(props)=>{
     return(
         <>
@@ -24,10 +27,30 @@ const Projectsfilter=(props)=>{
 export default function StockFilter() {
     const v0ref = useRef(null);
     const v1ref = useRef(null);
-    const Max = 100000;
+    const Max = 1000000000;
     const Min = 0;
     const AMax = 4000;
     const AMin = 0;
+    const filter = useSelector(state=>state.filter);
+    const buydata = useSelector(state=>state.buyData);
+    const stockData = useSelector(state=>state.stock)
+    const setValue = (e) => {
+      setVal(e);
+      const url = new URL(window.location.href);
+      url.searchParams.set('min', e[0]);
+      url.searchParams.set('max', e[1]);
+      window.history.pushState({}, '', url);
+  
+      // Now the URL is updated, and you can access min and max from the URL parameters.
+  };
+
+  const setAreaSearch =(e)=>{
+    setArea(e);
+    const url = new URL(window.location.href);
+      url.searchParams.set('Amin', e[0]);
+      url.searchParams.set('Amax', e[1]);
+      window.history.pushState({}, '', url);
+  }
     const [value, setVal] = useState([Min, Max]);
     const [error, setError] = useState(0); // Initialize error to 0
     const [area,setArea] = useState([AMin,AMax]);
@@ -57,7 +80,21 @@ export default function StockFilter() {
     useEffect(() => {
       validateAndUpdateValues();
     }, []);
-  
+    const dispatch = useDispatch();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (value[0] !== null && value[1] !== null) {
+      dispatch(setPriceFilterBuy({filter:{ Min: value[0], Max: value[1] },data:buydata}));
+      dispatch(setPriceFilterStocks({filter:{ Min: value[0], Max: value[1] },data:stockData}));
+    }
+  }, [value]);
+  useEffect(() => {
+    if (area[0] !== null && area[1] !== null) {
+      dispatch(setAreaFilterBuy({filter:{ Min: area[0], Max: area[1] },data:buydata}));
+      dispatch(setAreaFilterStock({filter:{ Min: area[0], Max: area[1] },data:stockData}));
+    }
+  }, [area]);
   return (
     <div className='stockfilter'>
       <div className='stock-applied-filter'>
@@ -73,7 +110,7 @@ export default function StockFilter() {
         <div className='stock-budget'>
         <div>Budget</div><div style={{color:'blue'}}>Clear All</div>
         </div>
-        <Slider className='slider' value = {value} onChange={setVal} min={Min} max={Max}></Slider>
+        <Slider className='slider' value = {value} onChange={setValue} min={Min} max={Max}></Slider>
         <div className='stock-budget-input'>
             <div style={{display:'flex'}}><div className="stock-budget-input-data2">Min</div>
         <div
@@ -113,7 +150,7 @@ export default function StockFilter() {
         <div className='stock-budget'>
         <div>Area<small>&nbsp;(sq m)</small></div><div style={{color:'blue'}}>Clear All</div>
         </div>
-        <Slider className='slider' value = {area} onChange={setArea} min={AMin} max={AMax}></Slider>
+        <Slider className='slider' value = {area} onChange={setAreaSearch} min={AMin} max={AMax}></Slider>
         <div className='stock-budget-input'>
             <div style={{display:'flex'}}>
         <div className="stock-budget-input-data">

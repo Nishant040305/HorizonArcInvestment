@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import viteLogo from '/vite.svg'
 import '.././assets/App.css'
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import Login from '../components/Login';
 import SideBar from '../components/sideBar';
 import Navbar from '../components/Navbar';
@@ -24,7 +24,7 @@ import Dashboard from './Dashboard';
 import VerifyComponent from '../components/VerifyComponent';
 import axios from "axios";
 import { useDispatch } from 'react-redux';
-import { register } from '../Store/UserAuthSlice';
+import { register, setFriend } from '../Store/UserAuthSlice';
 import { setSeen } from '../Store/LoginSeenSlice';
 import {  setStock } from '../Store/BuyStockSlice';
 import { setBuyData } from '../Store/BuyDataSlice';
@@ -34,7 +34,9 @@ import { setNotification,addNotification } from '../Store/NotificationSlice';
 import { socket } from '../Lib/socket';
 import { setShortlist } from '../Store/ShortListSlice';
 import { ShortListData } from '../Lib/ImportantFunc';
-
+import { setMessage ,Addmessage} from '../Store/MessageSlice';
+import { setBuyStockData,setPriceFilterBuy,setPriceFilterStocks } from '../Store/FilterDataSlice';
+import { PriceFilter } from '../Lib/Filter';
 const App=() =>{
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
@@ -42,6 +44,11 @@ const App=() =>{
   const dispatch = useDispatch();
   let buydata = null;
   axios.defaults.withCredentials = true;
+  const user = useSelector(state=>state.user)
+  const StockLandData = useSelector(state=>state.stock)
+  const BuyLandData = useSelector(state=>state.buyData);
+  const filter = useSelector(state=>state.filter)
+  const location = useLocation()
   const getShortlistData = async(ID)=>{
     try{
       const response = await axios.post(`${BACKWEB}/buyTab/getShorListData`,
@@ -55,7 +62,6 @@ const App=() =>{
 
     }).then(response=>{
       if(response.status ===200&&response.data.infoLength!==0){
-          console.log("hello",response.data.info);
           dispatch(setShortlist(response.data.info));
 
         }
@@ -137,7 +143,6 @@ const App=() =>{
             if(response.status ==200){
                 dispatch(register(response.data.info));
                 dispatch(setSeen(1));
-                console.log("notification loading",response.data.info._id)
                 getNotification(response.data.info._id);
                 getShortlistData(response.data.info.shortList);
                 socket.connect();
@@ -188,7 +193,52 @@ const BuyLand = async()=>{
 }catch(e){
 }
 }
+const getChats =async(Chat)=>{
+  try{
+    const response = await axios.post(`${BACKWEB}/chat/getChat`,
+      
+      {
+        chatRoom:Chat,
+        headers: {
+        'Accept': 'application/json',
+        
+    },
+    mode:"cors",
+    withCredentials:true
 
+}).then(response=>{
+    if(response.status ==200){
+        dispatch(setMessage(response.data.info));
+    }
+})
+    
+  }catch(e){
+
+  }
+}
+const getFriends =async(Friend)=>{
+  try{
+    const response = await axios.post(`${BACKWEB}/User/getFriends`,
+      
+      {
+        _id:Friend,
+        headers: {
+        'Accept': 'application/json',
+        
+    },
+    mode:"cors",
+    withCredentials:true
+
+}).then(response=>{
+    if(response.status ==200){
+        dispatch(setFriend(response.data.info));
+    }
+})
+    
+  }catch(e){
+
+  } 
+}
 useEffect(()=>{
   StockData();
   BuyLand();
@@ -199,15 +249,41 @@ useEffect(()=>{
 },[]);
 // const [data_,setData] = useState('');
 useEffect(()=>{
+  dispatch(setBuyStockData({buy:BuyLandData,
+    stock:StockLandData
+  }));
+},[BuyLandData,StockLandData])
+useEffect(()=>{
+  if(user){
+    getNotification(user._id);
+    getShortlistData(user.shortList);
+    getChats(user.chatRoom);
+    socket.connect();
+    socket.emit('connectToServer',{chatRoom:user.chatRoom,userId:user._id});
+  
+  }
+
+},[user])
+useEffect(()=>{
   socket.on('friend-request/send',(data)=>{
     dispatch(addNotification(data));
-
-  })
+  });
+ 
+  // socket.on('message',(data));
   return ()=>{
-
-    socket.off('friend-request/send')
+    socket.off('friend-request/send');
   }
 },[])
+useEffect(()=>{
+  
+  socket.on('message',(data)=>{
+    dispatch(Addmessage(data))
+  })
+  return ()=>{
+    socket.off('message')
+  }
+}) 
+
   return (
     <Routes>
       <Route path={url.buy} element={<BuyTab></BuyTab>}></Route>

@@ -2,7 +2,7 @@
     display:flex;
     flex-direction: column;
     justify-content: space-between;
-    width:100%;
+    width:80%;
     background-image: url('https://mcdn.wallpapersafari.com/medium/27/32/jt4AoG.jpg');
 }
 .MessageData-head{
@@ -38,12 +38,12 @@
     display: flex;
     flex-direction: column;
 
-    width:inherit;
+    width:100%;
     height: 65vh;
     overflow-y: scroll;
 }
 .Messages-send{
-    padding: 20px;
+    padding: 15px;
     max-width: 70%;
     width:fit-content;
     font-size: 16px;

@@ -24,7 +24,6 @@ const MessageBlock =(props)=>{
 const MessageBar = () => {
     const user = useSelector(state=>state.user);
     const chatRoom = useSelector(state=>state.message);
-    console.log(chatRoom);
     const chatUser = chatRoom.chatRoom;
   return (
     <div className='Message-bar p25'>

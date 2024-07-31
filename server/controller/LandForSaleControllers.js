@@ -51,7 +51,6 @@ const UpdatePrice = async(req,res)=>{
 }
 const addItemShortList = async (req, res) => {
     try {
-        console.log("Request received:", req.body);
 
         // Find the Land by ID
         const Data = await LandSchema.findById(req.body._id);
@@ -90,7 +89,6 @@ const addItemShortList = async (req, res) => {
 
 const RemoveItemShortList = async (req, res) => {
     try {
-        console.log(req.body);
         // Find the ShortList by ID
         const shortList = await ShortList.findById(req.body.shortListID);
         if (!shortList) {
@@ -102,7 +100,6 @@ const RemoveItemShortList = async (req, res) => {
 
         if (landIndex !== -1) {
             // Remove the item from the shortlist
-            console.log(shortList);
             
             await ShortList.findByIdAndUpdate(
                 req.body.shortListID,

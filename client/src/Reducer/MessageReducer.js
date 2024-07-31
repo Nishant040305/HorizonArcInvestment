@@ -12,7 +12,6 @@ const sendMessage =async(Data)=>{
 
   }).then(response=>{
     if(response.status ===200){
-      console.log("yess")
     }
   })
 }
@@ -30,7 +29,6 @@ export const MessageReducer =(state,action)=>{
                         ]
                     }
                 };
-                console.log(action.payload);
                 return State;
         case 'message/SendMessage':
             sendMessage(action.payload);
@@ -46,7 +44,6 @@ export const MessageReducer =(state,action)=>{
                         ]
                     }
                 };
-                console.log(action.payload);
                 return newState;
             
             
@@ -56,7 +53,6 @@ export const MessageReducer =(state,action)=>{
             state.presentChat = action.payload.chatRoom[0];
             return state;
         case 'message/setpresentChat':
-            console.log(action.payload);
             const data = {
                 ...state,
                 presentChat:state.chatRoom[action.payload]

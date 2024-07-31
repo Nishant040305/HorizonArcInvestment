@@ -10,9 +10,7 @@ const FindPeopleBlock =(props)=>{
       image:user.image,
       Username:user.Username,
     },NotifType:"friend-request/send"});
-    socket.on('Notification',(Data)=>{
-      console.log(Data);
-    })
+    
   }
     return(
         <div className='FindPeopleBlock' >
@@ -32,7 +30,6 @@ const FindPeople = () => {
     const user = useSelector(state=>state.user)
     const globalUser = useSelector(state=>state.globalUsers);
     const filter = useSelector(state=>state.filter);
-    console.log(globalUser);
     const userFiltered = UserFilter(filter.globalUser,globalUser);
   return (
     <div className='Findpeople'>

@@ -19,8 +19,8 @@ const Filter =()=>{
 export default function BuyTab() {
   const user = useSelector(state=>state.user);
   const seen = useSelector(state=>state.loginSeen);
-  const BuyLandData = useSelector(state=>state.buyData);
-  console.log(BuyLandData);
+  const BuyLandData = useSelector(state=>state.filter);
+
   return (
     <div className={`BuyTab `}>
 
@@ -33,7 +33,7 @@ export default function BuyTab() {
       </div>
         <div className="buyoption-block">
             <Filter></Filter>
-            {BuyLandData.map((info, index) => (
+            {BuyLandData.buy.length!=0?BuyLandData.buy.map((info, index) => (
               
             <BuyOption 
                 key={info._id || index} 
@@ -53,7 +53,7 @@ export default function BuyTab() {
                 id={info._id}
                 tab="buy"
             />
-            ))}
+            )):<div className='flex flex-row justify-center nothinginStock'><img className='empty-cart' src="available_7910160.png"></img></div>}
         </div>
       
       </div>

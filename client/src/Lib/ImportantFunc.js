@@ -36,7 +36,6 @@ export const calculateDistance=(lat1, lon1, lat2, lon2)=> {
 }
 export const ShortListData = (shortlist, data) => {
     const array =[]
-    console.log(shortlist,data);
     if (!Array.isArray(shortlist)) {
         return array;
     }

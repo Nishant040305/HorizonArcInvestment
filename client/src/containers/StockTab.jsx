@@ -22,8 +22,7 @@ const Filter =()=>{
 export default function StockTab() {
   const user = useSelector(state=>state.user);
   const seen = useSelector(state=>state.loginSeen);
-  const StockLandData = useSelector(state=>state.stock)
-  console.log(StockLandData);
+  const StockLandData = useSelector(state=>state.filter)
   return (
     <div className={`StockTab `}>
       {!(seen.seen||seen.seenlog)&&<Login></Login>}
@@ -34,7 +33,7 @@ export default function StockTab() {
         <div>
           <Filter></Filter>
         <div className="Stockoption-block">
-        {StockLandData.map((info, index) => (
+        {StockLandData.stock.length!=0?StockLandData.stock.map((info, index) => (
               
               <StockOption 
                   key={info._id || index} 
@@ -54,7 +53,7 @@ export default function StockTab() {
                   id={info._id}
                   tab ="stock"
               />
-              ))}
+              )):<div className='flex flex-row justify-center nothinginStock'><img className='empty-cart' src="available_7910160.png"></img></div>}
         
 
             

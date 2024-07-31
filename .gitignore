@@ -30,3 +30,8 @@ backend
 .vscode
 client/src/components/admin
 notes.txt
+API/
+client/src/Reducer/searchHistoryReducer.js
+client/src/Store/LocationSearchHistorySlice.js
+server/models/Stockhold.js
+client/src/test
