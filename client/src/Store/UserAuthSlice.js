@@ -5,8 +5,7 @@ const userSlice = createSlice({
     initialState:null,
     reducers:{
         register:setUser,
-        setFriend:setUser,
     }
 })
-export const {register,setFriend} = userSlice.actions;
+export const {register} = userSlice.actions;
 export default userSlice.reducer;

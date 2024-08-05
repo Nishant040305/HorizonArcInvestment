@@ -30,7 +30,7 @@ const FindPeople = () => {
     const user = useSelector(state=>state.user)
     const globalUser = useSelector(state=>state.globalUsers);
     const filter = useSelector(state=>state.filter);
-    const userFiltered = UserFilter(filter.globalUser,globalUser);
+    const userFiltered = UserFilter(filter.globalUser,globalUser.global);
   return (
     <div className='Findpeople'>
       {userFiltered.length?userFiltered.map((info, index) => (

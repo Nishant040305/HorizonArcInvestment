@@ -14,16 +14,21 @@ const getFriends = async(req,res)=>{
     const Id = req.body._id;
     try {
         const data = await Friends.findById(Id);
-        res.status(200).json({ info: data.friends });
+        if(!data){
+            return res.status(404).json({info:[],message:"User data not found"})
+        }
+        return res.status(200).json({ info: data.Friends });
     } catch (error) {
         console.error('Error fetching user data:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: 'Internal server error' });
     }
 }
 const addFriends = async(userId1,userId2)=>{
     try {
-        const user1 = await Friends.findById(userId1);
-        const user2 = await Friends.findById(userId2);
+        const user_1 = await User.findById(userId1)
+        const user_2 = await User.findById(userId2) 
+        const user1 = await Friends.findById(user_1.friendId);
+        const user2 = await Friends.findById(user_2.friendId);
 
         if (!user1 || !user2) {
             console.log('User not found');
@@ -31,8 +36,8 @@ const addFriends = async(userId1,userId2)=>{
         }
 
         // Add ChatRoom to their chatRoom arrays
-        user2.friends.push({_id:user1._id,Username:user1.Username,image:user1.image});
-        user1.friends.push({_id:user2._id,Username:user2.Username,image:user2.image});
+        user2.Friends.push({_id:user_1._id,Username:user_1.Username,image:user_1.image});
+        user1.Friends.push({_id:user_2._id,Username:user_2.Username,image:user_2.image});
 
         // Save the updated users
         await user1.save();

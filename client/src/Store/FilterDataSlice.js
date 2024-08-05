@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import { FilterReducer } from "../Reducer/FilterDataReducer";
 const FilterDataSlice = createSlice({
     name:"filterData",
-    initialState:{stock:[],buy:[],globalUser:[]},
+    initialState:{stock:[],buy:[],globalUser:'',tag:[]},
     reducers:{
         setBuyStockData:FilterReducer,
         setPriceFilterStocks:FilterReducer,

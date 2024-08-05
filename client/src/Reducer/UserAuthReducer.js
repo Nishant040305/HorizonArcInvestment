@@ -1,14 +1,13 @@
 export const setUser =(state,action)=>{
     switch (action.type) {
         case "user/register":
-            return action.payload
-            break;
-        case "user/setFriend":
-            const data={
-                ...state,
-                friends:action.payload
+            const data_ = {
+                ...action.payload,
+                friends:[]
             }
-            return data
+            return data_
+            break;
+      
         default:
             return state
             break;

@@ -32,12 +32,13 @@ export const locationFilter =(Filter,Array)=>{
 
 export const UserFilter = (filter, array) => {
     const user = useSelector(state=>state.user);
+    const friends = useSelector(state=>state.globalUsers)
     const arr = [];
   
     for (let i = 0; i < array.length; i++) {
         
         if ((!filter||array[i].Username.toLowerCase().includes(filter.toLowerCase()))&&array[i]._id!=user._id) {
-            if((user.friends.findIndex((item)=>item._id===array[i]._id))===-1){
+            if((friends.friends.findIndex((item)=>item._id===array[i]._id))===-1){
                 let b = {
                     ...array[i],
                     friend:false

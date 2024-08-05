@@ -5,13 +5,14 @@ import { globalUsers } from "../Reducer/AllUserReducer";
 const globalUserSlice = createSlice(
     {
         name:'globalUsers',
-        initialState:[],
+        initialState:{global:[],friends:[]},
         reducers:{
             setglobalUser:globalUsers,
+            setFriends:globalUsers
         }
     }
 )
 
-export const {setglobalUser} = globalUserSlice.actions;
+export const {setglobalUser,setFriends} = globalUserSlice.actions;
 
 export default globalUserSlice.reducer;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef, useReducer } from 'react'
 import viteLogo from '/vite.svg'
 import '.././assets/App.css'
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
@@ -24,11 +24,11 @@ import Dashboard from './Dashboard';
 import VerifyComponent from '../components/VerifyComponent';
 import axios from "axios";
 import { useDispatch } from 'react-redux';
-import { register, setFriend } from '../Store/UserAuthSlice';
+import { register } from '../Store/UserAuthSlice';
 import { setSeen } from '../Store/LoginSeenSlice';
 import {  setStock } from '../Store/BuyStockSlice';
 import { setBuyData } from '../Store/BuyDataSlice';
-import { setglobalUser } from '../Store/globalUser';
+import { setglobalUser,setFriends } from '../Store/globalUser';
 import { setLocation } from '../Store/GeolocationSlice';
 import { setNotification,addNotification } from '../Store/NotificationSlice';
 import { socket } from '../Lib/socket';
@@ -37,12 +37,14 @@ import { ShortListData } from '../Lib/ImportantFunc';
 import { setMessage ,Addmessage} from '../Store/MessageSlice';
 import { setBuyStockData,setPriceFilterBuy,setPriceFilterStocks } from '../Store/FilterDataSlice';
 import { PriceFilter } from '../Lib/Filter';
+import Admin from '../components/admin/Admin';
 const App=() =>{
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
   const seen = useSelector(state=>state.loginSeen);
   const dispatch = useDispatch();
   let buydata = null;
+  const initialLoad = useRef(true);
   axios.defaults.withCredentials = true;
   const user = useSelector(state=>state.user)
   const StockLandData = useSelector(state=>state.stock)
@@ -231,7 +233,7 @@ const getFriends =async(Friend)=>{
 
 }).then(response=>{
     if(response.status ==200){
-        dispatch(setFriend(response.data.info));
+        dispatch(setFriends(response.data.info));
     }
 })
     
@@ -258,12 +260,21 @@ useEffect(()=>{
     getNotification(user._id);
     getShortlistData(user.shortList);
     getChats(user.chatRoom);
+    getFriends(user.friendId);
     socket.connect();
     socket.emit('connectToServer',{chatRoom:user.chatRoom,userId:user._id});
-  
+    return()=>{
+      socket.off('connectToServer')
+    }
   }
 
 },[user])
+// useEffect(()=>{
+//   if(user&&initialLoad.current){
+//     getFriends(user.friendId);
+//     initialLoad.current = false;
+//   }
+// },[user])
 useEffect(()=>{
   socket.on('friend-request/send',(data)=>{
     dispatch(addNotification(data));
@@ -292,6 +303,7 @@ useEffect(()=>{
       <Route path={url.page} element ={<Index></Index>}></Route>
       <Route path={url.dashboard} element={!seen.seen? <Navigate replace to={url.stock} />:<Dashboard></Dashboard>}></Route>
       <Route path='/users/:id/verify/:token' element ={<VerifyComponent></VerifyComponent>}></Route>
+      <Route path='/admin' element={<Admin></Admin>}></Route>
     </Routes>
     
   );
