@@ -235,15 +235,15 @@ const VerifyUser = async(req,res)=>{
 			token: req.params.token,
 		});
 		if (!token) return res.status(400).json({ message: "Invalid link" });
+    if(user.verify) return res.status(200).json({ info:user.Username, message: "Email verified successfully"  })
     const _short_Data = await new shortList({userId:user._id}).save();
     const _Friend_List = await new Friend({userId:user._id}).save();
-    const userUpdate= await User.findOneAndUpdate({ _id: user._id},{ verify: true,Username:Usergenerate(token.email,user._id),chatRoom:[],shortList:_short_Data,friendsId:_Friend_List },{new:true});
+    const userUpdate= await User.findOneAndUpdate({ _id: user._id},{ verify: true,Username:Usergenerate(token.email,user._id),chatRoom:[],shortList:_short_Data._id,friendId:_Friend_List._id },{new:true});
     const jwtData = jwtToken.sign({...userUpdate,password:"XXXXXX"},process.env.jwt_secreat)
-    res.cookie('uid',jwtData)
-		res.status(200).json({info:userUpdate.Username, message: "Email verified successfully" });
+		return res.status(200).json({info:userUpdate.Username, message: "Email verified successfully" });
 	} catch (error) {
     console.log(error)
-		res.status(500).json({ message: "Internal Server Error" });
+		return res.status(500).json({ message: "Internal Server Error" });
 	}
 }
 const LogIn = async(req,res)=>{
