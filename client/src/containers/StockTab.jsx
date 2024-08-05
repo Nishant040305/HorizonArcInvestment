@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Navbar from '../components/Navbar';
 import StockOption from '../components/BuyLandIndi';
 import Recomendation from '../components/Recomendation';
@@ -23,6 +23,17 @@ export default function StockTab() {
   const user = useSelector(state=>state.user);
   const seen = useSelector(state=>state.loginSeen);
   const StockLandData = useSelector(state=>state.filter)
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 8; // Number of items per page
+
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(StockLandData.stock.length / pageSize);
+
+  // Get the data to display on the current page
+  const currentData = StockLandData.stock.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
   return (
     <div className={`StockTab `}>
       {!(seen.seen||seen.seenlog)&&<Login></Login>}
@@ -33,7 +44,7 @@ export default function StockTab() {
         <div>
           <Filter></Filter>
         <div className="Stockoption-block">
-        {StockLandData.stock.length!=0?StockLandData.stock.map((info, index) => (
+        {currentData.length!=0?currentData.map((info, index) => (
               
               <StockOption 
                   key={info._id || index} 
@@ -64,22 +75,26 @@ export default function StockTab() {
 
         </div>
       </div>
-      <div className="Stockfootpage r">
-              <div className='pageCat'>Pages 5 to 12</div>
-              <strong style={{alignItems:'centre'}}> <i className="material-icons" style={{paddingTop:7}}>chevron_left</i></strong>
-              <strong>Previous</strong>
-              <button className="rounded-full bg-white">1</button>
-              <button className="rounded-full bg-white">2</button>
-              <button className="rounded-full bg-white">3</button>
-              <button className="rounded-full bg-white">4</button>
-              <button className="rounded-full bg-white">5</button>
-              <button className="rounded-full bg-white">6</button>
-              <button className="rounded-full bg-white">7</button>
-              <button className="rounded-full bg-white">8</button>
-              <strong>Next Page</strong>
-              <strong style={{alignItems:'centre'}}> <i className="material-icons" style={{paddingTop:7}}>chevron_right</i></strong>
-
-            </div>
+      <div className="buyfootpage">
+        <div className="pageCat">Pages {currentPage} to {totalPages}</div>
+        <strong style={{ alignItems: 'center' }}>
+          <i className="material-icons" style={{ paddingTop: 7 }}>chevron_left</i>
+        </strong>
+        <strong onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}>Previous</strong>
+        {[...Array(totalPages).keys()].map(page => (
+          <button
+            key={page + 1}
+            className="rounded-full bg-white"
+            onClick={() => setCurrentPage(page + 1)}
+          >
+            {page + 1}
+          </button>
+        ))}
+        <strong onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}>Next Page</strong>
+        <strong style={{ alignItems: 'center' }}>
+          <i className="material-icons" style={{ paddingTop: 7 }}>chevron_right</i>
+        </strong>
+      </div>
       <Footer></Footer>
     </div>
   )
