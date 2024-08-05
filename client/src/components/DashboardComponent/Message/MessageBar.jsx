@@ -33,11 +33,11 @@ const MessageBar = () => {
         {chatUser.map((info, index) => (
               
               <MessageBlock 
-                  key={info._id || index} 
-                  chatRoomId = {info._id}
-                  image={info.ChatIcon=='NULL'?(user._id==info.users[0]?info.usersImage[1]:info.usersImage[0]):user.ChatIcon}
-                  name={info.ChatIcon=='NULL'?(user._id==info.users[0]?info.userUsername[1]:info.userUsername[0]):user.ChatIcon}
-                  icon = {info.ChatIcon}
+                  key={info?._id || index} 
+                  chatRoomId = {info?._id}
+                  image={info?.ChatIcon=='NULL'?(user._id==info.users[0]?info.usersImage[1]:info.usersImage[0]):user.ChatIcon}
+                  name={info?.ChatIcon=='NULL'?(user._id==info.users[0]?info.userUsername[1]:info.userUsername[0]):user.ChatIcon}
+                  icon = {info?.ChatIcon}
                   data = {index}
               />
               ))}
