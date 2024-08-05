@@ -5,9 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import {  setPriceFilterBuy, setPriceFilterStocks,setAreaFilterBuy ,setAreaFilterStock} from '../Store/FilterDataSlice';
 const Selectedfilter =(props)=>{
+    const PlotTypeFilter = ()=>{
+      if(props.type=='add'){
+        const url = new URL(window.location.href);
+        url.searchParams.set('plot_type',props.filter);
+        window.history.pushState({}, '', url);
+      }
+    }
     return(
         <>
-        {props.type=="add"?<div className='stockSelectte bg-slate-100 rounded-3xl'>
+        {props.type=="add"?<div className='stockSelectte bg-slate-100 rounded-3xl' onClick={()=>PlotTypeFilter()}>
              <div>{props.filter}</div><div className="text-slate-400"style={{marginLeft:8,fontSize:25}}>+</div>
         </div>:<div className='stockSelect bg-blue-50 rounded-3xl'>
         <div>{props.filter}</div><i className='fa fa-times' style={{color:'blue',marginLeft:8}}></i>
@@ -163,15 +170,15 @@ export default function StockFilter() {
         </div>
 
         </div>
-        <div className="linesha"></div>
-        <div className='stock-budget' style={{marginBottom:30}}>
+        {/* <div className="linesha"></div> */}
+        {/* <div className='stock-budget' style={{marginBottom:30}}>
         <div>New Projects/Society </div><div style={{color:'blue'}}>Clear All</div>
         </div>
         <div style={{display:'flex',flexDirection:"column"}}>
             <Projectsfilter message="National Highway NH23"></Projectsfilter>
             <Projectsfilter message="Eiffel Tower"></Projectsfilter>
 
-        </div>
+        </div> */}
       </div>
   )
 }
