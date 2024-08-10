@@ -24,10 +24,10 @@ export default function Shares() {
   const pageSize = 8; // Number of items per page
 
   // Calculate the total number of pages
-  const totalPages = Math.ceil(BuyLandData.buy.length / pageSize);
+  const totalPages = Math.ceil(BuyLandData.stock.length / pageSize);
 
   // Get the data to display on the current page
-  const currentData = BuyLandData.buy.slice(
+  const currentData = BuyLandData.stock.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );

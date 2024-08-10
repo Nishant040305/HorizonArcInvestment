@@ -36,12 +36,12 @@ app.use(express.json());
 app.use(cookieParser());
 //Available Routes
 
-app.use('/',require('./routes/credential'));
-app.use('/buyTab',require('./routes/LandForSale'));
-app.use('/stockTab',require('./routes/StocksTab'));
-app.use('/User',require('./routes/DashFriend'));
-app.use('/notification',require('./routes/Notification'));
-app.use('/chat',require('./routes/chat'));
+app.use('/',require('./routes/credential.routes'));
+app.use('/buyTab',require('./routes/LandForSale.routes'));
+app.use('/stockTab',require('./routes/StocksTab.routes'));
+app.use('/User',require('./routes/DashFriend.routes'));
+app.use('/notification',require('./routes/Notification.routes'));
+app.use('/chat',require('./routes/chat.routes'));
 app.use('/admin',require('./routes/Admin.routes'))
 // Error handling middleware
 app.use((err, req, res, next) => {
