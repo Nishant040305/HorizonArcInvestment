@@ -22,7 +22,6 @@ export default function BuyTab() {
   const BuyLandData = useSelector(state=>state.filter);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 8; // Number of items per page
-
   // Calculate the total number of pages
   const totalPages = Math.ceil(BuyLandData.buy.length / pageSize);
 
@@ -49,7 +48,7 @@ export default function BuyTab() {
             <BuyOption
               key={info._id || index}
               Images={info.Images[0]}
-              Price={info.Price[3]}
+              Price={info.Price[info.Price.length-1]}
               amount={info.Area.amount}
               gataNumber={info.gataNumber}
               unit={info.Area.unit}

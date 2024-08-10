@@ -1,6 +1,6 @@
 import {io} from 'socket.io-client';
 
-const URL = `${import.meta.env.VITE_REACT_APP_WEB}4004` ;
+const URL = `${import.meta.env.VITE_REACT_APP_WEB}` ;
 
 export const socket = io(URL, {
     autoConnect: false

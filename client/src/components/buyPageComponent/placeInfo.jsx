@@ -13,7 +13,10 @@ const Place=(props)=>{
         </div>
     )
 }
-const PlaceNearby=()=>{
+const PlaceNearby=(props)=>{
+    const highlight = props;
+    console.log(highlight)
+
     return(
         <div className="place-nearby">
             <div className="flex flex-row place-img-block">
@@ -21,11 +24,13 @@ const PlaceNearby=()=>{
 
 
             </div>
+
             <div className="flex flex-row" style={{marginTop:20}}>
-            <Place type="Hospital" locality="Prachi Hospital"></Place>
-            <Place type="Train" locality="Prayagraj Junction"></Place>
-            <Place type="Train" locality="Allahabad Junction"></Place>
-            <Place type="Airport" locality="Prayagraj Airport"></Place>
+            {highlight?.Highlights?highlight.Highlights.map((info,index)=>(
+            <Place type={info.type} locality={info.text}></Place>
+
+            )):""}
+   
             </div>
            
         </div>

@@ -60,6 +60,8 @@ const Index =()=>{
         setLand(StockLandData[StockLandData.findIndex(x=>x._id===id)])
        }
     },[tab,id,StockLandData,BuyLandData])
+    const highlight = land?.Highlights;
+    console.log(highlight)
     return(
 
         <div className={`index`} >
@@ -88,7 +90,7 @@ const Index =()=>{
           </div>
           <div className="BNavbar-info-data flex-col text-left">
             <div className="block">{`${land?.Category}`}</div>
-            <div>{`${land?.Village}, ${land?.District} near ${land?.Highlights}`}</div>
+            <div>{`${land?.Village}, ${land?.District} near ${highlight?highlight[0].text:""}`}</div>
           </div>
         </div>
         <div className="BNavbar-info-data-block flex-col">
@@ -115,8 +117,8 @@ const Index =()=>{
                 <Overview props={land}></Overview>
                 </div>
 
-            <PlaceNearby ></PlaceNearby>
-            <Traninfo></Traninfo>
+            <PlaceNearby Highlights={land?.Highlights}></PlaceNearby>
+            <Traninfo Category={land?.Category}></Traninfo>
             <AboutProp props={land?.Description}></AboutProp>
             <div id="rec">
             <Recomd ></Recomd>

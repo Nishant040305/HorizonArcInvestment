@@ -33,13 +33,13 @@ const InfoBlock =(props)=>{
     const navigate = useNavigate();
     const land = props.props
     const url = useSelector(state=>state.url);
-    
+    const highlight = land?.Highlights;
 
     return(
         <div className="buyInfoComponent">
             <div className="flex flex-row">
             <Data type="Area" value={`${land?.Area?.amount} ${land?.Area?.unit}`}></Data>
-            <Data type="Location" value={`${land?.Village}, ${land?.District} near ${land?.Highlights}`}></Data>
+            <Data type="Location" value={`${land?.Village}, ${land?.District} near ${highlight?highlight[0].text:""}`}></Data>
             </div>
             <div className="flex flex-row">
             <Data type="Price" value={numTowords(land?.Price[land?.Price.length-1])}></Data>
