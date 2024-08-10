@@ -28,7 +28,6 @@ dist-ssr
 backend
 *.pdf
 .vscode
-client/src/components/admin
 notes.txt
 API/
 client/src/Reducer/searchHistoryReducer.js
