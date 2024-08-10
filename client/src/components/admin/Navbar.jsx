@@ -1,20 +1,20 @@
-import React from 'react'
-import './Navbar.css'
-const Navbar = () => {
+import React from 'react';
+import './Navbar.css';
+
+const Navbar = ({ onTabChange }) => {
   return (
     <div className='flex flex-row'>
-      <button className='bg-white text-gray-800 admin-nav'>Users</button>
-      <button className='bg-white text-gray-800 admin-nav'>Shares</button>
-      <button className='bg-white text-gray-800 admin-nav'>Land</button>
-      <button className='bg-white text-gray-800 admin-nav'>Notification</button>
-      <button className='bg-white text-gray-800 admin-nav'>Add Shares</button>
-      <button className='bg-white text-gray-800 admin-nav'>Add Land</button>
-      <button className='bg-white text-gray-800 admin-nav'>Employees</button>
-      <button className='bg-white text-gray-800 admin-nav'>Transaction Details</button>
-      <button className='bg-white text-gray-800 admin-nav'>Send Message</button>
-
+      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('User')}>Users</button>
+      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('Shares')}>Shares</button>
+      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('Land')}>Land</button>
+      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('Notification')}>Notification</button>
+      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('AddShares')}>Add Shares</button>
+      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('AddLand')}>Add Land</button>
+      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('Employees')}>Employees</button>
+      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('TransactionDetails')}>Transaction Details</button>
+      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('SendMessage')}>Send Message</button>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

@@ -21,10 +21,21 @@ const BuyOption=(props)=> {
   const highlight  = props.Highlights;
   console.log(props.Price)
   // console.log(price)
+  console.log(props);
   return (
     <div className="rounded-3xl buy-cart bg-white">
+ 
       <img className="rounded-3xl buy-cart-img"src={props.Images?props.Images:"https://img.freepik.com/free-photo/amazing-aerial-shot-singapore-cityscape-with-lots-skyscrapers_181624-18618.jpg?w=1060&t=st=1719822907~exp=1719823507~hmac=72467b1d3ff99b6937deb45b5d3e5120eb61220f2f5b93c65a801ca9f3840b2f"}></img>
       <div className="buy-cart-info">
+      {props.admin=="true"?<div className=" buy-cart-info-block flex flex-col Admin-data">
+        <div>
+        <strong>_id:   </strong> {props.id}
+        </div>
+       <div>
+       <strong>gataNumber:    </strong> {props.gataNumber}
+
+        </div>
+      </div>:<></>}
         <div className="buy-cart-info-location"><strong>{props.Village?`${props.Village}, ${props.District} near ${highlight[0].text}`:'Lehra Land Plot,Near NH230 Highway'}</strong></div>
         <div className="buy-cart-info-address">{props.Category?`${props.Category}  ${props.Village} ${props.District},${props.State} 211013`:'Residential plot/Land Lehra Prayagraj,Uttarpradesh 211013'}</div>
         <div className="buy-cart-info-block">
