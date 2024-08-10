@@ -19,6 +19,7 @@ const ChatRoom = require('./models/ChatRoom');
 const ChatRoomController = require('./controller/ChatRoomController');
 const socketHandlers = require('./events');
 
+
 const io = new Server({
     cors: {
         origin: web
@@ -41,6 +42,7 @@ app.use('/stockTab',require('./routes/StocksTab'));
 app.use('/User',require('./routes/DashFriend'));
 app.use('/notification',require('./routes/Notification'));
 app.use('/chat',require('./routes/chat'));
+app.use('/admin',require('./routes/Admin.routes'))
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

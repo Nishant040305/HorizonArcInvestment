@@ -17,8 +17,7 @@ const LandSchema = new Schema(
          },
         gataNumber:{
             type:String,
-            required:true,
-            unique:true
+            // unique:true
         },
         State:{
             type:String,
@@ -29,7 +28,7 @@ const LandSchema = new Schema(
             type:String,
             required:true,
         },
-        Mandal:{
+        Division:{
             type:String,
         },
         Village:{
@@ -46,7 +45,7 @@ const LandSchema = new Schema(
             type:String,
         },
         Highlights:{
-            type:[String],
+            type:[Object],
         },
         Category:{
             type:String
