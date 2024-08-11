@@ -11,4 +11,5 @@ const upload = multer({ storage });
 
 router.post('/upload',upload.single('file'),AdminController.ImageUpload);
 router.post('/landUpload',AdminController.InsertBuyLand);
+router.post('/sharesUpload',AdminController.InsertStock);
 module.exports = router;

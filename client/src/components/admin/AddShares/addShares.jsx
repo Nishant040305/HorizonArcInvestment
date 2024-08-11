@@ -1,12 +1,12 @@
 import React, { useState,useEffect } from 'react'
-import './addbuydata.css';
+// import './addbuydata.css';
 import data from '../../../Constants/sorted_data.json';
 import axios from "axios"
-
+import './addShares.css'
 let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB
 
 
-const AddBuyData = () => {
+const AddSharesData = () => {
     const[land,setLand] = useState({
         Area:{amount:null,unit:'sq.m'},
         gataNumber:null, 
@@ -17,6 +17,7 @@ const AddBuyData = () => {
         Images:[],
         Price:null,
         Description:null,
+        Shares:null,
         Highlights:[],
         Category:"Residential/plot",
         Property:'LeaseHold',
@@ -228,7 +229,7 @@ const AddBuyData = () => {
             };
     
             // Submit the updated land object
-            const response = await axios.post(`${BACKWEB}/admin/landUpload`, {
+            const response = await axios.post(`${BACKWEB}/admin/sharesUpload`, {
                updatedLand, 
                 headers: {
                     'Content-Type': 'application/json',
@@ -254,9 +255,9 @@ const AddBuyData = () => {
     }, [location,land,images]); // Logs location when it changes
 
   return (
-    <div className="bg-blue-50 ">
-        <h1 className='h1-heading'>Add Buy Data</h1>
-    <div className='flex_box p-10 bg-white m-10'>
+    <div className="bg-green-50 ">
+        <h1 className='h1-heading'>Add Shares Data</h1>
+    <div className='flex_box p-10 bg-white m-10 '>
         <div className="labels grid_secposition" >
         <div className="labels">
             <h2 className="head2">UPLOAD PHOTOS</h2>
@@ -393,12 +394,17 @@ const AddBuyData = () => {
             <div className='heading_land_field '>Area*</div>
             <input className="input_field h-12" type="number" placeholder="Area:"onChange={(e)=>handleChange(e)}   name='Area'></input>
         </div >
+       
         <select className="input_field form-control from plotCategory unit "onChange={(e)=>handleChange(e)} name="unit">
             <option value="sq.m">sq.m</option>
             <option value="hectare">Hectare</option>
             <option value="sq.ft">Sq. Feet</option>
         </select>
         </div>
+        <div className=' text-left ' >
+            <div className='heading_land_field '>Stocks*</div>
+            <input className="input_field h-12" type="Number" placeholder="Stocks:"onChange={(e)=>handleChange(e)}   name='Shares'></input>
+        </div >
         <div className=' text-left ' >
             <div className='heading_land_field '>Price*</div>
             <input className="input_field h-12" required="true" type="number"placeholder="Price:" onChange={(e)=>handleChange(e)}   name='Price'></input>
@@ -408,9 +414,10 @@ const AddBuyData = () => {
 
         </div>
         
-        </div>
+
+   </div>
    </div>
   )
 }
 
-export default AddBuyData
+export default AddSharesData;

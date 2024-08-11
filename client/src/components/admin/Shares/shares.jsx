@@ -59,6 +59,7 @@ export default function Shares() {
               Property={info.Property}
               id={info._id}
               admin="true"
+              tab="stock"
             />
           ))
         ) : (

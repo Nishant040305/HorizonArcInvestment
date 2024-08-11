@@ -7,7 +7,7 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 const LandSchema = require('../models/LandForSale')
-
+const Stock = require('../models/Stock')
 // Configure Cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUDNAME,
@@ -100,4 +100,53 @@ const InsertBuyLand = async (req, res) => {
        return res.status(500).json({ message: "Internal Server Error" });
     }
 };
-module.exports = { ImageUpload,InsertBuyLand };
+const InsertStock = async (req, res) => {
+    try {
+        console.log("Incoming data:", req.body);
+        let data = req.body.updatedLand;
+
+        // Validate gataNumber
+        if (!data.gataNumber) {
+            return res.status(400).json({ message: "Gata Number is required" });
+        }
+
+        // Check if a land with the same gataNumber already exists
+        const existingLand = await Stock.findOne({ gataNumber: data.gataNumber });
+        if (existingLand) {
+            return res.status(400).json({ message: "A land with this Gata Number already exists" });
+        }
+
+        // Construct the data for insertion
+        let Images=[]
+        let i =0;
+        for(let key in data.Images){
+            Images[i] = data.Images[key];
+            i++;
+        }
+        data.Shares = Number(data.Shares);
+        console.log("Stocks:->",data.Shares)
+        // Save the new land document
+        const newLand = new Stock({
+            gataNumber: data.gataNumber,
+            Area: { amount: Number(data.Area.amount), unit: data.Area.unit },
+            District: data.District,
+            Division: data.Division,
+            Village: data.Village,
+            Category: data.Category,
+            Images: Images,
+            Price: [Number(data.Price)],
+            Description: data.Description,
+            Highlights: data.Highlights,
+            State: data.State,
+            location: data.location,
+            Stocks:data.Share,
+        });
+        console.log(newLand);
+        await newLand.save();
+       return res.status(200).json({ message: "Entry Successful" });
+    } catch (e) {
+        console.log(e);
+       return res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+module.exports = { ImageUpload,InsertBuyLand,InsertStock };

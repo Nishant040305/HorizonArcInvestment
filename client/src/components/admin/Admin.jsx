@@ -5,6 +5,7 @@ import User from './Users/Users';
 import AddBuyData from './Addland/addBuyData';
 import Shares from './Shares/shares'
 import Land from './Land/land'
+import AddSharesData from './AddShares/addShares';
 const Admin = () => {
   const [selectedTab, setSelectedTab] = useState('User');
 
@@ -18,6 +19,8 @@ const Admin = () => {
         return <Shares/>;
       case 'Land':
         return <Land/>;
+      case 'AddShares':
+        return <AddSharesData></AddSharesData>
       default:
         return <User />;
 

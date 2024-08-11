@@ -46,7 +46,7 @@ const StockSchema = new Schema({
         type:String,
         required:true,
     },
-    Mandal:{
+    Division:{
         type:String,
     },
     Village:{
@@ -67,7 +67,7 @@ const StockSchema = new Schema({
         type:String,
     },
     Highlights:{
-        type:[String],
+        type:[Object],
     },
     Category:{
         type:String
