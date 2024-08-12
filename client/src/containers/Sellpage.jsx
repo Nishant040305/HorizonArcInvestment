@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import ".././assets/Sellpage.css";
 // import "dotenv";
@@ -6,116 +6,109 @@ import axios from "axios";
 import SideBar from '../components/sideBar';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-const loginwithgoogle =()=>{
-    window.open(`http://localhost:5000/auth/google/callback`,"_self")
-}
+import data from '../Constants/sorted_data.json';
+import { socket } from '../Lib/socket';
+import { useSelector } from 'react-redux';
 const Sell =()=>{
+    const user = useSelector(state=>state.user)
     let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
-    const [userId,setUserId] = useState('');
-    const [name,setName] = useState('');
-    const [varotp,setvartp]  = useState('');
-    const [otp,setOtp] = useState('');
-    const [otpMessage,setOtpMessage] = useState(false);
-    const [seen,setSeen] = useState(false);
-    const navigate = useNavigate();
-    const [email,setEmail] = useState('');
-    const [fullname,setFullname] = useState('');
-    const [gatanum,setGatanum] = useState('');
-    const [state,setState] = useState('');
-    const [district,setDistrict] = useState('');
-    const [mandal,setMandal] = useState('');
-    const [loc,setLoc] = useState('');
-
-    const [dob,setDob] = useState('');
-    const [pan, setPan] = useState('');
-    const [number,setNumber] = useState('');
-
-    const handleEmail =(e)=>{
-        setEmail(e.target.value)
-    }
-    const handleGatanum=(e)=>{
-        setGatanum(e.target.value)
-    }
-    const handleState=(e)=>{
-        setState(e.target.value)
-    }
-    const handleDistrict=(e)=>{
-        setDistrict(e.target.value)
-    }
-    const handleMandal=(e)=>{
-        setMandal(e.target.value)
-    }
-    const handleLoc=(e)=>{
-        setLoc(e.target.value)
-    }
-    const handleFullname =(e)=>{
-        setFullname(e.target.value)
-    }
-    const handleMobile =(e)=>{
-        setNumber(e.target.value)
-    }
-    const handleDob =(e)=>{
-        setDob(e.target.value)
-    }
-    const handlePan =(e)=>{
-        setPan(e.target.value)
-    }
-    const handleName =(e)=>{
-        setName(e.target.value);
-    }
-    const handleOtp =(e)=>{
-        setvartp(e.target.value);
-    }
-    
-    const login_email = async()=>{
-        try {
-            const response = await axios.post(`${BACKWEB}/jsonwebtoken`,{pan:pan,mobile:number,dob:dob,Name:fullname,email:email},
-                {
-                    headers: {
-                    'Accept': 'application/json',
+    const[land,setLand] = useState({
+        Area:{amount:null,unit:'sq.m'},
+        gataNumber:null, 
+        State:null,
+        District:null,
+        Division:null,
+        Village:null,
+        Email:null,
+        phoneNumber:null,
+        fullName:null,
+        panNumber:null
+    })
+    const[location,setLocation] = useState({
+        State:null,
+        Division:null,
+        District:null,
+        Village:null,
+      
+        
+    })
+    const handleChange=(e)=>{
+        if([e.target.name]=="Area"){
+            setLand({
+                ...land,
+                Area:{
+                    ...land.Area,
+                    amount:e.target.value,
                 }
-            });
-            if (response.status !== 200) {
-                throw new Error('Failed to Send Email');
-            }
-            else{
-                
-                // setOtp(1);
-                // setOtpMessage(1)
-            }
-        } catch (e) { console.error(e) }
-    }
-    const login_Confirm = async()=>{
-        if(varotp==otp){
-            const response = await axios.post(`${BACKWEB}/ConfirmDetail`,{pan:pan,mobile:number,dob:dob,Name:fullname,email:email},
-                {headers: {
-                'Accept': 'application/json',
-            }
-            });
-            if (response.status !==200){
-                throw new Error('Internal Server Error');
-            }
-            else{
-                setUserId(response.data._id);
-                
-            }
+            })
         }
-        else if(varotp!=otp){
-            const response = await axios.post(`${BACKWEB}/getInfo`,{pan:pan},
-                {headers: {
-                'Accept': 'application/json',
+        else if(e.target.name=="unit"){
+            setLand({
+                ...land,
+                Area:{
+                    ...land.Area,
+                    unit:e.target.value,
+                }
+            })
+        }
+        else{
+            setLand({
+                ...land,
+                [e.target.name]:e.target.value,
+            })
+        }
+       
+    }
+    const handleLocation = (e) => {
+        const {name,value} = e.target;
+        if(value==""){
+            return;
+        }
+        else if(value!="" &&value!=null&&value!=undefined&&name!="Village"){
+            let variable = {
+                ...location,
+                [name]: value,
+                ...(name === "State" && { Division: null, District: null, Village: null}),
+                ...(name === "Division" && { District: null, Village: null  }),
+                ...(name === "District" && { Village: null, }),
+
             }
-            });
-            if (response.status !==200){
-                throw new Error('Internal Server Error');
-            }
-            else{
-                setUserId(response.data._id);
+          
+            setLocation(variable);
+            setLand({
+                ...land,
+                ...variable
+            })
+        }
+        else if(name=="Village"){
+            let variable = {
+                ...location,
+                [name]:value,
                 
+
             }
+            setLocation(variable)
+            setLand(((prev)=>(
+               {
+                ...prev,
+                ...variable
+               }
+
+            )))
+            
         }
         
+    };
+    const sendNotification=async()=>{
+        socket.emit('Sell',{SenderId:user._id,message:land});
+        return ()=>{
+            socket.off('Sell');
+        }
     }
+    useEffect(()=>{
+        console.log(land);
+        console.log(location);
+    },[location,land])
     return(
         
     <div className="loginpage">
@@ -126,42 +119,55 @@ const Sell =()=>{
                     <div className="log">
                     <small>Details for Selling the Land</small>
                     </div>
-                    <div className="login-cross"><i className="	fa fa-close" style={{fontSize:50}}></i></div>
                 </div>
-                {otpMessage?<div className="Login-data">
-                    Enter your OTP.
-                </div>:<div className="Login-data">
-                    <small>Kindly Provide the details as per your pan card and and khatauni.</small>
-                </div>}
-                {otpMessage?<div className="Login-content">
-                
-                <input className ="Login-email-input" onChange={handleOtp}placeholder="     Enter your OTP" value={varotp}></input>
-                <div style={{display:"flex",flexDirection:"row"}}><button style={{marginTop:50 ,width:250}}className=" btn Login-email-buttton" onClick={()=>{login_Confirm()}}>Confirm</button><div className='btn Login-email-buttton' style={{marginTop:50 ,width:250}}>RESEND</div>
-                </div>
-                </div>:
+               
                 <div className="Login-content">
-                    <input className ="Login-email-input" onChange={handleGatanum}placeholder="     Enter your Gata Number of the land" value={gatanum}></input>
-
-                    <div style={{display:'flex'}}>
-                    <input className ="Login-email-input" onChange={handleState}placeholder="     Enter your State" value={state}></input>
-                    <input className ="Login-email-input" onChange={handleDistrict}placeholder="     Enter your District" value={district}></input>
-                    </div>
-                    <div style={{display:'flex'}}>
-                    <input className ="Login-email-input" onChange={handleMandal}placeholder="     Enter your Mandal" value={mandal}></input>
-                    <input className ="Login-email-input" onChange={handleLoc}placeholder="     Enter your Village/City" value={loc}></input>
-                    </div>
-                    <input className ="Login-email-input" onChange={handleFullname}placeholder="     Enter your FullName" value={fullname}></input>
+                    <input className ="Login-email-input" onChange={(e)=>handleChange(e)} name="gataNumber"placeholder="     Enter your Gata Number of the land" value={land.gataNumber}></input>
+            <div className='flex flex-row'>
+            <select className="Login-email-input login-location" value={location.State || ''} onChange={(e) => handleLocation(e)} name='State'>
+            <option value="">Select State</option>
+                {Object.keys(data).map(key => (
+                    <option key={key} value={key}>{key}</option>
+                ))}
+            </select>
+            <select className="Login-email-input login-location" value={location.Division} onChange={(e)=>handleLocation(e)}  name='Division'>
+            <option value="">Select Division</option>
+            {location.State&&Object.keys(data[location.State]).map(key => (
+            <option value={key}>{key}</option>))}
+            </select>
+            </div>
+            <div className='flex flex-row'>
+            <select className="Login-email-input login-location" value={location.District}  onChange={(e)=>handleLocation(e)}  name='District'>
+            <option value="">Select District</option>
+            {location.Division&&Object.keys(data[location.State][location.Division]).map(key => (
+            <option value={key}>{key}</option>))}
+            </select>
+            <select className="Login-email-input login-location"  onChange={(e)=>handleLocation(e)}  name='Village'>
+            <option value="">Select Village/City</option>
+            {location.District&&Object.keys(data[location.State][location.Division][location.District]).map(key => (
+            <option value={key}>{key}</option>))}
+            </select>          
+            </div>
+             <div className=' text-left flex flex-row ' >
+                    <input className="Login-email-input h-12" type="number" placeholder="Area:"onChange={(e)=>handleChange(e)}   name='Area'></input>
+                    <select className="Login-email-input login-location form-control from   "onChange={(e)=>handleChange(e)} name="unit">
+                    <option value="sq.m">sq.m</option>
+                    <option value="hectare">Hectare</option>
+                    <option value="sq.ft">Sq. Feet</option>
+                </select></div >
+                    <input className ="Login-email-input" onChange={(e)=>handleChange(e)}placeholder="     Enter your FullName" name="fullName" value={land.fullName}></input>
                     <div style={{display:"flex",flexDirection:"row"}}>
-                        <input className ="Login-email-input" onChange={handlePan}placeholder="     Enter your PAN" value={pan}></input>
-                        <input className ="Login-email-input" onChange={handleMobile}placeholder="     Enter your Mobile Number" value={number}></input>
+                        <input className ="Login-email-input" onChange={(e)=>handleChange(e)}placeholder="     Enter your PAN" name="panNumber" value={land.panNumber}></input>
+                        <input className ="Login-email-input" onChange={(e)=>handleChange(e)} name="phoneNumber" placeholder="     Enter your Mobile Number" value={land.phoneNumber}></input>
                     </div>
 
-                    <input className ="Login-email-input" onChange={handleEmail}placeholder="     Enter your  Email" value={email}></input>
+                    <input className ="Login-email-input" onChange={(e)=>handleChange(e)}placeholder="     Enter your  Email" name="Email" value={land.Email}></input>
 
-                    <button className=" btn Login-email-buttton sell-butt" onClick={()=>{login_email()}}>Continue</button>
-                </div>}
+                    <button className=" btn Login-email-buttton sell-butt" onClick={()=>{sendNotification()}}>Continue</button>
+                </div>
 
             </div>
+            
             <div className="line" style={{display:"flex"}}>
             </div>
             <div className="Login-Oauth">
