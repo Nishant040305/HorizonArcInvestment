@@ -12,4 +12,7 @@ module.exports = (io, socket) => {
             socket.join(chatRoom.userId);
         }
     });
+    socket.on('connectToAdmin',async()=>{
+        socket.join('Admin');
+    });
 };
