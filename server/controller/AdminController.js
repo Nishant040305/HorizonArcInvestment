@@ -8,6 +8,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 const LandSchema = require('../models/LandForSale')
 const Stock = require('../models/Stock')
+const Notification = require('../models/Notification');
 // Configure Cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUDNAME,
@@ -149,4 +150,16 @@ const InsertStock = async (req, res) => {
        return res.status(500).json({ message: "Internal Server Error" });
     }
 };
-module.exports = { ImageUpload,InsertBuyLand,InsertStock };
+const NotificationGet = async (req, res) => {
+    try {
+        console.log("walla");
+        const data = await Notification.find({ NotifType: "Sell" });
+        return res.status(200).json({ info: data });
+    } catch (E) {
+        console.log(E);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+
+module.exports = { ImageUpload,InsertBuyLand,InsertStock,NotificationGet };
