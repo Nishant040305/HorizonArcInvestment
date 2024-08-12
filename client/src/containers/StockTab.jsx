@@ -48,7 +48,7 @@ export default function StockTab() {
               
               <StockOption 
                   key={info._id || index} 
-                  Images={info.Images[0]} 
+                  Images={info.Images} 
                   Price={info.Price[info.Price.length-1]} 
   
                   amount={info.Area.amount}

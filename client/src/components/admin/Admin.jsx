@@ -6,6 +6,8 @@ import AddBuyData from './Addland/addBuyData';
 import Shares from './Shares/shares'
 import Land from './Land/land'
 import AddSharesData from './AddShares/addShares';
+import { socket } from '../../Lib/socket';
+import Notification from './Notification/AdminNotification';
 const Admin = () => {
   const [selectedTab, setSelectedTab] = useState('User');
 
@@ -21,12 +23,14 @@ const Admin = () => {
         return <Land/>;
       case 'AddShares':
         return <AddSharesData></AddSharesData>
+      case 'Notification':
+        return <Notification></Notification>
       default:
         return <User />;
 
     }
   };
-
+  
   return (
     <div className='bg-white admin'>
       <Navbar onTabChange={setSelectedTab} />

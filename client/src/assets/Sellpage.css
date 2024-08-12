@@ -164,3 +164,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         width:38rem;
     }
 }
+.login-location{
+    width:50%;
+    margin:1px;
+    color:#a2a1a1;
+    font-size: 18px;
+}

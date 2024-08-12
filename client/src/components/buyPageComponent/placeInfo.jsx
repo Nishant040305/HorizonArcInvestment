@@ -4,7 +4,7 @@ const icons ={
     Hospital:"fas fa-ambulance",
     Airport:"fas fa-helicopter",
     Train:"fas fa-subway",
-
+    Highway:"fa fa-road"
 }
 const Place=(props)=>{
     return(

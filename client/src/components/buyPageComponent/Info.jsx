@@ -3,6 +3,7 @@ import './info.css';
 import { useSelector } from "react-redux";
 import { numTowords } from "../../Lib/ImportantFunc";
 import { useNavigate, useParams } from "react-router-dom";
+import ImageSlider from "../imageSlider";
 const icons = {
     Area:{ic:"fas fa-pencil-ruler",
         style:"yA",
@@ -64,7 +65,8 @@ const Overview=React.forwardRef((props, ref) =>{
     };
     return(
         <div className="Overview" ref={ref} >
-            <img className="overview" src={land?.Images[0]}></img>
+            {land?<ImageSlider images={land.Images} height="400px" width="600px"></ImageSlider>:<></>}
+            {/* <img className="overview" src={land?.Images[0]}></img> */}
             <InfoBlock props={land}></InfoBlock>
         </div>
     )

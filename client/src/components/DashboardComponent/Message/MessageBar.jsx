@@ -25,12 +25,13 @@ const MessageBar = () => {
     const user = useSelector(state=>state.user);
     const chatRoom = useSelector(state=>state.message);
     const chatUser = chatRoom.chatRoom;
+    // console.log(chatUser)
   return (
     <div className='Message-bar p25'>
         <div style={{fontSize:28,textAlign:'left',paddingLeft:20,fontWeight:600,paddingBottom:20}}>Messages</div>
         <input className='message-user-search' placeholder='      Search...'></input>
         <div className='Message-bar'>
-        {chatUser.map((info, index) => (
+        {chatUser?chatUser.map((info, index) => (
               
               <MessageBlock 
                   key={info?._id || index} 
@@ -40,7 +41,7 @@ const MessageBar = () => {
                   icon = {info?.ChatIcon}
                   data = {index}
               />
-              ))}
+              )):<></>}
       
         </div>
       

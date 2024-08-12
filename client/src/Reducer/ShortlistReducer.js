@@ -48,7 +48,9 @@ export const setShortlistReducer = (state,action)=>{
             return data;
             break;
         case 'shortList/addShortlist':
-            const index  = state.data.findIndex(x=>x._id = action.payload.land._id);
+            console.log(action.payload.land._id)
+            const index  = state.data.findIndex(x=>x._id == action.payload.land._id);
+            console.log(index)
             if(index===-1){
                 state.data.push(action.payload.land);
                 state.dataLength++;

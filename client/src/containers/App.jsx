@@ -38,6 +38,7 @@ import { setMessage ,Addmessage} from '../Store/MessageSlice';
 import { setBuyStockData,setPriceFilterBuy,setPriceFilterStocks } from '../Store/FilterDataSlice';
 import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
+import ImageSlider from '../components/imageSlider';
 const App=() =>{
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
@@ -269,12 +270,6 @@ useEffect(()=>{
   }
 
 },[user])
-// useEffect(()=>{
-//   if(user&&initialLoad.current){
-//     getFriends(user.friendId);
-//     initialLoad.current = false;
-//   }
-// },[user])
 useEffect(()=>{
   socket.on('friend-request/send',(data)=>{
     dispatch(addNotification(data));
@@ -293,7 +288,13 @@ useEffect(()=>{
   return ()=>{
     socket.off('message')
   }
-}) 
+})
+const images = [
+  "https://res.cloudinary.com/dwj0nj7d6/image/upload/v1723220000/HorizonArcInvestment/bv1ysfzdkz0siwyviirp.png",
+  "https://res.cloudinary.com/dwj0nj7d6/image/upload/v1723220002/HorizonArcInvestment/mi3slvbxlgdv4v0idq5n.png",
+  "https://res.cloudinary.com/dwj0nj7d6/image/upload/v1723220004/HorizonArcInvestment/wx6f9actmq0vtl6odi6z.png",
+ "https://res.cloudinary.com/dwj0nj7d6/image/upload/v1723220008/HorizonArcInvestment/z1019ze7upgpdmzygx09.png"  
+]; 
 
   return (
     <Routes>
@@ -304,6 +305,7 @@ useEffect(()=>{
       <Route path={url.dashboard} element={!seen.seen? <Navigate replace to={url.stock} />:<Dashboard></Dashboard>}></Route>
       <Route path='/users/:id/verify/:token' element ={<VerifyComponent></VerifyComponent>}></Route>
       <Route path='/admin' element={<Admin></Admin>}></Route>
+      <Route path="/test" element ={<ImageSlider images={images} height="500px" width="500px"></ImageSlider>}></Route>
     </Routes>
     
   );

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector ,useDispatch} from 'react-redux';
 import { numTowords } from '../Lib/ImportantFunc';
 import { removeShortlist } from '../Store/ShortListSlice';
+import ImageSlider from './imageSlider';
 const BuyOption=(props)=> {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,8 +25,8 @@ const BuyOption=(props)=> {
   console.log(props);
   return (
     <div className="rounded-3xl buy-cart bg-white">
- 
-      <img className="rounded-3xl buy-cart-img"src={props.Images?props.Images:"https://img.freepik.com/free-photo/amazing-aerial-shot-singapore-cityscape-with-lots-skyscrapers_181624-18618.jpg?w=1060&t=st=1719822907~exp=1719823507~hmac=72467b1d3ff99b6937deb45b5d3e5120eb61220f2f5b93c65a801ca9f3840b2f"}></img>
+      <ImageSlider height="300px" width="600px" images={props.Images}></ImageSlider>
+      {/* <img className="rounded-3xl buy-cart-img"src={props.Images?props.Images:"https://img.freepik.com/free-photo/amazing-aerial-shot-singapore-cityscape-with-lots-skyscrapers_181624-18618.jpg?w=1060&t=st=1719822907~exp=1719823507~hmac=72467b1d3ff99b6937deb45b5d3e5120eb61220f2f5b93c65a801ca9f3840b2f"}></img> */}
       <div className="buy-cart-info">
       {props.admin=="true"?<div className=" buy-cart-info-block flex flex-col Admin-data">
         <div>
