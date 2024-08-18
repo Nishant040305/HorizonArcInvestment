@@ -160,6 +160,120 @@ const NotificationGet = async (req, res) => {
         return res.status(500).json({ error: "Internal Server Error" });
     }
 };
+const UpdateLand = async (req, res) => {
+    try {
+        const { updatedFormData, type } = req.body;
+
+        if (!updatedFormData || !type) {
+            return res.status(400).json({ message: 'Missing updatedFormData or type' });
+        }
+
+        const { _id, location, Area, gataNumber, State, District, Village, Images, Price, Description, Highlights, Category, Property, Division } = updatedFormData;
+
+        if (!_id) {
+            return res.status(400).json({ message: 'Missing ID in updatedFormData' });
+        }
+
+        // Construct the update object with only the necessary fields
+        const updateData = {
+            location,
+            Area,
+            gataNumber,
+            State,
+            District,
+            Village,
+            Images,
+            Price,
+            Description,
+            Highlights,
+            Category,
+            Property,
+            Division
+        };
+
+        let updatedDocument;
+        
+        if (type === 'land') {
+            updatedDocument = await LandSchema.findByIdAndUpdate(_id, updateData, { new: true });
+        } else if (type === 'stock') {
+            updatedDocument = await Stock.findByIdAndUpdate(_id, {...updateData,stock:updatedFormData.stock}, { new: true });
+        } else {
+            return res.status(400).json({ message: 'Invalid type specified' });
+        }
+
+        if (!updatedDocument) {
+            return res.status(404).json({ message: `${type} data not found` });
+        }
+        console.log(updatedDocument);
+        return res.status(200).json(updatedDocument);
+    } catch (error) {
+        console.error('Error updating data', error);
+        res.status(500).json({ error: 'Failed to update data' });
+    }
+};
 
 
-module.exports = { ImageUpload,InsertBuyLand,InsertStock,NotificationGet };
+
+const getLandInfo = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Check in LandSchema
+        let landData = await LandSchema.findById(id);
+        
+        // Check in StockSchema if not found in LandSchema
+        if (!landData) {
+            landData = await LandSchema.findOne({gataNumber:id});
+            if(!landData){
+                landData = await Stock.findById(id);
+                if(!landData){
+                    landData = await Stock.findOne({gataNumber:id});
+                }
+            }
+        }
+        
+        if (!landData) {
+            return res.status(404).json({ message: 'Land data not found' });
+        }
+        
+        // Determine the type of data
+        const dataType = landData instanceof LandSchema ? 'land' : 'stock';
+        
+        res.status(200).json({ data: landData, type: dataType });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+;
+
+const DeleteLand = async (req, res) => {
+    try {
+        const { id, type } = req.params;
+        
+        if (type === 'land') {
+            const result = await LandSchema.findByIdAndDelete(id);
+
+            if (!result) {
+                return res.status(404).json({ message: 'Land data not found' });
+            }
+
+            res.status(200).json({ message: 'Land data deleted successfully' });
+        } else if (type === 'stock') {
+            const result = await Stock.findByIdAndDelete(id);
+
+            if (!result) {
+                return res.status(404).json({ message: 'Stock data not found' });
+            }
+
+            res.status(200).json({ message: 'Stock data deleted successfully' });
+        } else {
+            res.status(400).json({ message: 'Invalid type specified' });
+        }
+    } catch (error) {
+        console.error('Error deleting data', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+module.exports = {DeleteLand, ImageUpload,InsertBuyLand,InsertStock,NotificationGet,UpdateLand,getLandInfo};

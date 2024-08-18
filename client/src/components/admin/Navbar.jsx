@@ -10,9 +10,9 @@ const Navbar = ({ onTabChange }) => {
       <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('Notification')}>Notification</button>
       <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('AddShares')}>Add Shares</button>
       <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('AddLand')}>Add Land</button>
-      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('Employees')}>Employees</button>
       <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('TransactionDetails')}>Transaction Details</button>
-      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('SendMessage')}>Send Message</button>
+      <button className='bg-white text-gray-800 admin-nav' onClick={() => onTabChange('EditInfo')}>Edit Data</button>
+
     </div>
   );
 };

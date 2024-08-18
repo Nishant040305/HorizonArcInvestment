@@ -8,6 +8,7 @@ import Land from './Land/land'
 import AddSharesData from './AddShares/addShares';
 import { socket } from '../../Lib/socket';
 import Notification from './Notification/AdminNotification';
+import EditInfo from './EditInfo/EditInfo';
 const Admin = () => {
   const [selectedTab, setSelectedTab] = useState('User');
 
@@ -25,6 +26,8 @@ const Admin = () => {
         return <AddSharesData></AddSharesData>
       case 'Notification':
         return <Notification></Notification>
+      case 'EditInfo':
+        return <EditInfo></EditInfo>
       default:
         return <User />;
 

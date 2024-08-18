@@ -38,7 +38,7 @@ const BuyOption=(props)=> {
         </div>
       </div>:<></>}
         <div className="buy-cart-info-location"><strong>{props.Village?`${props.Village}, ${props.District} near ${highlight[0].text}`:'Lehra Land Plot,Near NH230 Highway'}</strong></div>
-        <div className="buy-cart-info-address">{props.Category?`${props.Category}  ${props.Village} ${props.District},${props.State} 211013`:'Residential plot/Land Lehra Prayagraj,Uttarpradesh 211013'}</div>
+        <div className="buy-cart-info-address">{props.Category?`${props.Category}  ${props.Village} ${props.District},${props.State}`:'Residential plot/Land Lehra Prayagraj,Uttarpradesh 211013'}</div>
         <div className="buy-cart-info-block">
         <div className="buy-cart-info-amount"><div className="total_amount">{`Rs. ${numTowords(Number(props.Price))}`}</div></div>
         <div className='buy-cart-info-area'><div className="total_area">{`${props.amount}${props.unit}`}</div><div></div>Plot Area</div>
