@@ -43,6 +43,7 @@ app.use('/User',require('./routes/DashFriend.routes'));
 app.use('/notification',require('./routes/Notification.routes'));
 app.use('/chat',require('./routes/chat.routes'));
 app.use('/admin',require('./routes/Admin.routes'))
+app.use('/paymentGateway',require('./routes/Payment.routes'));
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

@@ -52,6 +52,69 @@ const Index =()=>{
 
         }
     }
+    const PaymentConfirmUpdate = async(data)=>{
+      const response = await axios.post(`${BACKWEB}/paymentGateway/paymentValidate`);
+      
+    }
+    const PaymentScript =async()=>{
+      const amount = land.Price[land.Price.length-1];
+      const receipt = land._id;
+      const currency  = "INR";
+      const confirmBody = {}
+      const response = await axios.post(`${BACKWEB}/paymentGateway/orders`,{
+        amount:amount,
+        receipt:receipt,
+        currency:currency
+      })
+
+      let options = {
+        "key": "rzp_test_ghTeekIY3ZvfG3", // Enter the Key ID generated from the Dashboard
+        "amount": response.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": response.data.currency,
+        "name": "Horizon Arc Investments", //your business name
+        "description": "Transaction for shares",
+        "image": "https://adarshc.com/data/user/index/ent/document/pan/banner.jpg",
+        "order_id": response.data.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response){
+            alert(response.razorpay_payment_id);
+            alert(response.razorpay_order_id);
+            alert(response.razorpay_signature);
+            confirmBody = {
+              razorpay_signature:response.razorpay_signature,
+              razorpay_order_id:response.razorpay_order_id,
+              razorpay_payment_id:response.razorpay_payment_id
+            }
+            PaymentConfirmUpdate(confirmBody);
+
+        },
+        "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
+            "name": user.fullName, //your customer's name
+            "email": user.email, 
+            "contact": "9651602279"  //Provide the customer's phone number for better conversion rates 
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new window.Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+    document.getElementById('paymentBtn').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+    
+    }
     useEffect(()=>{
       if(tab=="buy"){
         setLand(BuyLandData[BuyLandData.findIndex(x=>x._id===id)])
@@ -96,7 +159,7 @@ const Index =()=>{
         <div className="BNavbar-info-data-block flex-col">
           {tab=="buy"?<button className="bg-blue-400 text-white BNav-contact">
           &nbsp;&nbsp;&nbsp;&nbsp;  Contact&nbsp;&nbsp;&nbsp;&nbsp;
-          </button>:<button className="bg-green-400 pl-7 pr-6 text-white BNav-contact">
+          </button>:<button className="bg-green-400 pl-7 pr-6 text-white BNav-contact" id="paymentBtn"onClick={()=>{PaymentScript()}}>
           Buy Shares
           </button>}
           {tab=="buy"?<button className="bg-slate-200 text-blue-300 BNav-contact mt-2 pl-5 pr-8" onClick={()=>addToShortList()}>

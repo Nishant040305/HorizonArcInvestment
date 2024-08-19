@@ -38,6 +38,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.14",
     "path": "^0.12.7",
+    "razorpay": "^2.9.4",
     "socket.io": "^4.7.5",
     "socks-proxy-agent": "^8.0.4"
   },
