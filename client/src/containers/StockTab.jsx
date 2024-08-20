@@ -8,17 +8,7 @@ import StockFilter from '../components/StockFilter';
 import SideBar from '../components/sideBar';
 import { useSelector } from 'react-redux';
 import Login from '../components/Login';
-
-
-const Filter =()=>{
-    return(
-        <div className="StockTabfilter" style={{display:"flex",flexDirection:"row"}}>
-                                <input className="form-control mr-sm-2 search root" name="category" type="search"  placeholder="Search" aria-label="Search"/>
-                                <button className="btn btn-outline-success submit-button" type="button">Search</button>       
-        </div>
-    )
-}
-
+import LocationSearch from '../components/SearchField';
 export default function StockTab() {
   const user = useSelector(state=>state.user);
   const seen = useSelector(state=>state.loginSeen);
@@ -42,7 +32,7 @@ export default function StockTab() {
       {(seen.seen)?<SideBar></SideBar>:<></>}
       <div className={`StockTab-block ${!(seen.seen||seen.seenlog)?"backdrop-background-blur":""}`}>
         <div>
-          <Filter></Filter>
+        <LocationSearch></LocationSearch>
         <div className="Stockoption-block">
         {currentData.length!=0?currentData.map((info, index) => (
               

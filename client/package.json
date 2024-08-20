@@ -26,6 +26,8 @@
     "cloudinary-core": "^2.13.1",
     "cloudinary-react": "^1.8.1",
     "dotenv": "^16.4.5",
+    "fs": "^0.0.1-security",
+    "papaparse": "^5.4.1",
     "pdfjs-dist": "^3.4.120",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

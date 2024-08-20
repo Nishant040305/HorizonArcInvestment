@@ -40,6 +40,7 @@ import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
 import ImageSlider from '../components/imageSlider';
 import { setAdmin } from '../Store/IsAdminSlice';
+import LocationSearch from '../components/SearchField';
 const App=() =>{
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
@@ -315,7 +316,7 @@ const images = [
       <Route path={url.dashboard} element={!seen.seen? <Navigate replace to={url.stock} />:<Dashboard></Dashboard>}></Route>
       <Route path={url.verify} element ={<VerifyComponent></VerifyComponent>}></Route>
       <Route path={url.admin} element={!admin? <Navigate replace to={url.stock} />:<Admin></Admin>}></Route>
-      <Route path="/test" element ={<ImageSlider images={images} height="500px" width="500px"></ImageSlider>}></Route>
+      <Route path="/test" element ={<LocationSearch></LocationSearch>}></Route>
     </Routes>
     
   );

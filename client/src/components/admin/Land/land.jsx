@@ -7,14 +7,8 @@ import StockFilter from '../../StockFilter';
 import SideBar from '../../sideBar';
 import Login from'../../Login';
 import { useSelector } from 'react-redux';
-const Filter =()=>{
-    return(
-        <div className="buyTabfilter" style={{display:"flex",flexDirection:"row"}}>
-                                <input className="form-control mr-sm-2 search root" name="category" type="search"  placeholder="Enter Gata Number or ID or Location" aria-label="Search"/>
-                                <button className="btn btn-outline-success submit-button" type="button">Search</button>       
-        </div>
-    )
-}
+import LocationSearch from '../../SearchField';
+
 export default function Land() {
   const user = useSelector(state=>state.user);
   const seen = useSelector(state=>state.loginSeen);
@@ -39,7 +33,7 @@ export default function Land() {
       </div>
       <div className=''>
       <div className="buyoption-block">
-        <Filter />
+        <LocationSearch></LocationSearch>
         {currentData.length !== 0 ? (
           currentData.map((info, index) => (
             <BuyOption
