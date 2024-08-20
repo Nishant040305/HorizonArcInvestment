@@ -11,6 +11,7 @@ import ShortListSlice from './Store/ShortListSlice';
 import NotificationSlice from './Store/NotificationSlice';
 import FilterDataSlice from './Store/FilterDataSlice';
 import MessageSlice from './Store/MessageSlice';
+import IsAdminSlice from './Store/IsAdminSlice';
 const rootReducer = combineReducers({
   user:userSlice,
   url:urlSlice,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   notification:NotificationSlice,
   filter:FilterDataSlice,
   message:MessageSlice,
+  admin:IsAdminSlice,
 });
 export const store = configureStore({
   reducer:{
@@ -38,7 +40,8 @@ export const store = configureStore({
   shortList:ShortListSlice,
   notification:NotificationSlice,
   filter:FilterDataSlice,
-  message:MessageSlice
+  message:MessageSlice,
+  admin:IsAdminSlice
   }
 })
 

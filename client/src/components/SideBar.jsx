@@ -14,6 +14,8 @@ const SideBar =()=>{
         dispatch(change(e));
         Navigate(url.dashboard);
     }
+    const admin = useSelector(state=>state.admin);
+
     return(
         <>
         {!expand?<div className={!expand?"sideBar text-black":"sidebar active text-black"}>
@@ -63,7 +65,15 @@ const SideBar =()=>{
 
                         </button>
                     </li>
-                   
+                    {admin&&<li>
+                    <button className=" sidebar-button" onClick={()=>Navigate(url.admin)}>
+                    <div style={{display:"flex", alignItems:"center"}}>
+                        <i className="fa-solid fa-user" style={{fontSize:40}}></i><div style={{marginLeft:60}}>Admin Panel</div>
+
+                        </div>
+
+                        </button>
+                    </li>}
                     
                 </ul>
             </div>

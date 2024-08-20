@@ -11,8 +11,8 @@ import { useSelector } from 'react-redux';
 const Filter =()=>{
     return(
         <div className="buyTabfilter" style={{display:"flex",flexDirection:"row"}}>
-                                <input className="form-control mr-sm-2 search root" name="category" type="search"  placeholder="Search" aria-label="Search"/>
-                                <button className="btn btn-outline-success submit-button" type="button">Search</button>       
+          <input className="form-control mr-sm-2 search root" name="category" type="search"  placeholder="Search" aria-label="Search"/>
+          <button className="btn btn-outline-success submit-button" type="button">Search</button>       
         </div>
     )
 }

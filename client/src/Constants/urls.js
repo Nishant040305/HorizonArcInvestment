@@ -13,6 +13,7 @@ const urlSlice = createSlice(
             profile:"/profilePage",
             dashboard:"/dashboard",
             admin:'/adminPortal',
+            verify:'/users/:id/verify/:token',
         },
         reducers:{
 

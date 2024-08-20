@@ -1,7 +1,6 @@
 const jwtToken = require('jsonwebtoken')
 const path  = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
-const jwt = "NaJidhiusSOuvikBihsNishant";
 const UserVerifier =async(req,res,next)=>{
     try{
         const data = req.cookies?.uid;
@@ -10,9 +9,8 @@ const UserVerifier =async(req,res,next)=>{
 
         try{
             const decode = jwtToken.verify(data,process.env.jwt_secreat);
-            req.user = {...decode,
-                password:"XXXXXX"
-            };
+            delete decode.password;
+            req.user = decode;
             
             next();
 

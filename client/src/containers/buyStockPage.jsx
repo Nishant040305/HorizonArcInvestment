@@ -54,13 +54,13 @@ const Index =()=>{
     }
     const PaymentConfirmUpdate = async(data)=>{
       const response = await axios.post(`${BACKWEB}/paymentGateway/paymentValidate`);
-      
+
     }
     const PaymentScript =async()=>{
       const amount = land.Price[land.Price.length-1];
       const receipt = land._id;
       const currency  = "INR";
-      const confirmBody = {}
+      let confirmBody = {};
       const response = await axios.post(`${BACKWEB}/paymentGateway/orders`,{
         amount:amount,
         receipt:receipt,

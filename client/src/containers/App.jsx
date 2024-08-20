@@ -1,7 +1,7 @@
 import React, { useEffect, useState,useRef, useReducer } from 'react'
 import viteLogo from '/vite.svg'
 import '.././assets/App.css'
-import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Login from '../components/Login';
 import SideBar from '../components/sideBar';
 import Navbar from '../components/Navbar';
@@ -39,6 +39,7 @@ import { setBuyStockData,setPriceFilterBuy,setPriceFilterStocks } from '../Store
 import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
 import ImageSlider from '../components/imageSlider';
+import { setAdmin } from '../Store/IsAdminSlice';
 const App=() =>{
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
@@ -48,10 +49,12 @@ const App=() =>{
   const initialLoad = useRef(true);
   axios.defaults.withCredentials = true;
   const user = useSelector(state=>state.user)
+  const admin = useSelector(state=>state.admin);
+  console.log(admin);
   const StockLandData = useSelector(state=>state.stock)
   const BuyLandData = useSelector(state=>state.buyData);
   const filter = useSelector(state=>state.filter)
-  const location = useLocation()
+  const navigate  = useNavigate(); 
   const getShortlistData = async(ID)=>{
     try{
       const response = await axios.post(`${BACKWEB}/buyTab/getShorListData`,
@@ -144,12 +147,19 @@ const App=() =>{
 
         }).then(response=>{
             if(response.status ==200){
-                dispatch(register(response.data.info));
+                const userInfo = response.data.info;
+                dispatch(register(userInfo));
                 dispatch(setSeen(1));
-                getNotification(response.data.info._id);
-                getShortlistData(response.data.info.shortList);
+                getNotification(userInfo._id);
+                getShortlistData(userInfo.shortList);
+                if(userInfo?.role=="admin"){
+                  dispatch(setAdmin(true));
+                  console.log("admin is Set*************")
+                  // navigate(url.admin)
+                }
+                
                 socket.connect();
-                socket.emit('connectToServer',response.data.info.chatRoom);
+                socket.emit('connectToServer',userInfo.chatRoom);
             }
         })
     }catch(e){
@@ -295,7 +305,7 @@ const images = [
   "https://res.cloudinary.com/dwj0nj7d6/image/upload/v1723220004/HorizonArcInvestment/wx6f9actmq0vtl6odi6z.png",
  "https://res.cloudinary.com/dwj0nj7d6/image/upload/v1723220008/HorizonArcInvestment/z1019ze7upgpdmzygx09.png"  
 ]; 
-
+ 
   return (
     <Routes>
       <Route path={url.buy} element={<BuyTab></BuyTab>}></Route>
@@ -303,8 +313,8 @@ const images = [
       <Route path={url.sell} element={<Sellpage></Sellpage>}></Route>
       <Route path={url.page} element ={<Index></Index>}></Route>
       <Route path={url.dashboard} element={!seen.seen? <Navigate replace to={url.stock} />:<Dashboard></Dashboard>}></Route>
-      <Route path='/users/:id/verify/:token' element ={<VerifyComponent></VerifyComponent>}></Route>
-      <Route path='/admin' element={<Admin></Admin>}></Route>
+      <Route path={url.verify} element ={<VerifyComponent></VerifyComponent>}></Route>
+      <Route path={url.admin} element={!admin? <Navigate replace to={url.stock} />:<Admin></Admin>}></Route>
       <Route path="/test" element ={<ImageSlider images={images} height="500px" width="500px"></ImageSlider>}></Route>
     </Routes>
     
