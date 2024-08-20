@@ -18,7 +18,7 @@ const ImageSlider = (props) => {
 
   return (
     <div className="slider-block-image rounded-3xl buy-cart-img" style={{height:props.height,width:props.width}}>
-         {console.log(props.height,props.width)}
+         
 
       <div
         className="slider-image-blocks"

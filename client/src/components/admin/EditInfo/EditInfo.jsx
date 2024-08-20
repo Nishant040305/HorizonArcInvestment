@@ -129,7 +129,6 @@ const EditInfo = () => {
   };
 
   const handleLocationChange = (e) => {
-    console.log(formData);
     const {name,value} = e.target;
     if(value==""||value==undefined){
         return;
@@ -150,7 +149,6 @@ const EditInfo = () => {
         })
     }
     else if(name=="Village"){
-      console.log(data[formData.State][formData.Division][formData.District][value])
         let variable = {
             ...formData,
             [name]:value,
@@ -172,7 +170,6 @@ const EditInfo = () => {
     
 };
 useEffect(()=>{
-  console.log(formData)
 },[formData])
   const handleAddPrice = () => {
     if (newPrice) {

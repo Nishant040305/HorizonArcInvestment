@@ -6,7 +6,6 @@ import BuyDataSlice from './Store/BuyDataSlice';
 import DashBoardOptionsSlice from './Store/DashBoardOptionsSlice';
 import loginSeenSlice from './Store/LoginSeenSlice';
 import globalUserSlice from './Store/globalUser';
-import GeolocationSlice from './Store/GeolocationSlice';
 import ShortListSlice from './Store/ShortListSlice';
 import NotificationSlice from './Store/NotificationSlice';
 import FilterDataSlice from './Store/FilterDataSlice';
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
   dashboard:DashBoardOptionsSlice,
   loginSeen:loginSeenSlice,
   globalUsers:globalUserSlice,
-  geoLocation:GeolocationSlice,
   shortList:ShortListSlice,
   notification:NotificationSlice,
   filter:FilterDataSlice,
@@ -36,7 +34,6 @@ export const store = configureStore({
   dashboard:DashBoardOptionsSlice,
   loginSeen:loginSeenSlice,
   globalUsers:globalUserSlice,
-  geoLocation:GeolocationSlice,
   shortList:ShortListSlice,
   notification:NotificationSlice,
   filter:FilterDataSlice,

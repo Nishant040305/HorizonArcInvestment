@@ -1,4 +1,4 @@
-import { PriceFilter,AreaFilter } from "../Lib/Filter";
+import { PriceFilter,AreaFilter, locationFilter } from "../Lib/Filter";
 import { useSelector } from "react-redux";
 export const FilterReducer =(state,action)=>{
 
@@ -30,8 +30,17 @@ export const FilterReducer =(state,action)=>{
                 buy:AreaFilter(action.payload.filter,action.payload.data)
             }
             return data___;
-        case 'filterData/setLocationFilterBuy':
-            return state;
+            case 'filterData/setLocationFilterBuy':
+                console.log(action.payload);
+                const plainBuyArray = state.buy.map(item => ({ ...item }));
+                const plainStockArray = state.stock.map(item=>({ ...item }))
+                const filterlocation = {
+                    ...state,
+                    stock:locationFilter(action.payload, plainStockArray),
+                    buy: locationFilter(action.payload, plainBuyArray)
+                };
+                return filterlocation;
+            
         case 'filterData/setLocationFilterStock':
             return state;
         case 'filterData/searchGlobalUser':

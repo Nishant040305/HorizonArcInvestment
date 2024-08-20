@@ -44,7 +44,6 @@ const Notification = () => {
 
     }).then(response=>{
       if(response.status ===200){
-        console.log(response)
         setNotification(response.data.info);
       }
     })

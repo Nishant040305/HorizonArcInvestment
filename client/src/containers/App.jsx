@@ -29,13 +29,12 @@ import { setSeen } from '../Store/LoginSeenSlice';
 import {  setStock } from '../Store/BuyStockSlice';
 import { setBuyData } from '../Store/BuyDataSlice';
 import { setglobalUser,setFriends } from '../Store/globalUser';
-import { setLocation } from '../Store/GeolocationSlice';
 import { setNotification,addNotification } from '../Store/NotificationSlice';
 import { socket } from '../Lib/socket';
 import { setShortlist } from '../Store/ShortListSlice';
 import { ShortListData } from '../Lib/ImportantFunc';
 import { setMessage ,Addmessage} from '../Store/MessageSlice';
-import { setBuyStockData,setPriceFilterBuy,setPriceFilterStocks } from '../Store/FilterDataSlice';
+import { setBuyStockData,setLocationFilterBuy,setPriceFilterBuy,setPriceFilterStocks } from '../Store/FilterDataSlice';
 import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
 import ImageSlider from '../components/imageSlider';
@@ -51,7 +50,6 @@ const App=() =>{
   axios.defaults.withCredentials = true;
   const user = useSelector(state=>state.user)
   const admin = useSelector(state=>state.admin);
-  console.log(admin);
   const StockLandData = useSelector(state=>state.stock)
   const BuyLandData = useSelector(state=>state.buyData);
   const filter = useSelector(state=>state.filter)
@@ -101,21 +99,26 @@ const App=() =>{
 
     }}
   }
-  const GeoLocation = async()=>{
+  const handleGetLocation = async () => {
+    console.log("hello")
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            dispatch(setLocation({ latitude:latitude, longitude:longitude }));
-          },
-          (error) => {
-            // console.error('Error getting geolocation:', error.message);
-          }
-        );
-      } else {
-        // console.error('Geolocation is not supported by this browser.');
-      }
-  }
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log(latitude, longitude);
+          dispatch(setLocationFilterBuy({ latitude: latitude, longitude: longitude }));
+          localStorage.setItem('geolocationConsent', 'true'); // Store consent
+        },
+        (error) => {
+          console.error('Error getting geolocation:', error.message);
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+  };
+
+  
   const globalUser =async()=>{
     try{
         const response = await axios.get(`${BACKWEB}/User/getAllUser`,
@@ -155,7 +158,6 @@ const App=() =>{
                 getShortlistData(userInfo.shortList);
                 if(userInfo?.role=="admin"){
                   dispatch(setAdmin(true));
-                  console.log("admin is Set*************")
                   // navigate(url.admin)
                 }
                 
@@ -253,12 +255,16 @@ const getFriends =async(Friend)=>{
 
   } 
 }
+const askForLocation = () => {
+  // Trigger this on page load or when user consents
+  handleGetLocation();
+};
+
 useEffect(()=>{
   StockData();
   BuyLand();
   User();
   globalUser();
-  GeoLocation();
   
 },[]);
 // const [data_,setData] = useState('');
@@ -273,6 +279,8 @@ useEffect(()=>{
     getShortlistData(user.shortList);
     getChats(user.chatRoom);
     getFriends(user.friendId);
+    handleGetLocation();
+
     socket.connect();
     socket.emit('connectToServer',{chatRoom:user.chatRoom,userId:user._id});
     return()=>{
@@ -300,15 +308,11 @@ useEffect(()=>{
     socket.off('message')
   }
 })
-const images = [
-  "https://res.cloudinary.com/dwj0nj7d6/image/upload/v1723220000/HorizonArcInvestment/bv1ysfzdkz0siwyviirp.png",
-  "https://res.cloudinary.com/dwj0nj7d6/image/upload/v1723220002/HorizonArcInvestment/mi3slvbxlgdv4v0idq5n.png",
-  "https://res.cloudinary.com/dwj0nj7d6/image/upload/v1723220004/HorizonArcInvestment/wx6f9actmq0vtl6odi6z.png",
- "https://res.cloudinary.com/dwj0nj7d6/image/upload/v1723220008/HorizonArcInvestment/z1019ze7upgpdmzygx09.png"  
-]; 
+
  
   return (
     <Routes>
+
       <Route path={url.buy} element={<BuyTab></BuyTab>}></Route>
       <Route path={url.stock} element={<StockTab></StockTab>}></Route>
       <Route path={url.sell} element={<Sellpage></Sellpage>}></Route>

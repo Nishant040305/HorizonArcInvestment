@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-
+import {calculateDistance} from "./ImportantFunc";
 export const PriceFilter = (Filter,Array)=>{
     const FilterData = [];
     for(let i = 0;i<Array.length;i++){
@@ -21,14 +21,23 @@ export const AreaFilter = (Filter,Array)=>{
     return FilterData;
 }
 
-export const locationFilter =(Filter,Array)=>{
+export const locationFilter = (Filter, Array) => {
     const {latitude,longitude} = Filter;
-    const FilterData=[];
+    console.log(Filter)
+    // Calculate distance for each item and store it along with the item
     const dataWithDistances = Array.map((item) => ({
         ...item,
-        distance: calculateDistance(Filter.latitude, Filter.longitude, item.location.latitude, item.location.longitude),
+        distance: calculateDistance(latitude, longitude, item.location.latitude, item.location.longitude),
     }));
-}
+
+    // Sort the array based on distance in increasing order
+    const sortedData = dataWithDistances.sort((a, b) => a.distance - b.distance);
+
+    // Return the sorted array
+    console.log(sortedData);
+    return sortedData;
+
+};
 
 export const UserFilter = (filter, array) => {
     const user = useSelector(state=>state.user);

@@ -15,7 +15,6 @@ const Place=(props)=>{
 }
 const PlaceNearby=(props)=>{
     const highlight = props;
-    console.log(highlight)
 
     return(
         <div className="place-nearby">

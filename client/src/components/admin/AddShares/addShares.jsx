@@ -107,7 +107,6 @@ const AddSharesData = () => {
             return;
         }
         else if(value!="" &&value!=null&&value!=undefined&&name!="Village"){
-            console.log("hey")
             let variable = {
                 ...location,
                 [name]: value,
@@ -124,7 +123,6 @@ const AddSharesData = () => {
             })
         }
         else if(name=="Village"){
-            console.log("pp")
             let variable = {
                 ...location,
                 [name]:value,
@@ -238,7 +236,6 @@ const AddSharesData = () => {
     
             if (response.ok) {
                 const result = await response.json();
-                console.log('Success:', result);
             } else {
                 throw new Error(`Submission error: ${response.statusText}`);
             }
@@ -249,9 +246,7 @@ const AddSharesData = () => {
     
 
     useEffect(() => {
-        console.log(location);
-        console.log(land)
-        console.log(images)
+
     }, [location,land,images]); // Logs location when it changes
 
   return (

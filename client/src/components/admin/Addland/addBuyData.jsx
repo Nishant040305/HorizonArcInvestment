@@ -106,7 +106,6 @@ const AddBuyData = () => {
             return;
         }
         else if(value!="" &&value!=null&&value!=undefined&&name!="Village"){
-            console.log("hey")
             let variable = {
                 ...location,
                 [name]: value,
@@ -123,7 +122,6 @@ const AddBuyData = () => {
             })
         }
         else if(name=="Village"){
-            console.log("pp")
             let variable = {
                 ...location,
                 [name]:value,
@@ -248,9 +246,7 @@ const AddBuyData = () => {
     
 
     useEffect(() => {
-        console.log(location);
-        console.log(land)
-        console.log(images)
+      
     }, [location,land,images]); // Logs location when it changes
 
   return (

@@ -124,7 +124,6 @@ const Index =()=>{
        }
     },[tab,id,StockLandData,BuyLandData])
     const highlight = land?.Highlights;
-    console.log(highlight)
     return(
 
         <div className={`index`} >

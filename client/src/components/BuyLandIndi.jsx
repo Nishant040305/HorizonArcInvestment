@@ -20,9 +20,7 @@ const BuyOption=(props)=> {
     navigate(`/buyStockPage/${props.id}/${props.tab}`);
   }
   const highlight  = props.Highlights;
-  console.log(props.Price)
   // console.log(price)
-  console.log(props);
   return (
     <div className="rounded-3xl buy-cart bg-white">
       <ImageSlider height="300px" width="600px" images={props.Images}></ImageSlider>

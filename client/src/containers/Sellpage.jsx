@@ -106,8 +106,7 @@ const Sell =()=>{
         }
     }
     useEffect(()=>{
-        console.log(land);
-        console.log(location);
+
     },[location,land])
     return(
         
