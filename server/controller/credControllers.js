@@ -260,8 +260,91 @@ const LogIn = async(req,res)=>{
     res.cookie('uid',jwtData)
 		res.status(200).json({info:{...user._doc,password:"XXXXXX"}, message: "Login successful" });
   }catch(e){
-    res.status(500).json('Internal Server Error');
+    res.status(500).json({message:'Internal Server Error'});
   }
 }
+const BankDetail =()=>{
+  try{
 
-module.exports = {Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser,VerifyUser,LogIn};
+
+  }catch(err){
+    res.status(500).json({message:'Internal Server Error'})
+  }
+}
+const ConfirmDetailS=()=>{
+  try{
+
+  }catch(err){
+    res.status(500).json({message:"Internal Server Error"})
+  }
+}
+const EmailChange=()=>{
+
+}
+const EmailConfirmChange=()=>{
+
+}
+
+const PasswordChange = async (req, res) => {
+  try {
+      const { _id, newPassword } = req.body;
+
+      // Check if password is valid
+      if (!newPassword || newPassword.length < 6) {
+          return res.status(400).json({ message: "Password must be at least 6 characters long" });
+      }
+
+      const user = await User.findById(_id);
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+
+      const token = new Token({
+          userId: user._id,
+          token: Math.random().toString(36).substring(2), // Generate a random token
+          email: user.email,
+      });
+
+      await token.save();
+
+      // Send password change confirmation link
+      const subject = "Confirm your password change";
+      const text = `Please confirm your password change by clicking on the following link: ${process.env.BASE_URL}/confirm-password-change/${token.token}`;
+      sendEmail(user.email, subject, text);
+
+      return res.status(200).json({ message: "Confirmation email sent" });
+  } catch (err) {
+      res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const PasswordChangeConfirm = async (req, res) => {
+  try {
+      const { token, newPassword } = req.body;
+
+      const emailToken = await Token.findOne({ token });
+      if (!emailToken) {
+          return res.status(400).json({ message: "Invalid or expired token" });
+      }
+
+      const user = await User.findById(emailToken.userId);
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+
+      // Encrypt the new password
+      const salt = await bcrypt.genSalt(Number(process.env.SALT));
+      const hashPassword = await bcrypt.hash(newPassword, salt);
+
+      user.password = hashPassword;
+      await user.save();
+      await emailToken.delete();
+
+      return res.status(200).json({ message: "Password updated successfully" });
+  } catch (err) {
+      res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+module.exports = {PasswordChange,PasswordChangeConfirm,Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser,VerifyUser,LogIn};
