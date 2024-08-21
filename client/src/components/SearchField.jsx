@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Suggestion } from '../Lib/Suggestion';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLocationFilterBuy } from '../Store/FilterDataSlice';
-
+import { setTag } from '../Store/FilterDataSlice';
 function LocationSearch() {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const dispatch = useDispatch();
+  const buydata = useSelector(state=>state.buyData);
+  const stockData = useSelector(state=>state.stock)
   const fetchSuggestions = async (input) => {
     if (input.length > 2) {
         const result = Suggestion(query);
@@ -30,12 +32,16 @@ function LocationSearch() {
   };
   const Search =()=>{
     const result = Suggestion(query);
+    const url = new URL(window.location.href);
+        url.searchParams.set('location',result[0].name);
+        window.history.pushState({}, '', url);
+    setSuggestions([])
     if(result.length!=0){
       const filter = {
         latitude:result[0].latitude,
         longitude:result[0].longitude
       }
-      dispatch(setLocationFilterBuy(filter));
+      dispatch(setTag({text:result[0].name,location:filter,type:"location",buy:buydata,stock:stockData}))
     }
 
   }

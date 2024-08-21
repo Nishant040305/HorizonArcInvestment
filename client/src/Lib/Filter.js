@@ -23,7 +23,6 @@ export const AreaFilter = (Filter,Array)=>{
 
 export const locationFilter = (Filter, Array) => {
     const {latitude,longitude} = Filter;
-    console.log(Filter)
     // Calculate distance for each item and store it along with the item
     const dataWithDistances = Array.map((item) => ({
         ...item,
@@ -34,11 +33,22 @@ export const locationFilter = (Filter, Array) => {
     const sortedData = dataWithDistances.sort((a, b) => a.distance - b.distance);
 
     // Return the sorted array
-    console.log(sortedData);
     return sortedData;
 
 };
+export const CategoryFilter = (filter,array)=>{
+    const result = [];
+    if(filter!="Residential/plot"&&filter!="Commercial/plot"){
+        return array;
+    }
 
+    for(let i= 0;i<array.length;i++){
+        if(array[i].Category==filter){
+            result.push(array[i]);
+        }
+    }
+    return result;
+}
 export const UserFilter = (filter, array) => {
     const user = useSelector(state=>state.user);
     const friends = useSelector(state=>state.globalUsers)

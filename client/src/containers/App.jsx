@@ -26,15 +26,15 @@ import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { register } from '../Store/UserAuthSlice';
 import { setSeen } from '../Store/LoginSeenSlice';
-import {  setStock } from '../Store/BuyStockSlice';
-import { setBuyData } from '../Store/BuyDataSlice';
+import {  configDatastock, setStock } from '../Store/BuyStockSlice';
+import { configData, setBuyData } from '../Store/BuyDataSlice';
 import { setglobalUser,setFriends } from '../Store/globalUser';
 import { setNotification,addNotification } from '../Store/NotificationSlice';
 import { socket } from '../Lib/socket';
 import { setShortlist } from '../Store/ShortListSlice';
-import { ShortListData } from '../Lib/ImportantFunc';
+import { numTowords, ShortListData } from '../Lib/ImportantFunc';
 import { setMessage ,Addmessage} from '../Store/MessageSlice';
-import { setBuyStockData,setLocationFilterBuy,setPriceFilterBuy,setPriceFilterStocks } from '../Store/FilterDataSlice';
+import { setBuyStockData,setLocationFilterBuy,setPriceFilterBuy,setPriceFilterStocks, setTag } from '../Store/FilterDataSlice';
 import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
 import ImageSlider from '../components/imageSlider';
@@ -46,6 +46,7 @@ const App=() =>{
   const seen = useSelector(state=>state.loginSeen);
   const dispatch = useDispatch();
   let buydata = null;
+  const location = useLocation();
   const initialLoad = useRef(true);
   axios.defaults.withCredentials = true;
   const user = useSelector(state=>state.user)
@@ -100,12 +101,12 @@ const App=() =>{
     }}
   }
   const handleGetLocation = async () => {
-    console.log("hello")
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          console.log(latitude, longitude);
+          dispatch(configData({ latitude: latitude, longitude: longitude }));
+          dispatch(configDatastock({ latitude: latitude, longitude: longitude }));
           dispatch(setLocationFilterBuy({ latitude: latitude, longitude: longitude }));
           localStorage.setItem('geolocationConsent', 'true'); // Store consent
         },
@@ -259,7 +260,21 @@ const askForLocation = () => {
   // Trigger this on page load or when user consents
   handleGetLocation();
 };
+const parseQueryParams = () => {
+  const params = new URLSearchParams(location.search);
+  const min = params.get('min');
+  const max = params.get('max');
+  const plotType = params.get('plot_type');
+  const Amin = params.get('Amin');
+  const Amax = params.get('Amax');
+  const locationParam = params.get('location');
+  if(min!=null) dispatch(setTag({type:"minAmount",amount:min,text:`Starting with ${numTowords(Number(min))}`,buy:BuyLandData,stock:StockLandData}));
+  if(max!=null) dispatch(setTag({type:"maxAmount",amount:max,text:`Ending with ${numTowords(Number(max))}`,buy:BuyLandData,stock:StockLandData}));
+  if(plotType!=null) dispatch(setTag({type:"plot_type",text:plotType,buy:BuyLandData,stock:StockLandData}));
+  if(Amin!=null) dispatch(setTag({type:"minArea",amount:Amin, text:`Starting with ${Amin} hectar`,buy:BuyLandData,stock:StockLandData}));
+  if(Amax!=null) dispatch(setTag({type:"maxArea",amount:Amax,text:`upto ${Amax} hectar`,buy:BuyLandData,stock:StockLandData}));
 
+}
 useEffect(()=>{
   StockData();
   BuyLand();
@@ -308,8 +323,10 @@ useEffect(()=>{
     socket.off('message')
   }
 })
+useEffect(() => {
+  parseQueryParams();
+}, [location.search]); // Run this effect whenever the URL changes
 
- 
   return (
     <Routes>
 

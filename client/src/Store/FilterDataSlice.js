@@ -11,9 +11,11 @@ const FilterDataSlice = createSlice({
         setAreaFilterStock:FilterReducer,
         setAreaFilterBuy:FilterReducer,
         setLocationFilterBuy:FilterReducer,
+        setTag:FilterReducer,
+        deleteTag:FilterReducer,
     }
 })
 
-export const {setLocationFilterBuy,setAreaFilterStock,setAreaFilterBuy,setBuyStockData,searchGlobalUser,setPriceFilterBuy,setPriceFilterStocks} = FilterDataSlice.actions;
+export const {deleteTag,setTag,setLocationFilterBuy,setAreaFilterStock,setAreaFilterBuy,setBuyStockData,searchGlobalUser,setPriceFilterBuy,setPriceFilterStocks} = FilterDataSlice.actions;
 
 export default FilterDataSlice.reducer;
