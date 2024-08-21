@@ -8,7 +8,8 @@ const shortListSchema=new Schema({
         unique:true,
     },
     land:{
-        type:[Object],
+        type:[Schema.Types.ObjectId],
+        ref:'LandForSaleData',
         default:[],
     }
 })

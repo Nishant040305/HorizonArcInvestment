@@ -32,7 +32,7 @@ const Index =()=>{
     const [tabSelect,setTabselect] = useState('over');
     const addToShortList =async()=>{
       if(seen.seen&&!select) setSelect(1-select);
-      if(seen.seen) dispatch(addShortlist({user:user.shortList,land:land}));}
+      if(seen.seen) dispatch(addShortlist({user:user.shortList,land:land._id}));}
     const seen = useSelector(state=>state.loginSeen);
     const handleScroll = (e)=>{
         const over = document.getElementById("over");

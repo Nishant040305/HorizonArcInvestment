@@ -10,13 +10,23 @@ const ShortList = () => {
   const user = useSelector(state=>state.user);
   const BuyData = useSelector(state=>state.buyData);
   const shortList = useSelector(state=>state.shortList);
+  const data = [];
+  for(let j=0;j<shortList.length;j++){
+    for(let i=0;i<BuyData.length;i++){
+      if(BuyData[i]._id==shortList[j]){
+        data.push(BuyData[i]);
+        break;
+      }
+    }
+  }
+  
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 8; // Number of items per page
   // Calculate the total number of pages
-  const totalPages = Math.ceil(shortList.data.length / pageSize);
+  const totalPages = Math.ceil(data.length / pageSize);
 
   // Get the data to display on the current page
-  const currentData = shortList.data.slice(
+  const currentData = data.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );

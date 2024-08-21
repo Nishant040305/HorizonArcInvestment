@@ -26,7 +26,7 @@ const PlaceNearby=(props)=>{
 
             <div className="flex flex-row" style={{marginTop:20}}>
             {highlight?.Highlights?highlight.Highlights.map((info,index)=>(
-            <Place type={info.type} locality={info.text}></Place>
+            <Place type={info.type} key={index} locality={info.text}></Place>
 
             )):""}
    

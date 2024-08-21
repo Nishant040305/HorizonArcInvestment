@@ -68,14 +68,14 @@ const addItemShortList = async (req, res) => {
 
         console.log("ShortList and Land data found:", shortList, Data);
 
-        // Check if the land is already in the shortlist
-        const landIndex = shortList.land.findIndex(item => item._id.toString() === Data._id.toString());
-
+        // Check if the land is already in the shortlist        
+        const landIndex = shortList.land.findIndex(item => item.toString() === Data._id.toString());
         if (landIndex === -1) {
             console.log("Land not in shortlist, adding now");
 
             // Update the ShortList with the new land
-            await ShortList.findByIdAndUpdate(shortList._id, { $push: { land: Data } });
+            
+            const data = await ShortList.findByIdAndUpdate(shortList._id, { $push: { land: req.body._id } });
             return res.status(200).json({ message: "Product Added" });
         } else {
             console.log("Land already in shortlist");
@@ -96,7 +96,10 @@ const RemoveItemShortList = async (req, res) => {
         }
         
         // Find the index of the item to remove
-        const landIndex = shortList.land.findIndex(item => item._id.toString() === req.body._id.toString());
+      
+        const landIndex = shortList.land.findIndex(item => item.toString() === req.body._id.toString());
+
+        
 
         if (landIndex !== -1) {
             // Remove the item from the shortlist

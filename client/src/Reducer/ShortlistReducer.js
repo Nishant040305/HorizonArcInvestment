@@ -44,25 +44,21 @@ const removeItemBackend =async(shortListID,_id)=>{
 export const setShortlistReducer = (state,action)=>{
     switch (action.type) {
         case 'shortList/setShortlist':
-            const data = {data:action.payload,dataLength:(action.payload).length};
+            const data = action.payload;
             return data;
             break;
         case 'shortList/addShortlist':
-            console.log(action.payload.land._id)
-            const index  = state.data.findIndex(x=>x._id == action.payload.land._id);
-            console.log(index)
+            const index  = state.findIndex(x=>x == action.payload.land);
             if(index===-1){
-                state.data.push(action.payload.land);
-                state.dataLength++;
-                AddItemBackend(action.payload.user,action.payload.land._id);
+                state.push(action.payload.land);
+                AddItemBackend(action.payload.user,action.payload.land);
             }
 
             return state;
         case 'shortList/removeShortlist':
-            const index_  = state.data.findIndex(x=>x._id = action.payload._id);
+            const index_  = state.findIndex(x=>x== action.payload._id);
             if(index_!=-1){
-                state.data.splice(index_,1);
-                state.dataLength--;
+                state.splice(index_,1);
             }
             removeItemBackend(action.payload.user,action.payload._id);
             return state;
