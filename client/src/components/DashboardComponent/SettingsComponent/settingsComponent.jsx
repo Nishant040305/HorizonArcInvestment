@@ -67,13 +67,6 @@ const SettingsComponent = () => {
       return false;
     }
 
-    // Validate bank name (assuming it should be letters and possibly spaces)
-    const bankNamePattern = /^[A-Za-z\s]+$/;
-    if (!bankNamePattern.test(BankName)) {
-      alert('Bank Name should contain only letters and spaces');
-      return false;
-    }
-
     // Validate IFSC code (assuming standard 11-character alphanumeric format)
     const ifscPattern = /^[A-Z]{4}0[A-Z0-9]{6}$/;
     if (!ifscPattern.test(IFSC)) {
@@ -91,16 +84,13 @@ const SettingsComponent = () => {
   };
 
 
-
-  const submitBankDetails = async () => {
-    if (!validateBankDetails()) return;
-    try {
-      const response = await axios.post(`${BACKWEB}/api/bank-details`, BankDetails);
-      alert('Bank details updated successfully');
-    } catch (error) {
-      alert('Error updating bank details');
-    }
-  };
+  const BankNames = [
+    'State Bank of India (SBI)', 'HDFC Bank', 'ICICI Bank', 'Axis Bank', 'Punjab National Bank (PNB)',
+    'Kotak Mahindra Bank', 'Bank of Baroda', 'Canara Bank', 'Union Bank of India', 'Bank of India',
+    'Indian Bank', 'Central Bank of India', 'IDFC FIRST Bank', 'Yes Bank', 'Indian Overseas Bank',
+    'Syndicate Bank', 'UCO Bank', 'Oriental Bank of Commerce', 'Vijaya Bank', 'Himachal Pradesh National Bank',
+    'Jammu and Kashmir Bank', 'Bharatiya Mahila Bank'
+  ];
 
   const validateEmailChange = () => {
     const { email, password } = EmailChange;
@@ -181,6 +171,22 @@ const SettingsComponent = () => {
     }
   };
 
+  const submitBankDetails = async () => {
+    if (!validateBankDetails()) return;
+    try {
+      const response = await axios.post(`${BACKWEB}/bankDetailsChange`, {...BankDetails,_id:user._id});
+      alert('Bank details updated successfully');
+      dispatch(register({
+        ...user,
+        IFSC:BankDetails.IFSC,
+        AccountNumber:BankDetails.AccountNumber,
+        BankName:BankDetails.BankName,
+      }))
+    } catch (error) {
+      alert('Error updating bank details');
+    }
+  };
+
   const submitPasswordUpdate = async () => {
     if (passwordChange.newPassword !== passwordChange.confirmPassword) {
       alert("Passwords do not match");
@@ -205,19 +211,54 @@ const SettingsComponent = () => {
         <div className="FindPeopleBlock part">
           <div className='' onClick={() => { setBank(1 - Bank) }}>Bank Details</div>
           {Bank !== 0 && <div className='setting-info-block'>
-            <div className='flex flex-row'><div className='data-bank-info'>Account Number:</div>
-              <input className='input-bank-detail' name="AccountNumber" value={BankDetails.AccountNumber} onChange={handleBankDetail} placeholder='Enter your Account Number' />
+            <div className='flex flex-row'>
+              <div className='data-bank-info'>Bank Name:</div>
+              <select
+                className='input-bank-detail Select-bankName'
+                name="BankName"
+                value={BankDetails.BankName}
+                onChange={handleBankDetail}
+              >
+                <option value="">Select Bank</option>
+                {BankNames.map((bankName, index) => (
+                  <option key={index} value={bankName}>{bankName}</option>
+                ))}
+              </select>
             </div>
-            <div className='flex flex-row'><div className='data-bank-info'>Bank Name:</div>
-              <input className='input-bank-detail' name="BankName" value={BankDetails.BankName} onChange={handleBankDetail} placeholder='Enter your Bank Name' />
+            <div className='flex flex-row'>
+              <div className='data-bank-info'>Account Number:</div>
+              <input
+                className='input-bank-detail'
+                name="AccountNumber"
+                value={BankDetails.AccountNumber}
+                onChange={handleBankDetail}
+                placeholder='Enter your Account Number'
+              />
             </div>
-            <div className='flex flex-row'><div className='data-bank-info'>IFSC code:</div>
-              <input className='input-bank-detail' name="IFSC" value={BankDetails.IFSC} onChange={handleBankDetail} placeholder='Enter your IFSC code' />
+            <div className='flex flex-row'>
+              <div className='data-bank-info'>IFSC code:</div>
+              <input
+                className='input-bank-detail'
+                name="IFSC"
+                value={BankDetails.IFSC}
+                onChange={handleBankDetail}
+                placeholder='Enter your IFSC code'
+              />
             </div>
-            <div className='flex flex-row'><div className='data-bank-info'>Password:</div>
-              <input className='input-bank-detail' type='password' name="password" value={BankDetails.password} onChange={handleBankDetail} placeholder='Enter your password' />
+            <div className='flex flex-row'>
+              <div className='data-bank-info'>Password:</div>
+              <input
+                className='input-bank-detail'
+                type='password'
+                name="password"
+                value={BankDetails.password}
+                onChange={handleBankDetail}
+                placeholder='Enter your password'
+              />
             </div>
-            <div className='submit-div-bank'><button className='submit-bank-detail' onClick={submitBankDetails}>Submit</button></div>
+            <div className='submit-div-bank'>
+              <button className='submit-bank-detail' onClick={submitBankDetails}>Submit</button>
+            </div>
           </div>}
         </div>
         <div className='FindPeopleBlock part'>
