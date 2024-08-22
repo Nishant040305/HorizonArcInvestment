@@ -21,4 +21,7 @@ router.get('/users/:id/verify/:token',credController.VerifyUser);
 router.post('/passwordChange', credController.PasswordChange);
 router.post('/passwordConfirm', credController.PasswordChangeConfirm);
 router.post('/passwordUpdate', credController.PasswordUpdate);
+router.post('/emailChange', credController.EmailChange);
+router.post('/emailConfirmChange', credController.EmailConfirmChange);
+
 module.exports = router;

@@ -287,12 +287,91 @@ const ConfirmDetailS=()=>{
     res.status(500).json({message:"Internal Server Error"})
   }
 }
-const EmailChange=()=>{
+const EmailChange = async (req, res) => {
+  try {
+    const { _id, currentPassword, newEmail } = req.body;
 
-}
-const EmailConfirmChange=()=>{
+    // Find the user by ID
+    const user = await User.findById(_id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-}
+    // Verify the current password
+    const isMatch =  bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Incorrect password" });
+    }
+
+    // Generate OTP
+    const otp = generateOTP();
+
+    // Create a new Token document for email change
+    const token = new Token({
+      userId: user._id,
+      token: otp,
+      email: newEmail,
+      info: {
+        message: "emailChange"
+      }
+    });
+
+    await token.save();
+
+    // Send OTP to the new email address
+    const subject = "Your OTP for email change";
+    const text = `Your OTP for email change is: ${otp}. Please use this OTP to confirm your new email address.`;
+    sendEmail(newEmail, subject, text);
+
+    return res.status(200).json({ message: "OTP sent to your new email" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const EmailConfirmChange = async (req, res) => {
+  try {
+    const { _id, otp } = req.body;
+
+    // Find the OTP token document
+    const emailToken = await Token.findOne({
+      token: otp,
+      userId: _id,
+      info:{
+        message:"emailChange"
+      } 
+    });
+
+    if (!emailToken) {
+      return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+
+    // Find the user by ID and update email
+    const user = await User.findById(emailToken.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.email = emailToken.email; // Update to new email address
+    await user.save();
+
+    // Remove the OTP token after successful email change
+    await Token.deleteOne({
+      token: otp,
+      userId: _id,
+      info:{
+        message:"emailChange"
+      } 
+    });
+
+    return res.status(200).json({ message: "Email updated successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 
 const PasswordChange = async (req, res) => {
   try {
