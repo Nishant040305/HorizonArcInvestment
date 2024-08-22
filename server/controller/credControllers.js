@@ -518,6 +518,59 @@ const BankDetailsChange = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+const isValidUrl = (url) => {
+  try {
+      new URL(url);
+      return true;
+  } catch {
+      return false;
+  }
+};
+const ChangeProfile=async (req, res) => {
+  try {
+      const { _id, fullName, location, dob, image } = req.body;
 
+      // Validate input
+      if (!_id || !fullName || !location || !dob || !image) {
+          return res.status(400).json({ message: 'All fields are required' });
+      }
 
-module.exports = {BankDetailsChange,EmailChange,EmailConfirmChange,PasswordChange, PasswordChangeConfirm, PasswordUpdate,Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser,VerifyUser,LogIn};
+      if (fullName.length < 3 || fullName.length > 30) {
+          return res.status(400).json({ message: 'Full name must be between 3 and 30 characters' });
+      }
+
+      if (location.length > 50) {
+          return res.status(400).json({ message: 'Location must be 50 characters or less' });
+      }
+
+      // Validate date format (example: YYYY-MM-DD)
+      const dobRegex = /^\d{4}-\d{2}-\d{2}$/;
+      if (!dobRegex.test(dob)) {
+          return res.status(400).json({ message: 'Date of birth must be in YYYY-MM-DD format' });
+      }
+
+      if (!isValidUrl(image)) {
+          return res.status(400).json({ message: 'Invalid image URL' });
+      }
+
+      // Find the user and update the profile
+      const updatedUser = await User.findByIdAndUpdate(
+          _id,
+          { fullName, location, dob, image },
+          { new: true, runValidators: true }
+      );
+
+      if (!updatedUser) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+      delete updatedUser._doc.password;
+      const jwtData = jwtToken.sign({...updatedUser._doc},process.env.jwt_secreat)
+      res.cookie('uid',jwtData)
+      res.status(200).json({ message: 'Profile updated successfully', updatedUser });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+  }
+}
+
+module.exports = {ChangeProfile,BankDetailsChange,EmailChange,EmailConfirmChange,PasswordChange, PasswordChangeConfirm, PasswordUpdate,Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser,VerifyUser,LogIn};
