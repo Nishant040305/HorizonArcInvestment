@@ -3,14 +3,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 import '../assets/Login.css';
 
-const VerifyComponent = () => {
+const VerifyComponent = (props) => {
   const BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const { id, token } = useParams();
   const [Username, setUsername] = useState(null);
   const [mssg, setMssg] = useState(null);
   let T = 0;
   axios.defaults.withCredentials = true;
-  const verifyUser = async () => {
+  let FRONTWEB = import.meta.env.VITE_REACT_APP_FRONTWEB;
+  const verifyUser = async (props) => {
 
       try {
         const response = await axios.get(`${BACKWEB}/users/${id}/verify/${token}`,{
@@ -41,7 +42,7 @@ const VerifyComponent = () => {
       {Username && <img className='verify-img' src="https://c7.alamy.com/comp/2ABNAN7/green-check-mark-icon-in-a-circle-tick-symbol-in-green-color-2ABNAN7.jpg" alt="Verified" />}
       {mssg && <img className='verify-img' src="https://www.shutterstock.com/shutterstock/photos/1386505274/display_1500/stock-vector-x-marks-two-red-crossed-vector-brush-strokes-rejected-sign-in-grunge-style-1386505274.jpg" alt="Invalid Link" />}
       <div style={{ fontSize: 30 }}>{mssg || Username}</div>
-      {Username || mssg ? <Link to="http://localhost:5173"><button className='bg-green-300 text-white'>Return to Home Page</button></Link> : ""}
+      {Username || mssg ? <Link to={FRONTWEB}><button className='bg-green-300 text-white'>Return to Home Page</button></Link> : ""}
     </div>
   );
 };

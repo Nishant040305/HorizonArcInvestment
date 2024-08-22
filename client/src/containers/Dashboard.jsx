@@ -23,7 +23,7 @@ const Dashboard = () => {
   <NavDash></NavDash>
     <div className='Dashboard'>
       <ProfileBar></ProfileBar>
-      {option=="profile"?<Profile/>:option=="shares"?<Shares/>:option=="messages"?<Messages></Messages>:option=="notification"?<Notification/>:option=="shortlist"?<ShortList></ShortList>:<FindPeople></FindPeople>}
+      {option=="profile"?<Profile/>:option=="shares"?<Shares/>:option=="messages"?<Messages></Messages>:option=="notification"?<Notification/>:option=="shortlist"?<ShortList></ShortList>:option=="settings"?<SettingsComponent></SettingsComponent>:<FindPeople></FindPeople>}
     
     </div>
   <Footer></Footer>

@@ -8,6 +8,7 @@ const nodemailer = require('nodemailer');
 const jwtToken = require('jsonwebtoken');
 const Token = require('../models/token');
 const sendEmail = require('../utils/sendEmail');
+const {generateOTP} = require('../utils/ImportantFunctions');
 const Usergenerate = require('../utils/Username');
 const shortList = require('../models/ShortList');
 const Friend = require('../models/Friend');
@@ -195,7 +196,10 @@ const createUser = async(req,res) =>{
 		const token = await new Token({
 			userId: user._id,
 			token: crypto.randomBytes(32).toString("hex"),
-      email:user.email
+      email:user.email,
+      info:{
+        message:"EmailVerification"
+      }
 		}).save();
 		const url = `${process.env.FRONTWEB}/users/${user.id}/verify/${token.token}`;
 		await sendEmail(user.email, "Verify Email", url);
@@ -204,7 +208,8 @@ const createUser = async(req,res) =>{
   }
   else if(!user.verify){
     const tok = await Token.findOne({userId:user._id});
-    if(tok){
+    if(tok&&tok.info.message=="EmailVerification"){
+      
       const url = `${process.env.FRONTWEB}/users/${user._id}/verify/${tok.token}`;
 		  await sendEmail(user.email, "Verify Email", url);
       return res.status(200).json({ message: "An Email sent to your account please verify" });
@@ -213,7 +218,10 @@ const createUser = async(req,res) =>{
     const token = await new Token({
 			userId: user._id,
 			token: crypto.randomBytes(32).toString("hex"),
-      email:user.email
+      email:user.email,
+      info:{
+        message:"EmailVerification"
+      }
 		}).save();
 		const url = `${process.env.FRONTWEB}/users/${user._id}/verify/${token.token}`;
 		await sendEmail(user.email, "Verify Email", url);
@@ -234,12 +242,13 @@ const VerifyUser = async(req,res)=>{
 			userId: user._id,
 			token: req.params.token,
 		});
-		if (!token) return res.status(400).json({ message: "Invalid link" });
+		if (!token&&token.info.message!="EmailVerification") return res.status(400).json({ message: "Invalid link" });
     if(user.verify) return res.status(200).json({ info:user.Username, message: "Email verified successfully"  })
     const _short_Data = await new shortList({userId:user._id}).save();
     const _Friend_List = await new Friend({userId:user._id}).save();
     const userUpdate= await User.findOneAndUpdate({ _id: user._id},{ verify: true,Username:Usergenerate(token.email,user._id),chatRoom:[],shortList:_short_Data._id,friendId:_Friend_List._id },{new:true});
-    const jwtData = jwtToken.sign({...userUpdate,password:"XXXXXX"},process.env.jwt_secreat)
+    delete userUpdate.password;
+    const jwtData = jwtToken.sign(userUpdate,process.env.jwt_secreat)
 		return res.status(200).json({info:userUpdate.Username, message: "Email verified successfully" });
 	} catch (error) {
     console.log(error)
@@ -287,64 +296,107 @@ const EmailConfirmChange=()=>{
 
 const PasswordChange = async (req, res) => {
   try {
-      const { _id, newPassword } = req.body;
-
-      // Check if password is valid
-      if (!newPassword || newPassword.length < 6) {
-          return res.status(400).json({ message: "Password must be at least 6 characters long" });
-      }
-
+      const { _id } = req.body;
       const user = await User.findById(_id);
       if (!user) {
           return res.status(404).json({ message: "User not found" });
       }
+      const customExpiration = 600;
+      const createdAt = customExpiration
+      ? new Date(Date.now() - (300 - customExpiration) * 1000)
+      : Date.now();
+      // Generate OTP
+      const otp = generateOTP();
 
       const token = new Token({
           userId: user._id,
-          token: Math.random().toString(36).substring(2), // Generate a random token
+          token: otp, // Store OTP as token
           email: user.email,
+          info: {
+              message: "passwordChange"
+          },
+          createdAt: createdAt
       });
 
       await token.save();
 
-      // Send password change confirmation link
-      const subject = "Confirm your password change";
-      const text = `Please confirm your password change by clicking on the following link: ${process.env.BASE_URL}/confirm-password-change/${token.token}`;
+      // Send password change OTP
+      const subject = "Your OTP for password change";
+      const text = `Your OTP for password change is: ${otp}. Please use this OTP to change your password.`;
       sendEmail(user.email, subject, text);
 
-      return res.status(200).json({ message: "Confirmation email sent" });
+      return res.status(200).json({ message: "OTP sent to your email" });
   } catch (err) {
+      console.log(err);
       res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 const PasswordChangeConfirm = async (req, res) => {
   try {
-      const { token, newPassword } = req.body;
+    const { _id, otp } = req.body;
 
-      const emailToken = await Token.findOne({ token });
-      if (!emailToken) {
-          return res.status(400).json({ message: "Invalid or expired token" });
-      }
+    const emailToken = await Token.findOne({
+      token: otp,
+      userId: _id,
+      "info.message": "passwordChange",
+    });
+    if (!emailToken) {
+      return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
 
-      const user = await User.findById(emailToken.userId);
-      if (!user) {
-          return res.status(404).json({ message: "User not found" });
-      }
+    // Generate a new token for confirmation
+    const confirmationToken = crypto.randomBytes(32).toString('hex');
 
-      // Encrypt the new password
-      const salt = await bcrypt.genSalt(Number(process.env.SALT));
-      const hashPassword = await bcrypt.hash(newPassword, salt);
+    const token = new Token({
+      userId: emailToken.userId,
+      token: confirmationToken,
+      email: emailToken.email,
+      info: { message: "passwordChangeConfirm" },
+    });
 
-      user.password = hashPassword;
-      await user.save();
-      await emailToken.delete();
+    await token.save();
+    await Token.findByIdAndDelete(emailToken._id); // Delete the used OTP token
 
-      return res.status(200).json({ message: "Password updated successfully" });
+    return res.status(200).json({ token: confirmationToken });
   } catch (err) {
-      res.status(500).json({ message: "Internal Server Error" });
+    console.log(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const PasswordUpdate = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    const confirmationToken = await Token.findOne({
+      token: token,
+      "info.message": "passwordChangeConfirm",
+    });
+    if (!confirmationToken) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+
+    const user = await User.findById(confirmationToken.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Encrypt the new password
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    const hashPassword = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashPassword;
+    await user.save();
+    // await confirmationToken.delete(); // Delete the used confirmation token
+    Token.findByIdAndDelete(confirmationToken._id)
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 
-module.exports = {PasswordChange,PasswordChangeConfirm,Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser,VerifyUser,LogIn};
+
+module.exports = {PasswordChange, PasswordChangeConfirm, PasswordUpdate,Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser,VerifyUser,LogIn};

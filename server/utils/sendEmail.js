@@ -1,19 +1,20 @@
 const nodemailer = require('nodemailer');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
+
 async function sendEmail(userEmail,subject,text) {
     // Create a transporter
     let transporter = nodemailer.createTransport({
         host:process.env.HOST,
         service: 'gmail',
         auth: {
-            user: process.env.email,
-            pass: process.env.pass
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
         }
     });
     // Email options
     let mailOptions = {
-        from: process.env.email,
+        from: process.env.EMAIL,
         to: userEmail,
         subject: subject,
         text: text

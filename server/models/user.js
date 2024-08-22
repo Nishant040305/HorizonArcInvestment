@@ -11,6 +11,9 @@ const userSchema = new Schema(
             type:String,
             
         },
+        BankName:{
+            type:String,
+        },
         AccountNumber:{
             type:String
         },

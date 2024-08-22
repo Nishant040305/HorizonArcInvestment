@@ -18,6 +18,7 @@ router.post("/getInfo",[],credController.getInfo);
 router.post('/register',[body('email').isEmail(),body('password').isLength(6),body('fullName').isLength(3)],credController.createUser);
 router.post('/login',[body('password').isLength(6)],credController.LogIn)
 router.get('/users/:id/verify/:token',credController.VerifyUser);
-router.post('/passwordChange',credController.PasswordChange);
-router.post('/passwordConfirm',credController.PasswordChangeConfirm);
+router.post('/passwordChange', credController.PasswordChange);
+router.post('/passwordConfirm', credController.PasswordChangeConfirm);
+router.post('/passwordUpdate', credController.PasswordUpdate);
 module.exports = router;
