@@ -23,5 +23,5 @@ router.post('/passwordConfirm', credController.PasswordChangeConfirm);
 router.post('/passwordUpdate', credController.PasswordUpdate);
 router.post('/emailChange', credController.EmailChange);
 router.post('/emailConfirmChange', credController.EmailConfirmChange);
-
+router.post('/bankDetailsChange',credController.BankDetailsChange);
 module.exports = router;

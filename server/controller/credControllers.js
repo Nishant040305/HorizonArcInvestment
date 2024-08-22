@@ -273,21 +273,6 @@ const LogIn = async(req,res)=>{
     res.status(500).json({message:'Internal Server Error'});
   }
 }
-const BankDetail =()=>{
-  try{
-
-
-  }catch(err){
-    res.status(500).json({message:'Internal Server Error'})
-  }
-}
-const ConfirmDetailS=()=>{
-  try{
-
-  }catch(err){
-    res.status(500).json({message:"Internal Server Error"})
-  }
-}
 const EmailChange = async (req, res) => {
   try {
     const { _id, currentPassword, newEmail } = req.body;
@@ -498,6 +483,41 @@ const PasswordUpdate = async (req, res) => {
   }
 };
 
+const BankDetailsChange = async (req, res) => {
+  try {
+    const { _id, password, BankName, AccountNumber, IFSC } = req.body;
+
+    // Validate input
+    if (!_id || !password || !BankName || !AccountNumber || !IFSC) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    // Find the user by ID
+    const user = await User.findById(_id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Check if the provided password matches the hashed password in the database
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Incorrect password' });
+    }
+
+    // Update the bank details
+    user.BankName = BankName;
+    user.AccountNumber = AccountNumber;
+    user.IFSC = IFSC;
+
+    // Save the updated user
+    await user.save();
+
+    res.status(200).json({ message: 'Bank details updated successfully' });
+  } catch (error) {
+    console.error('Error updating bank details:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 
-module.exports = {EmailChange,EmailConfirmChange,PasswordChange, PasswordChangeConfirm, PasswordUpdate,Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser,VerifyUser,LogIn};
+module.exports = {BankDetailsChange,EmailChange,EmailConfirmChange,PasswordChange, PasswordChangeConfirm, PasswordUpdate,Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser,VerifyUser,LogIn};
