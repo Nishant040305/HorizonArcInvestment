@@ -71,7 +71,7 @@ const EditInfo = () => {
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this data?")) {
       try {
-        await axios.delete(`${BACKWEB}/admin/lands/${land._id}`);
+        await axios.delete(`${BACKWEB}/admin/land/${land._id}/${type}`);
         alert("Land data deleted successfully!");
         setLand(null); // Clear the form data after deletion
       } catch (error) {

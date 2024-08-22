@@ -75,6 +75,22 @@ const StockSchema = new Schema({
     Property:{
         type:String,
         default:"LeaseHold"
+    },
+    location:{
+        type:{
+            latitude:{
+                type:Number,
+                default:25.5507,
+            },
+            longitude:{
+                type:Number,
+                default:81.8416
+            }
+        },
+        default:{
+            latitude:25.5507,
+            longitude:81.8416
+        }
     }
 
 });

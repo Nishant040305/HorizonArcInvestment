@@ -15,5 +15,5 @@ router.post('/sharesUpload',AdminController.InsertStock);
 router.post('/getNotificationAdmin',AdminController.NotificationGet);
 router.put('/lands/:id', AdminController.UpdateLand);
 router.get('/lands/:id',AdminController.getLandInfo);
-router.delete('/land/:id',AdminController.DeleteLand);
+router.delete('/land/:id/:type',AdminController.DeleteLand);
 module.exports = router;
