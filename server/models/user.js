@@ -24,6 +24,10 @@ const userSchema = new Schema(
             type:Schema.Types.ObjectId,
             ref:'friends'
         },
+        location:{
+            type:String,
+            default:"",
+        },
         email:{
             type:String,
             require:true

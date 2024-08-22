@@ -326,7 +326,7 @@ useEffect(()=>{
 useEffect(() => {
   parseQueryParams();
 }, [location.search]); // Run this effect whenever the URL changes
-
+  console.log(StockLandData)
   return (
     <Routes>
 
@@ -337,7 +337,6 @@ useEffect(() => {
       <Route path={url.dashboard} element={!seen.seen? <Navigate replace to={url.stock} />:<Dashboard></Dashboard>}></Route>
       <Route path={url.verify} element ={<VerifyComponent></VerifyComponent>}></Route>
       <Route path={url.admin} element={!admin? <Navigate replace to={url.stock} />:<Admin></Admin>}></Route>
-      <Route path="/test" element ={<LocationSearch></LocationSearch>}></Route>
     </Routes>
     
   );

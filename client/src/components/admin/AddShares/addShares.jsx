@@ -236,6 +236,7 @@ const AddSharesData = () => {
     
             if (response.ok) {
                 const result = await response.json();
+                alert("Data is submitted")
             } else {
                 throw new Error(`Submission error: ${response.statusText}`);
             }
