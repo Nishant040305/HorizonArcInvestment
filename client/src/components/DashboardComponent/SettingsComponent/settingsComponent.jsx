@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import './settingsComponent.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-
+import { register } from '../../../Store/UserAuthSlice';
 const SettingsComponent = () => {
   const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const [Bank, setBank] = useState(0);
   const [email, setEmail] = useState(0);
   const [forget, setForget] = useState(0);
   const [step, setStep] = useState(1); // Track the step in password reset
+  const [stepEmail,setStepEmail] = useState(1);
   const [confirmationToken, setConfirmationToken] = useState(null);
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const [BankDetails, setBankDetails] = useState({
@@ -21,6 +23,7 @@ const SettingsComponent = () => {
   const [EmailChange, setEmailChange] = useState({
     email: '',
     password: '',
+    otp:'',
   });
 
   const [passwordChange, setPasswordChange] = useState({
@@ -87,6 +90,18 @@ const SettingsComponent = () => {
     return true;
   };
 
+
+
+  const submitBankDetails = async () => {
+    if (!validateBankDetails()) return;
+    try {
+      const response = await axios.post(`${BACKWEB}/api/bank-details`, BankDetails);
+      alert('Bank details updated successfully');
+    } catch (error) {
+      alert('Error updating bank details');
+    }
+  };
+
   const validateEmailChange = () => {
     const { email, password } = EmailChange;
 
@@ -106,23 +121,39 @@ const SettingsComponent = () => {
     return true;
   };
 
-  const submitBankDetails = async () => {
-    if (!validateBankDetails()) return;
-    try {
-      const response = await axios.post(`${BACKWEB}/api/bank-details`, BankDetails);
-      alert('Bank details updated successfully');
-    } catch (error) {
-      alert('Error updating bank details');
-    }
-  };
-
   const submitEmailChange = async () => {
     if (!validateEmailChange()) return;
     try {
-      const response = await axios.post(`${BACKWEB}/api/change-email`, EmailChange);
-      alert('Email updated successfully');
+      // Request OTP to the new email
+      const response = await axios.post(`${BACKWEB}/emailChange`, {
+        _id:user._id,
+        newEmail: EmailChange.email,
+        currentPassword: EmailChange.password,
+      });
+      setStepEmail(2); // Move to OTP verification step
+      alert("OTP send to the new Email")
     } catch (error) {
-      alert('Error updating email');
+      console.log(error);
+      alert('Error sending OTP to new email');
+    }
+  };
+
+  const submitOTPemail = async () => {
+    try {
+      // Confirm email change using OTP
+      await axios.post(`${BACKWEB}/emailConfirmChange`, {
+        _id:user._id,
+        otp: EmailChange.otp
+      });
+      alert('Email updated successfully');
+      dispatch(register({
+        ...user,
+        email:EmailChange.email
+      }))
+      setStepEmail(1); // Reset step after successful update
+    } catch (error) {
+      console.log(error);
+      alert('Invalid OTP or error confirming email change');
     }
   };
 
@@ -192,14 +223,27 @@ const SettingsComponent = () => {
         <div className='FindPeopleBlock part'>
           <div onClick={() => { setEmail(1 - email) }}>Change Email</div>
           {email !== 0 && <div className='setting-info-block'>
-            <div className='flex flex-row'><div className='data-bank-info'>Email:</div>
-              <input className='input-bank-detail' name="email" onChange={handleEmail} value={EmailChange.email} placeholder="Enter new Email" />
-           </div>
-            <div className='flex flex-row'><div className='data-bank-info'>Password:</div>
-              <input className='input-bank-detail' type='password' name="password" onChange={handleEmail} value={EmailChange.password} placeholder='Enter your password' />
-            </div>
-            <div className='submit-div-bank'><button className='submit-bank-detail' onClick={submitEmailChange}>Submit</button></div>
+            {stepEmail === 1 && (
+              <div>
+                <div className='flex flex-row'><div className='data-bank-info'>Email:</div>
+                  <input className='input-bank-detail' name="email" onChange={handleEmail} value={EmailChange.email} placeholder="Enter new Email" />
+               </div>
+                <div className='flex flex-row'><div className='data-bank-info'>Password:</div>
+                  <input className='input-bank-detail' type='password' name="password" onChange={handleEmail} value={EmailChange.password} placeholder='Enter your password' />
+                </div>
+                <div className='submit-div-bank'><button className='submit-bank-detail' onClick={submitEmailChange}>Submit</button></div>
+              </div>
+            )}
+            {stepEmail === 2 && (
+              <div>
+                <div className='flex flex-row'><div className='data-bank-info'>Enter OTP:</div>
+                  <input className='input-bank-detail' name="otp" value={EmailChange.otp} onChange={handleEmail} placeholder='Enter OTP sent to your new email' />
+                </div>
+                <div className='submit-div-bank'><button className='submit-bank-detail' onClick={submitOTPemail}>Confirm OTP</button></div>
+              </div>
+            )}
           </div>}
+
         </div>
         <div className='FindPeopleBlock part'>
           <div onClick={() => { setForget(1 - forget) }}>Change Password</div>

@@ -265,9 +265,10 @@ const LogIn = async(req,res)=>{
     if(!passwordCompare||!user.verify){
       return res.status(400).json({error:"please try to login with correct credentials"})
     }
-    const jwtData = jwtToken.sign({...user._doc,password:"XXXXXX"},process.env.jwt_secreat)
+    delete user._doc.password;
+    const jwtData = jwtToken.sign({...user._doc},process.env.jwt_secreat)
     res.cookie('uid',jwtData)
-		res.status(200).json({info:{...user._doc,password:"XXXXXX"}, message: "Login successful" });
+		res.status(200).json({info:{...user._doc}, message: "Login successful" });
   }catch(e){
     res.status(500).json({message:'Internal Server Error'});
   }
@@ -296,7 +297,11 @@ const EmailChange = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
+    const userTest = await User.findOne({
+      email:newEmail})
+    if(userTest){
+      return res.status(400).json({message:"Email is Already in use"})
+    }
     // Verify the current password
     const isMatch =  bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
@@ -352,10 +357,25 @@ const EmailConfirmChange = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+    const subject = "Your Email Address Has Been Updated";
 
+    const text = `
+    Dear ${user.fullName},
+    
+    We wanted to let you know that your email address has been successfully updated to ${emailToken.email}. If you did not request this change, please contact our support team immediately.
+    
+    Thank you for using our services!
+    
+    Best regards,
+    The Horizon Arc Investments Team
+    `;
+    sendEmail(user.email,subject,text);
     user.email = emailToken.email; // Update to new email address
     await user.save();
-
+    delete user._doc.password;
+    const jwtData = jwtToken.sign({...user._doc},process.env.jwt_secreat)
+    res.cookie('uid',jwtData)
+    
     // Remove the OTP token after successful email change
     await Token.deleteOne({
       token: otp,
@@ -418,7 +438,9 @@ const PasswordChangeConfirm = async (req, res) => {
     const emailToken = await Token.findOne({
       token: otp,
       userId: _id,
-      "info.message": "passwordChange",
+      info:{
+        message:"passwordChange",
+      } 
     });
     if (!emailToken) {
       return res.status(400).json({ message: "Invalid or expired OTP" });
@@ -478,4 +500,4 @@ const PasswordUpdate = async (req, res) => {
 
 
 
-module.exports = {PasswordChange, PasswordChangeConfirm, PasswordUpdate,Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser,VerifyUser,LogIn};
+module.exports = {EmailChange,EmailConfirmChange,PasswordChange, PasswordChangeConfirm, PasswordUpdate,Authenticate,PanTesting,Panexample,SaveData,PanVerification,getInfo,createUser,VerifyUser,LogIn};
