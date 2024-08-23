@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSeen, setSeenlog } from "../Store/LoginSeenSlice";
 import { register } from "../Store/UserAuthSlice";
 const Navbar =(props)=>{
+    let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
     const navigate = useNavigate();
     const searchByLocation =()=>{
         return null;
@@ -23,15 +24,27 @@ const Navbar =(props)=>{
         else{
             navigate(url.sell)
     }
-  
     }
-    function deleteCookie(name) {
-        document.cookie = `cookie_name=${name}; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+    const getDomainFromUrl = (url) => {
+        try {
+            const { hostname } = new URL(url);
+            return hostname;
+        } catch (e) {
+            console.error("Invalid URL:", e);
+            return "";
+        }
+    };
+    
+    function deleteCookie() {
+        const domain = getDomainFromUrl(BACKWEB)
+        // Delete cookie by setting it to an expired date and specifying the domain
+        document.cookie = `uid=; expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=${domain}; path=/`;
+        
         dispatch(register({}));
         dispatch(setSeen(0));
         dispatch(setSeenlog(1));
-      }
-      
+    }
+    
      return(
         <div className="Navbar left-0   text-black">
             <div className="Navbar-head " >
@@ -58,7 +71,7 @@ const Navbar =(props)=>{
                 <div className="personal-data" onClick={()=>navigate(url.dashboard)}>
                 <img className="w-12 h-12 rounded-full" src={user.image}></img>
                 <div className="text-name"style={{marginLeft:10,textWrap:"nowrap"}}>{user.fullName}</div>
-                <button className="btn bg-black text-white logout-button  " onClick={()=>deleteCookie('uid')}>Logout</button>
+                <button className="btn bg-black text-white logout-button  " onClick={()=>deleteCookie()}>Logout</button>
                 </div>
             </div>:<button className="btn bg-white text-black border-slate-700 logout-button "style={{marginRight:100,fontWeight:500}} onClick={()=>dispatch(setSeenlog(0))}>Login</button>}</>
             </div>
