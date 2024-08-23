@@ -259,7 +259,10 @@ const LogIn = async(req,res)=>{
   try{
     let user = await User.findOne({Username:req.body.Username});
     if(!user){
-      return res.status(400).json({error:"please try to login with correct credentials"})
+      user = await User.findOne({email:req.body.Username});
+      if(!user){
+        return res.status(400).json({error:"please try to login with correct credentials"});
+      }
     }
     const passwordCompare = bcrypt.compare(req.body.password,user.password);
     if(!passwordCompare||!user.verify){
@@ -380,15 +383,17 @@ const EmailConfirmChange = async (req, res) => {
 
 const PasswordChange = async (req, res) => {
   try {
-      const { _id } = req.body;
-      const user = await User.findById(_id);
-      if (!user) {
-          return res.status(404).json({ message: "User not found" });
+      let user=null;
+      if(req.body._id!=null){
+         user = await User.findById(req.body._id);
       }
-      const customExpiration = 600;
-      const createdAt = customExpiration
-      ? new Date(Date.now() - (300 - customExpiration) * 1000)
-      : Date.now();
+      if (!user) {
+           user = await User.findOne({email:req.body.email});
+          if(!user){
+            return res.status(404).json({ message: "User not found" });
+          }
+      }
+      
       // Generate OTP
       const otp = generateOTP();
 
@@ -399,7 +404,6 @@ const PasswordChange = async (req, res) => {
           info: {
               message: "passwordChange"
           },
-          createdAt: createdAt
       });
 
       await token.save();
@@ -412,33 +416,48 @@ const PasswordChange = async (req, res) => {
       return res.status(200).json({ message: "OTP sent to your email" });
   } catch (err) {
       console.log(err);
-      res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 const PasswordChangeConfirm = async (req, res) => {
   try {
-    const { _id, otp } = req.body;
-
-    const emailToken = await Token.findOne({
-      token: otp,
-      userId: _id,
-      info:{
-        message:"passwordChange",
-      } 
-    });
+    const { _id, otp,email } = req.body;
+    let emailToken = null;
+    if(_id){
+       emailToken = await Token.findOne({
+        token: otp,
+        userId: _id,
+        info:{
+          message:"passwordChange",
+        } 
+      });
+    }
+    else{
+      emailToken = await Token.findOne({
+        token: otp,
+        email:email,
+        info:{
+          message:"passwordChange",
+        } 
+      });
+    }
     if (!emailToken) {
       return res.status(400).json({ message: "Invalid or expired OTP" });
     }
 
     // Generate a new token for confirmation
     const confirmationToken = crypto.randomBytes(32).toString('hex');
-
+    const customExpiration = 600;
+    const createdAt = customExpiration
+    ? new Date(Date.now() - (300 - customExpiration) * 1000)
+    : Date.now();
     const token = new Token({
       userId: emailToken.userId,
       token: confirmationToken,
       email: emailToken.email,
       info: { message: "passwordChangeConfirm" },
+      createdAt:createdAt
     });
 
     await token.save();
@@ -457,7 +476,7 @@ const PasswordUpdate = async (req, res) => {
 
     const confirmationToken = await Token.findOne({
       token: token,
-      "info.message": "passwordChangeConfirm",
+      info:{message: "passwordChangeConfirm"}
     });
     if (!confirmationToken) {
       return res.status(400).json({ message: "Invalid or expired token" });
