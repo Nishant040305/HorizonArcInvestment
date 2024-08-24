@@ -34,3 +34,5 @@ client/src/Reducer/searchHistoryReducer.js
 client/src/Store/LocationSearchHistorySlice.js
 server/models/Stockhold.js
 client/src/test
+client/src/Constants/output.json
+client/src/Constants/sorted_data.json
