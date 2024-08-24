@@ -2,7 +2,8 @@
     display:flex;
     flex-direction: column;
     justify-content: space-between;
-    background-image: url('https://mcdn.wallpapersafari.com/medium/27/32/jt4AoG.jpg');
+    /* background-image: url('https://mcdn.wallpapersafari.com/medium/27/32/jt4AoG.jpg'); */
+    background-image: url('Screenshot 2024-08-24 133916.png');
 }
 .MessageData-head{
     display: flex;
@@ -45,7 +46,7 @@
     padding: 15px;
     max-width: 70%;
     width:fit-content;
-    font-size: 16px;
+    font-size: 18px;
     border-radius: 20px;
     margin:10px;
 }
@@ -61,4 +62,11 @@
 }
 .width-80{
     width:80%;
+}
+.message-time{
+    color:rgb(61, 61, 61);
+    font-size: 14px;
+}
+.f-15{
+    font-size:15px;
 }

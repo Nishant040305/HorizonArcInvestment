@@ -9,10 +9,12 @@ const MessageSlice = createSlice({
         Addmessage:MessageReducer,
         setpresentChat:MessageReducer,
         addUserChat:MessageReducer,
-        updateSeenStatus:MessageReducer
+        updateSeenStatus:MessageReducer,
+        deleteMessageIndex:MessageReducer,
+        deleteMessageId:MessageReducer,
     }
 })
 
-export const {updateSeenStatus,addUserChat,setMessage,SendMessage,Addmessage,setpresentChat} = MessageSlice.actions;
+export const {deleteMessageIndex,deleteMessageId,updateSeenStatus,addUserChat,setMessage,SendMessage,Addmessage,setpresentChat} = MessageSlice.actions;
 
 export default MessageSlice.reducer;

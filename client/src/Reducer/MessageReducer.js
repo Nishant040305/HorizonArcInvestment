@@ -1,4 +1,5 @@
 import axios from "axios";
+import {socket} from '../Lib/socket'
 const sendMessage =async(Data)=>{
     let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
     const response = await axios.post(`${BACKWEB}/chat/addMessages`,{
@@ -14,6 +15,26 @@ const sendMessage =async(Data)=>{
     if(response.status ===200){
     }
   })
+}
+const DeleteMessage =async(Data)=>{
+    let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
+    console.log("yep")
+    const response = await axios.post(`${BACKWEB}/chat/deleteMessage`,{
+        _id:Data,
+        headers: {
+            'Accept': 'application/json',
+        },
+        mode:"cors",
+        withCredentials:true
+  
+    }).then(response=>{
+        if(response===200){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    })
 }
 export const MessageReducer =(state,action)=>{
     switch(action.type){
@@ -108,6 +129,32 @@ export const MessageReducer =(state,action)=>{
                         ...state,
                         message: updatedMessages
                     };
+            case "message/deleteMessageIndex":                
+                    DeleteMessage(action.payload._id);
+                    
+                    // Create a copy of the current state's messages for the specific ChatRoomId
+                    const newMessages = [...state.message[action.payload.ChatRoomId]];
+                
+                    // Remove the message at the specified index
+                    newMessages.splice(action.payload.index, 1);
+                    socket.emit('message-delete',{ChatRoomId:action.payload.ChatRoomId,_id:action.payload._id})
+                    // Return a new state object with the updated messages array
+                    return {
+                        ...state,
+                        message: {
+                            ...state.message,
+                            [action.payload.ChatRoomId]: newMessages
+                        }
+                    };
+        case "message/deleteMessageId":
+                        return {
+                            ...state,
+                            message: {
+                                ...state.message,
+                                [action.payload.ChatRoomId]: state.message[action.payload.ChatRoomId].filter(x => x._id !== action.payload._id)
+                            }
+                        };
+                    
                 
         default:
             return state;

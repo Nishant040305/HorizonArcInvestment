@@ -38,4 +38,7 @@ module.exports = (io, socket) => {
         // Step 4: Emit only the updated messages
         io.to(chatRoomId.toString()).emit('messageSeenUpdate', updatedMessages);
     });
+    socket.on('message-delete',async(data)=>{
+        io.to(data.ChatRoomId.toString()).emit('message-delete',data);
+    })
     };

@@ -51,3 +51,12 @@
     align-items: center;
     justify-content: center;
 }
+
+.delete-chat{
+    font-size: 18px;
+    padding:5px;
+    text-wrap: nowrap;
+    font-weight: 500;
+    border:1px solid rgb(131, 131, 131);
+    color:rgb(107, 107, 107);
+}

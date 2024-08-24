@@ -33,7 +33,7 @@ import { setNotification,addNotification } from '../Store/NotificationSlice';
 import { socket } from '../Lib/socket';
 import { setShortlist } from '../Store/ShortListSlice';
 import { numTowords, ShortListData } from '../Lib/ImportantFunc';
-import { setMessage ,Addmessage, addUserChat,updateSeenStatus} from '../Store/MessageSlice';
+import { setMessage ,Addmessage, addUserChat,updateSeenStatus, deleteMessageId} from '../Store/MessageSlice';
 import { setBuyStockData,setLocationFilterBuy,setPriceFilterBuy,setPriceFilterStocks, setTag } from '../Store/FilterDataSlice';
 import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
@@ -346,6 +346,14 @@ useEffect(() => {
       socket.off('messageSeenUpdate');
   };
 }, [dispatch, socket]);
+useEffect(()=>{
+  socket.on('message-delete',(data)=>{
+    dispatch(deleteMessageId(data));
+  })
+  return ()=>{
+    socket.off('message-delete')
+  }
+})
 useEffect(() => {
   parseQueryParams();
 }, [location.search]); // Run this effect whenever the URL changes
