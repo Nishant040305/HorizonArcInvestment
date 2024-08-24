@@ -7,6 +7,6 @@ module.exports = (io, socket) => {
             SenderId:requestData.SenderId,
         }).save();
         const roomName = requestData.ChatRoomId;
-        io.to(roomName).emit('message',requestData);
+        io.to(roomName.toString()).emit('message',requestData);
     });
 };

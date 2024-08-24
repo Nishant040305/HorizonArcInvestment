@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Message = require('../models/messages');
 const ChatRoom = require('../models/ChatRoom');
+const UsersChatRoom = require('../models/UsersChatRoom');
 const AddTwoUserToChat = async(User1,User2,ChatRoom)=>{
     try {
         const user1 = await User.findById(User1);
@@ -11,13 +12,9 @@ const AddTwoUserToChat = async(User1,User2,ChatRoom)=>{
             return;
         }
 
-        // Add ChatRoom to their chatRoom arrays
-        user1.chatRoom.push(ChatRoom);
-        user2.chatRoom.push(ChatRoom);
-
-        // Save the updated users
-        await user1.save();
-        await user2.save();
+        // Add ChatRoom to their user chatRoom arrays
+        const user1ChatRoom = await UsersChatRoom.findByIdAndUpdate(user1.chatRoomId,{$push:{ChatRooms:ChatRoom}});
+        const user2ChatRoom = await UsersChatRoom.findByIdAndUpdate(user2.chatRoomId,{$push:{ChatRooms:ChatRoom}});
 
         // console.log('ChatRoom added successfully!');
     } catch (error) {
@@ -38,7 +35,10 @@ const getChats = async(req,res)=>{
     try{
         const data = {};
         let chatData = [];
-        const chatRoom = req.body.chatRoom;
+        const chatRoomId = req.body.chatRoom;
+        const chatRoomData = await UsersChatRoom.findById(chatRoomId);
+        if(!chatRoomData) return res.status(400).json({message:"No such user exist"});
+        const chatRoom = chatRoomData.ChatRooms;
         for(let i = 0;i<chatRoom.length;i++){
             data[chatRoom[i]] = await Message.find({ChatRoomId:chatRoom[i]});
             chatData[i] =await ChatRoom.findById(chatRoom[i]);

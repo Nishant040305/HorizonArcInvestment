@@ -32,6 +32,9 @@ module.exports = (io, socket) => {
         }).save();
         ChatRoomController.AddTwoUserToChat(notification.SenderId, userInfo.receiverId, chatRoom._id);
         FriendController.addFriends(notification.SenderId, userInfo.receiverId);
+        await socket.join(chatRoom._id);
+        io.to(chatRoom._id).emit('friend-request/accept',{chatRoom:chatRoom,friend:{_id:notification.SenderId,image:notification.message.image,Username:notification.message.Username}});
+        io.to(notification.SenderId.toString()).emit('friend-request/accept',{chatRoom:chatRoom,friend:{_id:userInfo.receiverId,image:userInfo.image,Username:userInfo.Username}});
     });
 
     socket.on('friend-request/reject', async (requestData) => {

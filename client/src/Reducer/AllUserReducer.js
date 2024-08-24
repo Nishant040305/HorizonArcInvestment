@@ -12,6 +12,9 @@ export const globalUsers = (state,action)=>{
                 friends:action.payload
             }
                 return data;
+        case "globalUsers/addFriend":
+            state.friends.push(action.payload)
+            return state;
         default:
             return state;
     }

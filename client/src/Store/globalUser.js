@@ -8,11 +8,12 @@ const globalUserSlice = createSlice(
         initialState:{global:[],friends:[]},
         reducers:{
             setglobalUser:globalUsers,
-            setFriends:globalUsers
+            setFriends:globalUsers,
+            addFriend:globalUsers
         }
     }
 )
 
-export const {setglobalUser,setFriends} = globalUserSlice.actions;
+export const {addFriend,setglobalUser,setFriends} = globalUserSlice.actions;
 
 export default globalUserSlice.reducer;

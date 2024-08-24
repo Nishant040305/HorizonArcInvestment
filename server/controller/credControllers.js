@@ -12,6 +12,7 @@ const {generateOTP} = require('../utils/ImportantFunctions');
 const Usergenerate = require('../utils/Username');
 const shortList = require('../models/ShortList');
 const Friend = require('../models/Friend');
+const chatRoom = require('../models/UsersChatRoom');
 let authToken = '';
 
 async function Authenticate(){
@@ -246,7 +247,8 @@ const VerifyUser = async(req,res)=>{
     if(user.verify) return res.status(200).json({ info:user.Username, message: "Email verified successfully"  })
     const _short_Data = await new shortList({userId:user._id}).save();
     const _Friend_List = await new Friend({userId:user._id}).save();
-    const userUpdate= await User.findOneAndUpdate({ _id: user._id},{ verify: true,Username:Usergenerate(token.email,user._id),chatRoom:[],shortList:_short_Data._id,friendId:_Friend_List._id },{new:true});
+    const _CHAT_ROOM_LIST = await new chatRoom({userId:user._id}).save();
+    const userUpdate= await User.findOneAndUpdate({ _id: user._id},{ verify: true,Username:Usergenerate(token.email,user._id),chatRoomId:_CHAT_ROOM_LIST,shortList:_short_Data._id,friendId:_Friend_List._id },{new:true});
     delete userUpdate.password;
     const jwtData = jwtToken.sign(userUpdate,process.env.jwt_secreat)
 		return res.status(200).json({info:userUpdate.Username, message: "Email verified successfully" });

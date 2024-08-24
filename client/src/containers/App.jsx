@@ -28,12 +28,12 @@ import { register } from '../Store/UserAuthSlice';
 import { setSeen } from '../Store/LoginSeenSlice';
 import {  configDatastock, setStock } from '../Store/BuyStockSlice';
 import { configData, setBuyData } from '../Store/BuyDataSlice';
-import { setglobalUser,setFriends } from '../Store/globalUser';
+import { setglobalUser,setFriends, addFriend } from '../Store/globalUser';
 import { setNotification,addNotification } from '../Store/NotificationSlice';
 import { socket } from '../Lib/socket';
 import { setShortlist } from '../Store/ShortListSlice';
 import { numTowords, ShortListData } from '../Lib/ImportantFunc';
-import { setMessage ,Addmessage} from '../Store/MessageSlice';
+import { setMessage ,Addmessage, addUserChat} from '../Store/MessageSlice';
 import { setBuyStockData,setLocationFilterBuy,setPriceFilterBuy,setPriceFilterStocks, setTag } from '../Store/FilterDataSlice';
 import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
@@ -163,7 +163,7 @@ const App=() =>{
                 }
                 
                 socket.connect();
-                socket.emit('connectToServer',userInfo.chatRoom);
+                socket.emit('connectToServer',userInfo.chatRoomId);
             }
         })
     }catch(e){
@@ -185,7 +185,7 @@ const StockData = async()=>{
     }).then(response=>{
         if(response.status ==200){
             dispatch(setStock(response.data.info));
-        }
+        } 
     })
 }catch(e){
 }
@@ -292,18 +292,15 @@ useEffect(()=>{
   if(user){
     getNotification(user._id);
     getShortlistData(user.shortList);
-    getChats(user.chatRoom);
+    getChats(user.chatRoomId);
     getFriends(user.friendId);
     handleGetLocation();
 
     socket.connect();
-    socket.emit('connectToServer',{chatRoom:user.chatRoom,userId:user._id});
-    return()=>{
-      socket.off('connectToServer')
-    }
+    socket.emit('connectToServer',{chatRoom:user.chatRoomId,userId:user._id});
   }
 
-},[user])
+},[user,socket])
 useEffect(()=>{
   socket.on('friend-request/send',(data)=>{
     dispatch(addNotification(data));
@@ -315,18 +312,32 @@ useEffect(()=>{
   }
 },[])
 useEffect(()=>{
-  
-  socket.on('message',(data)=>{
-    dispatch(Addmessage(data))
+  socket.on('friend-request/accept',(data)=>{
+    console.log(data)
+    dispatch(addFriend(data.friend));
+    dispatch(addUserChat(data.chatRoom));
+    console.log("hely")
+    socket.emit('connectToChatRoom',data.chatRoom._id);
   })
   return ()=>{
-    socket.off('message')
+    socket.off('friend-request/accept');
   }
-})
+},[])
+
+useEffect(() => {
+  const handleMessage = (data) => {
+      dispatch(Addmessage(data));
+  };
+
+  socket.on('message', handleMessage);
+  return () => {
+      socket.off('message', handleMessage);
+  };
+}, [dispatch, socket]);
+
 useEffect(() => {
   parseQueryParams();
 }, [location.search]); // Run this effect whenever the URL changes
-  console.log(StockLandData)
   return (
     <Routes>
 

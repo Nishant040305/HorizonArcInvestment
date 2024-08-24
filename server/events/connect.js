@@ -1,18 +1,36 @@
+const chatsRoomDataId = require('../models/UsersChatRoom');
+
 module.exports = (io, socket) => {
-    socket.on('connectToServer', async (chatRoom) => {
-        if(Array.isArray(chatRoom?.chatRoom)){
-            chatRoom.chatRoom.forEach(async (room) => {
-                console.log(`User ${socket.id} joining room: ${room}`);
-                await socket.join(room);
-                io.to(room).emit('connectToServer', `this is room ${room}`);
+    socket.on('connectToServer', async (chatRoomId) => {
+        console.log(chatRoomId);
+        
+        const data = await chatsRoomDataId.findById(chatRoomId.chatRoom);
+        if (!data) return;
+
+        const chatRooms = data.ChatRooms;
+
+        if (Array.isArray(chatRooms)) {
+            chatRooms.forEach((room) => {
+                console.log(`User ${chatRoomId.userId} joining room: ${room}`);
+                socket.join(room.toString());
+                io.to(room.toString()).emit('connectToServer', `This is room ${room}`);
             });
         }
-        if(chatRoom?.userId){
-            console.log(`User ${socket.id} joining room: ${chatRoom.userId}`);
-            socket.join(chatRoom.userId);
+
+        if (chatRoomId?.userId) {
+            console.log(`User ${socket.id} joining room: ${chatRoomId.userId}`);
+            socket.join(chatRoomId.userId);
         }
     });
-    socket.on('connectToAdmin',async()=>{
+
+    socket.on('connectToAdmin', () => {
+        console.log(`User ${socket.id} joining room: Admin`);
         socket.join('Admin');
+    });
+
+    socket.on('connectToChatRoom', (chatRoomId) => {
+        console.log(`User ${socket.id} joining room: ${chatRoomId}`);
+        socket.join(chatRoomId.toString());
+        io.to(chatRoomId.toString()).emit('connectToChatRoom', `This is room ${chatRoomId}`);
     });
 };

@@ -2,7 +2,6 @@
     display:flex;
     flex-direction: column;
     justify-content: space-between;
-    width:80%;
     background-image: url('https://mcdn.wallpapersafari.com/medium/27/32/jt4AoG.jpg');
 }
 .MessageData-head{
@@ -59,4 +58,7 @@
 .width-100{
    
     width:100%;
+}
+.width-80{
+    width:80%;
 }

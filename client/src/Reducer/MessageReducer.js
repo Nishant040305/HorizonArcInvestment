@@ -53,11 +53,26 @@ export const MessageReducer =(state,action)=>{
             state.presentChat = action.payload.chatRoom[0];
             return state;
         case 'message/setpresentChat':
+            const chatRoomId = action.payload;
+            const presentChat = state.chatRoom.find(chat => chat._id === chatRoomId);      
             const data = {
                 ...state,
-                presentChat:state.chatRoom[action.payload]
+                presentChat:presentChat,
             }
             return data;
+        case 'message/addUserChat':
+            const data_={
+                ...state,
+                chatRoom:[
+                    ...state.chatRoom,
+                    action.payload,
+                ],
+                message:{
+                    ...state.message,
+                    [action.payload._id]:[]
+                }
+            }
+            return data_;
         default:
             return state;
     }

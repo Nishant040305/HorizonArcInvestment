@@ -64,9 +64,9 @@ const userSchema = new Schema(
                 },
             ],
         },
-        chatRoom:{
-            type:[String],
-            default:[]
+        chatRoomId:{
+            type:Schema.Types.ObjectId,
+            ref:'chatRoomIDs',
         }
     }
 )

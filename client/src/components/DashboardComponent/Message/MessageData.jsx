@@ -61,14 +61,14 @@ const MessageData = () => {
   }, [chat?.message[chat?.presentChat?._id]]);
   return (
      
-    <div className='MessageData '>
-      <div className='MessageData-head bg-slate-100'><img src={image} className='rounded-full w-16 h-16'/>{name}</div>
-      <div className='MessageArea' ref={messageAreaRef}>
+    <div className={`MessageData ${image?'width-80':'width-100'}`}>
+      {image&&<div className='MessageData-head bg-slate-100'><img src={image} className='rounded-full w-16 h-16'/>{name}</div>}
+      <div className={`MessageArea `}  ref={messageAreaRef}>
       {chat.presentChat?chat?.message[chat?.presentChat?._id].map((info,index)=>(
      
         <Message_Send key={index} text={info?.message} user={info?.SenderId===user?._id}></Message_Send>
 
-  )):<></>}
+  )):<div className='flex flex-row justify-center'><img className='empty-cart' src="Screenshot_2024-08-23_194614-removebg-preview.png"></img></div>}
    </div>
 
       <MessageWrite></MessageWrite>
