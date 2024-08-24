@@ -73,6 +73,42 @@ export const MessageReducer =(state,action)=>{
                 }
             }
             return data_;
+        case 'message/markAsSeen':
+            const { messageId, userId } = action.payload;
+            return {
+                ...state,
+                message: {
+                    ...state.message,
+                    [action.payload.ChatRoomId]: state.message[action.payload.ChatRoomId].map(msg => 
+                        msg._id === messageId ? 
+                        { ...msg, isSeen: [...msg.isSeen, userId] } : 
+                        msg
+                    )
+                }
+            };
+            case 'message/updateSeenStatus':
+
+            // Create a new state object to hold the updated messages
+                    const updatedMessages = { ...state.message };
+                    console.log(action.payload)
+                    // Iterate over each message in the payload
+                    action.payload.forEach(msg => {
+                        // Get the current messages for the chat room
+                        const chatRoomMessages = updatedMessages[msg.ChatRoomId] || [];
+                
+                        // Update the specific message's `isSeen` status
+                        updatedMessages[msg.ChatRoomId] = chatRoomMessages.map(message =>
+                            message._id === msg._id ?
+                                { ...message, isSeen: msg.isSeen } :
+                                message
+                        );
+                    });
+                
+                    return {
+                        ...state,
+                        message: updatedMessages
+                    };
+                
         default:
             return state;
     }

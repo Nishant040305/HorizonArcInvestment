@@ -35,3 +35,19 @@
     font-size: 17px;
     font-weight: 500;
 }
+.bold_name {
+    font-weight: bold;
+}
+
+.unseen-count {
+    background-color: #6eff25; /* Red background for visibility */
+    color: #fff; /* White text */
+    border-radius: 50%;
+    width:22px;
+    height:22px;
+    font-size: 15px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

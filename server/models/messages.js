@@ -13,6 +13,10 @@ const messageSchema = new Schema({
     SenderId:{
         type:Schema.Types.ObjectId,
     },
+    isSeen:{
+        type:[Schema.Types.ObjectId],
+        default:[]
+    },
     createdAt:{
         type:Date,
         default:Date.now()

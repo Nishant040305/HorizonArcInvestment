@@ -33,7 +33,7 @@ import { setNotification,addNotification } from '../Store/NotificationSlice';
 import { socket } from '../Lib/socket';
 import { setShortlist } from '../Store/ShortListSlice';
 import { numTowords, ShortListData } from '../Lib/ImportantFunc';
-import { setMessage ,Addmessage, addUserChat} from '../Store/MessageSlice';
+import { setMessage ,Addmessage, addUserChat,updateSeenStatus} from '../Store/MessageSlice';
 import { setBuyStockData,setLocationFilterBuy,setPriceFilterBuy,setPriceFilterStocks, setTag } from '../Store/FilterDataSlice';
 import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
@@ -334,7 +334,18 @@ useEffect(() => {
       socket.off('message', handleMessage);
   };
 }, [dispatch, socket]);
+useEffect(() => {
+  // Listen for the messageSeenUpdate event from the server
+  socket.on('messageSeenUpdate', (updatedMessage) => {
+      // Dispatch an action to update the message status in Redux store
+      dispatch(updateSeenStatus(updatedMessage));
+  });
 
+  return () => {
+      // Cleanup the socket connection on component unmount
+      socket.off('messageSeenUpdate');
+  };
+}, [dispatch, socket]);
 useEffect(() => {
   parseQueryParams();
 }, [location.search]); // Run this effect whenever the URL changes
