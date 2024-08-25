@@ -16,4 +16,5 @@ router.post('/getNotificationAdmin',AdminController.NotificationGet);
 router.put('/lands/:id', AdminController.UpdateLand);
 router.get('/lands/:id',AdminController.getLandInfo);
 router.delete('/land/:id/:type',AdminController.DeleteLand);
+router.post('/register',[body('email').isEmail()],credController.createAdmin)
 module.exports = router;

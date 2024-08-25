@@ -67,6 +67,10 @@ const userSchema = new Schema(
         chatRoomId:{
             type:Schema.Types.ObjectId,
             ref:'chatRoomIDs',
+        },
+        role:{
+            type:String,
+            default:'user'
         }
     }
 )

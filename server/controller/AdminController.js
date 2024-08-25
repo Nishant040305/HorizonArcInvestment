@@ -1,6 +1,17 @@
 const { HttpsProxyAgent } = require('https-proxy-agent');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
+const User = require("../models/user"); 
+const {body,validationResult} = require("express-validator");
+const bcrypt  = require("bcryptjs");
+const crypto = require('crypto');
+const jwtToken = require('jsonwebtoken');
+const Token = require('../models/token');
+const sendEmail = require('../utils/sendEmail');
+const Usergenerate = require('../utils/Username');
+const shortList = require('../models/ShortList');
+const Friend = require('../models/Friend');
+const chatRoom = require('../models/UsersChatRoom');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 const multer = require('multer');
@@ -275,5 +286,51 @@ const DeleteLand = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+const createAdmin = async(req,res) =>{
+    let user = await User.findOne({email:req.body.email});
+    if(!user){
+      const salt = await bcrypt.genSalt(Number(process.env.SALT));
+          const hashPassword = await bcrypt.hash(req.body.password, salt);
+  
+          user = await new User({ ...req.body,password: hashPassword,role:'admin' }).save();
+  
+          const token = await new Token({
+              userId: user._id,
+              token: crypto.randomBytes(32).toString("hex"),
+        email:user.email,
+        info:{
+          message:"EmailVerification"
+        }
+          }).save();
+          const url = `${process.env.FRONTWEB}/users/${user.id}/verify/${token.token}`;
+          await sendEmail(user.email, "Verify Email", url);
+  
+          return res.status(200).json({ message: "An Email sent to your account please verify" });
+    }
+    else if(!user.verify){
+      const tok = await Token.findOne({userId:user._id});
+      if(tok&&tok.info.message=="EmailVerification"){
+        
+        const url = `${process.env.FRONTWEB}/users/${user._id}/verify/${tok.token}`;
+            await sendEmail(user.email, "Verify Email", url);
+        return res.status(200).json({ message: "An Email sent to your account please verify" });
+  
+      }
+      const token = await new Token({
+              userId: user._id,
+              token: crypto.randomBytes(32).toString("hex"),
+        email:user.email,
+        info:{
+          message:"EmailVerification"
+        }
+          }).save();
+          const url = `${process.env.FRONTWEB}/users/${user._id}/verify/${token.token}`;
+          await sendEmail(user.email, "Verify Email", url);
+  
+          return res.status(200).json({ message: "An Email sent to your account please verify" });
+    }
+    return res.status(400).json({message:"User All ready Exist"})
+  
+  }
 
-module.exports = {DeleteLand, ImageUpload,InsertBuyLand,InsertStock,NotificationGet,UpdateLand,getLandInfo};
+module.exports = {createAdmin,DeleteLand, ImageUpload,InsertBuyLand,InsertStock,NotificationGet,UpdateLand,getLandInfo};
