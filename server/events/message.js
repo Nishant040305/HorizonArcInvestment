@@ -41,4 +41,7 @@ module.exports = (io, socket) => {
     socket.on('message-delete',async(data)=>{
         io.to(data.ChatRoomId.toString()).emit('message-delete',data);
     })
+    socket.on('Delete-All-Chat',async(data)=>{
+        io.to(data.toString()).emit('Delete-All-Chat',data.toString())
+    })
     };

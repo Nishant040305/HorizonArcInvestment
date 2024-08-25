@@ -21,7 +21,7 @@ import { setNotification,addNotification } from '../Store/NotificationSlice';
 import { socket } from '../Lib/socket';
 import { setShortlist } from '../Store/ShortListSlice';
 import { numTowords, ShortListData } from '../Lib/ImportantFunc';
-import { setMessage ,Addmessage, addUserChat,updateSeenStatus, deleteMessageId} from '../Store/MessageSlice';
+import { setMessage ,Addmessage, addUserChat,updateSeenStatus, deleteMessageId, deleteAllMessageIO} from '../Store/MessageSlice';
 import { setBuyStockData,setLocationFilterBuy,setPriceFilterBuy,setPriceFilterStocks, setTag } from '../Store/FilterDataSlice';
 import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
@@ -382,6 +382,9 @@ useEffect(() => {
 useEffect(()=>{
   socket.on('message-delete',(data)=>{
     dispatch(deleteMessageId(data));
+  })
+  socket.on('Delete-All-Chat',(data)=>{
+    dispatch(deleteAllMessageIO(data));
   })
   return ()=>{
     socket.off('message-delete')

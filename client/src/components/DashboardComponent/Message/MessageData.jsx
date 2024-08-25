@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './MessageData.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteMessageIndex, SendMessage } from '../../../Store/MessageSlice';
+import { deleteAllMessage, deleteMessageIndex, SendMessage } from '../../../Store/MessageSlice';
 import { socket } from '../../../Lib/socket';
 
 const formatTime = (timestamp) => {
@@ -90,7 +90,7 @@ const MessageData = () => {
     const user = useSelector(state => state.user);
     const [chatOption, setOption] = useState(0);
     const [deleteStates, setDeleteStates] = useState([]);
-
+    const dispatch = useDispatch();
     const toggleDelete = (index) => {
         const newDeleteStates = [...deleteStates];
         newDeleteStates[index] = !newDeleteStates[index];
@@ -111,7 +111,10 @@ const MessageData = () => {
             messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
         }
     }, [chat?.message[chat?.presentChat?._id]]);
-
+    const deleteAllChat =()=>{
+        dispatch(deleteAllMessage(chat.presentChat._id))
+        socket.emit('Delete-All-Chat',chat.presentChat._id);
+    }
     return (
         <div className={`MessageData ${image ? 'width-80' : 'width-100'}`}>
             {image && <div className='MessageData-head justify-between bg-slate-100'>
@@ -122,7 +125,7 @@ const MessageData = () => {
                 <div onClick={() => { setOption(1 - chatOption) }} className='relative w-20' style={{zIndex:10000}}>
                     <i className="fas fa-ellipsis-v"></i>
                     {chatOption === 1 && <div className='flex flex-col absolute right-9'>
-                        <div className='bg-white delete-chat right-9'>Delete Chats</div>
+                        <div className='bg-white delete-chat right-9' onClick={()=>{deleteAllChat()}}>Delete Chats</div>
                         <div className='bg-white delete-chat right-9'>Block User</div>
                     </div>}
                 </div>

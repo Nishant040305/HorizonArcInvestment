@@ -1,7 +1,8 @@
 import axios from "axios";
 import {socket} from '../Lib/socket'
+let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
+
 const sendMessage =async(Data)=>{
-    let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
     const response = await axios.post(`${BACKWEB}/chat/addMessages`,{
         payload:Data,
           headers: {
@@ -17,10 +18,27 @@ const sendMessage =async(Data)=>{
   })
 }
 const DeleteMessage =async(Data)=>{
-    let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
     console.log("yep")
     const response = await axios.post(`${BACKWEB}/chat/deleteMessage`,{
         _id:Data,
+        headers: {
+            'Accept': 'application/json',
+        },
+        mode:"cors",
+        withCredentials:true
+  
+    }).then(response=>{
+        if(response===200){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    })
+}
+const DeleteAllMessage = async(Data)=>{
+    const response = await axios.post(`${BACKWEB}/chat/deleteAllChats`,{
+        ChatRoomId:Data,
         headers: {
             'Accept': 'application/json',
         },
@@ -154,8 +172,23 @@ export const MessageReducer =(state,action)=>{
                                 [action.payload.ChatRoomId]: state.message[action.payload.ChatRoomId].filter(x => x._id !== action.payload._id)
                             }
                         };
-                    
-                
+        case "message/deleteAllMessage":
+            DeleteAllMessage(action.payload);
+            return {
+                ...state,
+                message:{
+                    ...state.message,
+                    [action.payload]:[]
+                }
+            }
+        case "message/deleteAllMessageIO":
+            return {
+                ...state,
+                message:{
+                    ...state.message,
+                    [action.payload]:[]
+                }
+            }
         default:
             return state;
     }

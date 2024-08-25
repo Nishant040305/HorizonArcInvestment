@@ -56,7 +56,7 @@ h2 {
     font-size: 18px; /* Slightly larger font size for labels */
 }
 
-.form-group input {
+.admin-create-container .form-group input {
     width: 100%;
     padding: 15px; /* Increased padding for inputs */
     border-radius: 10px;
@@ -67,16 +67,16 @@ h2 {
     transition: border-color 0.3s ease;
 }
 
-.form-group input::placeholder {
+.admin-create-container .form-group input::placeholder {
     color: #ccc;
 }
 
-.form-group input:focus {
+.admin-create-container .form-group input:focus {
     border-color: rgba(255, 255, 255, 0.7);
     outline: none;
 }
 
-.submit-button {
+.admin-create-container .submit-button {
     padding: 15px; /* Increased padding for the button */
     background-color: rgba(255, 255, 255, 0.3);
     color: #fff;
@@ -88,12 +88,12 @@ h2 {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.submit-button:hover {
+.admin-create-container .submit-button:hover {
     background-color: rgba(255, 255, 255, 0.5);
     transform: translateY(-2px);
 }
 
-.submit-button:active {
+.admin-create-container .submit-button:active {
     transform: translateY(0);
 }
 

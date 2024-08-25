@@ -8,4 +8,5 @@ router.post('/getChat',chatControllers.getChats);
 router.post('/getChatRoom',chatControllers.getRoomChat);
 router.post('/addMessages',chatControllers.AddMessage);
 router.post('/deleteMessage',chatControllers.deleteMessage);
+router.post('/deleteAllChats',chatControllers.deleteMessagesByChatRoomId);
 module.exports = router;

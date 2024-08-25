@@ -80,4 +80,14 @@ const deleteMessage = async(req,res)=>{
         return res.status(500).json({message:'Internal Server Error'})
     }
 }
-module.exports = {deleteMessage,AddTwoUserToChat,AddToChatRoom,getChats,getRoomChat,AddMessage};
+const deleteMessagesByChatRoomId = async (req, res) => {
+    try {
+        await Message.deleteMany({ ChatRoomId: req.body.ChatRoomId });
+        return res.status(200).json({ message: "All messages in the chat room deleted" });
+    } catch (e) {
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
+module.exports = {deleteMessagesByChatRoomId,deleteMessage,AddTwoUserToChat,AddToChatRoom,getChats,getRoomChat,AddMessage};
