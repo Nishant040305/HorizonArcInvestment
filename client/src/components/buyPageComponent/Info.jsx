@@ -65,7 +65,7 @@ const Overview=React.forwardRef((props, ref) =>{
     };
     return(
         <div className="Overview" ref={ref} >
-            {land?<ImageSlider images={land.Images} height="400px" width="600px"></ImageSlider>:<></>}
+            {land?<ImageSlider images={land.Images} height="500px" width="600px"></ImageSlider>:<></>}
             {/* <img className="overview" src={land?.Images[0]}></img> */}
             <InfoBlock props={land}></InfoBlock>
         </div>

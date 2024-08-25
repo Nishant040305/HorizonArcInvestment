@@ -181,7 +181,7 @@ const Index =()=>{
 
             <PlaceNearby Highlights={land?.Highlights}></PlaceNearby>
             <Traninfo Category={land?.Category}></Traninfo>
-            <AboutProp props={land?.Description}></AboutProp>
+            <AboutProp decription={land?.Description}></AboutProp>
             <div id="rec">
             <Recomd ></Recomd>
             </div>

@@ -119,7 +119,7 @@ const MessageData = () => {
                     <img src={image} className='rounded-full w-16 h-16' alt="chat icon" />
                     {name}
                 </div>
-                <div onClick={() => { setOption(1 - chatOption) }} className='relative w-20'>
+                <div onClick={() => { setOption(1 - chatOption) }} className='relative w-20' style={{zIndex:10000}}>
                     <i className="fas fa-ellipsis-v"></i>
                     {chatOption === 1 && <div className='flex flex-col absolute right-9'>
                         <div className='bg-white delete-chat right-9'>Delete Chats</div>
