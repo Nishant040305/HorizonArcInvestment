@@ -21,6 +21,8 @@ const socketHandlers = require('./events');
 
 
 const io = new Server({
+    // pingInterval: 10000, // Interval between pings (10 seconds)
+    // pingTimeout: 5000,   // Timeout for receiving pong (5 seconds)
     cors: {
         origin: web
     }

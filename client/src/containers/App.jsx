@@ -2,24 +2,12 @@ import React, { useEffect, useState,useRef, useReducer } from 'react'
 import viteLogo from '/vite.svg'
 import '.././assets/App.css'
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import Login from '../components/Login';
-import SideBar from '../components/sideBar';
-import Navbar from '../components/Navbar';
-// import { PDFViewer } from '@react-pdf/renderer';
-// import MyDocument from '.././components/BuyLandIndi';
 import ReactDOM from 'react-dom';
-import BuyOption from '.././components/BuyLandIndi';
-import Recomendation from '../components/Recomendation';
 import BuyTab from './BuyTab';
 import StockTab from './StockTab';
-import StockFilter from '../components/StockFilter';
 import Sellpage from './Sellpage';
 import { useSelector } from 'react-redux';
-import InfoBlock from '../components/buyPageComponent/Info';
-import Overview from '../components/buyPageComponent/Info';
-import PlaceNearby from '../components/buyPageComponent/placeInfo';
 import Index from './buyStockPage';
-import ProfileBar from '../components/DashboardComponent/DashNavSide/profile-bar';
 import Dashboard from './Dashboard';
 import VerifyComponent from '../components/VerifyComponent';
 import axios from "axios";
@@ -37,9 +25,7 @@ import { setMessage ,Addmessage, addUserChat,updateSeenStatus, deleteMessageId} 
 import { setBuyStockData,setLocationFilterBuy,setPriceFilterBuy,setPriceFilterStocks, setTag } from '../Store/FilterDataSlice';
 import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
-import ImageSlider from '../components/imageSlider';
 import { setAdmin } from '../Store/IsAdminSlice';
-import LocationSearch from '../components/SearchField';
 const App=() =>{
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
@@ -301,6 +287,53 @@ useEffect(()=>{
   }
 
 },[user,socket])
+useEffect(() => {
+  if (user) {
+    // Emit connection event initially
+    socket.connect();
+    socket.emit('connectToServer', { chatRoom: user.chatRoomId, userId: user._id });
+
+    // Handle reconnection
+    socket.on('connect', () => {
+      console.log('Reconnected to the server');
+      socket.emit('connectToServer', { chatRoom: user.chatRoomId, userId: user._id });
+
+      // Optionally re-fetch data
+      getChats(user.chatRoomId);
+      getNotification(user._id);
+      getShortlistData(user.shortList);
+    });
+
+    // Handle disconnection
+    socket.on('disconnect', () => {
+      console.log('Disconnected from the server');
+      // Optionally notify the user or handle UI changes
+    });
+
+    return () => {
+      // Clean up listeners on unmount
+      socket.off('connect');
+      socket.off('disconnect');
+    };
+  }
+}, [socket, user,dispatch]);
+useEffect(() => {
+  socket.connect();
+
+  socket.on('reconnect', () => {
+    console.log('Reconnected to the server');
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from the server');
+  });
+
+  return () => {
+    socket.off('reconnect');
+    socket.off('disconnect');
+  };
+}, [socket]);
+
 useEffect(()=>{
   socket.on('friend-request/send',(data)=>{
     dispatch(addNotification(data));

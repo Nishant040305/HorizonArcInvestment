@@ -2,7 +2,6 @@ const chatsRoomDataId = require('../models/UsersChatRoom');
 
 module.exports = (io, socket) => {
     socket.on('connectToServer', async (chatRoomId) => {
-        console.log(chatRoomId);
         
         const data = await chatsRoomDataId.findById(chatRoomId.chatRoom);
         if (!data) return;
