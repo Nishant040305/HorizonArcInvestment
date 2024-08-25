@@ -66,7 +66,7 @@ const Notification = () => {
   },[])
 
   return (
-    <div className='Notification'>
+    <div className='Notification noti-admin' >
       <div className='Notification-head '>Notification</div>
       <div className='Notification-container'>
         {notification.map((info,index)=>(

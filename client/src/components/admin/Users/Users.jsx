@@ -30,7 +30,7 @@ const Users = () => {
       
       <div className='user-list'>
         {userFiltered.length?userFiltered.map((info,index)=>(
-          <FindPeopleBlock name={info.Username} image={info.image}></FindPeopleBlock> 
+          <FindPeopleBlock key={index} name={info.Username} image={info.image}></FindPeopleBlock> 
         )):<div className='flex flex-row justify-center'><img className='findpeople-no-image' src="5639817.webp"></img></div>}
       </div>
     </div>

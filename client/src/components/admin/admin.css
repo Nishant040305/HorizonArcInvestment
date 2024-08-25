@@ -1,7 +1,114 @@
 .admin{
-    background-color: white;
+    background-color: rgb(5, 0, 16);
     min-height: 100vh;
     min-width: 100vw;
     height: 100%;
     width:100%;
+    position: relative;
+}
+.noti-admin{
+    height:100vh;
+}
+.admin-block-container{
+    background-image: url('pexels-photo-19443668.webp');
+    background-size: contain;
+    margin: auto;
+    height: 80vh;
+    padding-top:20px;
+}
+.admin-create-container {
+    max-width: 600px; /* Increased width for a larger block */
+    min-height: 650px;
+    margin: 50px auto;
+    padding: 40px; /* Increased padding for more space inside the container */
+    border-radius: 15px;
+    /* background-image: url('Screenshot 2024-08-25 182927.png'); */
+    /* background-image: url('Screenshot 2024-08-25 181854.png'); */
+    /* background-size: cover; */
+    background-position: center;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 28px; /* Slightly larger font size for the heading */
+}
+
+.admin-create-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 25px; /* Increased spacing between form groups */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ddd;
+    font-weight: bold;
+    font-size: 18px; /* Slightly larger font size for labels */
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px; /* Increased padding for inputs */
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 18px; /* Slightly larger font size for inputs */
+    transition: border-color 0.3s ease;
+}
+
+.form-group input::placeholder {
+    color: #ccc;
+}
+
+.form-group input:focus {
+    border-color: rgba(255, 255, 255, 0.7);
+    outline: none;
+}
+
+.submit-button {
+    padding: 15px; /* Increased padding for the button */
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    font-size: 18px; /* Slightly larger font size for the button */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.submit-button:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+    .admin-create-container {
+        padding: 30px; /* Adjust padding for smaller screens */
+    }
+
+    .form-group input {
+        padding: 12px;
+        font-size: 16px; /* Adjust font size for inputs on smaller screens */
+    }
+
+    .submit-button {
+        padding: 12px;
+        font-size: 16px; /* Adjust font size for button on smaller screens */
+    }
 }

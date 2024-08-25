@@ -9,6 +9,7 @@ import AddSharesData from './AddShares/addShares';
 import { socket } from '../../Lib/socket';
 import Notification from './Notification/AdminNotification';
 import EditInfo from './EditInfo/EditInfo';
+import AdminCreate from './Users/AdminCreate';
 const Admin = () => {
   const [selectedTab, setSelectedTab] = useState('User');
 
@@ -28,6 +29,8 @@ const Admin = () => {
         return <Notification></Notification>
       case 'EditInfo':
         return <EditInfo></EditInfo>
+      case 'CreateAdmin':
+        return <AdminCreate></AdminCreate>
       default:
         return <User />;
 
@@ -35,7 +38,7 @@ const Admin = () => {
   };
   
   return (
-    <div className='bg-white admin'>
+    <div className=' admin'>
       <Navbar onTabChange={setSelectedTab} />
       {renderComponent()}
     </div>

@@ -1,3 +1,9 @@
 .admin-nav{
     font-size: 20px;
+    background-color: rgb(5, 0, 16);
+    color:white
+    
+}
+.nav-bar-admin{
+    background-color: rgb(5, 0, 21);
 }

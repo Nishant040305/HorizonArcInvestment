@@ -163,7 +163,6 @@ const InsertStock = async (req, res) => {
 };
 const NotificationGet = async (req, res) => {
     try {
-        console.log("walla");
         const data = await Notification.find({ NotifType: "Sell" });
         return res.status(200).json({ info: data });
     } catch (E) {

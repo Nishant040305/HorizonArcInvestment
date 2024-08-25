@@ -14,3 +14,7 @@
     flex-direction: column;
     margin-left: 20%;
 }
+.admin-users{
+    background-color: white;
+    height:100vh;
+}
