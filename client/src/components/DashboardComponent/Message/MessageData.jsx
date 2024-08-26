@@ -9,6 +9,14 @@ const formatTime = (timestamp) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 };
 
+const DateDivider = ({ label }) => {
+    return (
+        <div className="date-divider">
+            {label}
+        </div>
+    );
+};
+
 const MessageWrite = () => {
     const dispatch = useDispatch();
     const chat = useSelector(state => state.message);
@@ -51,6 +59,7 @@ const MessageWrite = () => {
         </div>
     );
 };
+
 const Message_Send = (props) => {
     const dispatch = useDispatch();
 
@@ -73,7 +82,7 @@ const Message_Send = (props) => {
                     </div>
                     <div className={`message-time ${props.user === '0' ? "text-left" : "text-right"}`}>{props.time}</div>
                     {props.del &&
-                        <div className={`absolute right-0 text-right bg-yellow-50 p-1`} onClick={deleteMessage}>
+                        <div className={`absolute right-0 text-right message-editoption `} onClick={deleteMessage}>
                             Delete 
                         </div>
                     }
@@ -83,15 +92,15 @@ const Message_Send = (props) => {
     );
 };
 
-
-
 const MessageData = () => {
     const chat = useSelector(state => state.message);
     const user = useSelector(state => state.user);
-    const globaluser = useSelector(state=>state.globalUsers.Users);
+    const globaluser = useSelector(state => state.globalUsers.Users);
     const [chatOption, setOption] = useState(0);
     const [deleteStates, setDeleteStates] = useState([]);
     const dispatch = useDispatch();
+    const messageAreaRef = useRef(null);
+
     const toggleDelete = (index) => {
         const newDeleteStates = [...deleteStates];
         newDeleteStates[index] = !newDeleteStates[index];
@@ -105,36 +114,47 @@ const MessageData = () => {
         ? (user._id === chat?.presentChat?.users[0] ? globaluser[chat.presentChat.users[1]].Username : globaluser[chat.presentChat.users[0]].Username)
         : chat?.presentChat?.ChatIcon;
 
-    const messageAreaRef = useRef(null);
-
     useEffect(() => {
         if (messageAreaRef.current) {
             messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
         }
     }, [chat?.message[chat?.presentChat?._id]]);
-    const deleteAllChat =()=>{
-        dispatch(deleteAllMessage(chat.presentChat._id))
-        socket.emit('Delete-All-Chat',chat.presentChat._id);
-    }
-    return (
-        <div className={`MessageData ${image ? 'width-80' : 'width-100'}`}>
-            {image && <div className='MessageData-head justify-between bg-slate-100'>
-                <div className='flex flex-row'>
-                    <img src={image} className='rounded-full w-16 h-16' alt="chat icon" />
-                    {name}
-                </div>
-                <div onClick={() => { setOption(1 - chatOption) }} className='relative w-20' style={{zIndex:10000}}>
-                    <i className="fas fa-ellipsis-v"></i>
-                    {chatOption === 1 && <div className='flex flex-col absolute right-9'>
-                        <div className='bg-white delete-chat right-9' onClick={()=>{deleteAllChat()}}>Delete Chats</div>
-                        <div className='bg-white delete-chat right-9'>Block User</div>
-                    </div>}
-                </div>
-            </div>}
-            <div className={`MessageArea`} ref={messageAreaRef}>
-                {chat.presentChat ? chat?.message[chat?.presentChat?._id].map((info, index) => (
+
+    const deleteAllChat = () => {
+        dispatch(deleteAllMessage(chat.presentChat._id));
+        socket.emit('Delete-All-Chat', chat.presentChat._id);
+    };
+
+    const renderMessagesWithDateDividers = () => {
+        let lastMessageDate = null;
+
+        return chat?.message[chat?.presentChat?._id].map((info, index) => {
+            const messageDate = new Date(info.createdAt);
+            const formattedDate = messageDate.toLocaleDateString();
+            let showDateDivider = false;
+            let dateLabel = formattedDate;
+
+            const today = new Date();
+            const yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
+
+            if (formattedDate === today.toLocaleDateString()) {
+                dateLabel = "Today";
+            } else if (formattedDate === yesterday.toLocaleDateString()) {
+                dateLabel = "Yesterday";
+            } else {
+                dateLabel = messageDate.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            }
+
+            if (formattedDate !== lastMessageDate) {
+                lastMessageDate = formattedDate;
+                showDateDivider = true;
+            }
+
+            return (
+                <React.Fragment key={index}>
+                    {showDateDivider && <DateDivider label={dateLabel} />}
                     <Message_Send
-                        key={index}
                         text={info?.message}
                         user={info?.SenderId === user?._id ? '0' : '1'}
                         time={formatTime(info?.createdAt)}
@@ -144,9 +164,36 @@ const MessageData = () => {
                         del={deleteStates[index]}
                         toggleDelete={() => toggleDelete(index)}
                     />
-                )) : <div className='flex flex-row justify-center'>
-                    <img className='empty-cart' src="Screenshot_2024-08-23_194614-removebg-preview.png" alt="empty chat" />
-                </div>}
+                </React.Fragment>
+            );
+        });
+    };
+
+    return (
+        <div className={`MessageData ${image ? 'width-80' : 'width-100'}`}>
+            {image && (
+                <div className='MessageData-head justify-between bg-slate-100'>
+                    <div className='flex flex-row'>
+                        <img src={image} className='rounded-full w-16 h-16' alt="chat icon" />
+                        {name}
+                    </div>
+                    <div onClick={() => { setOption(1 - chatOption) }} className='relative w-20' style={{ zIndex: 10000 }}>
+                        <i className="fas fa-ellipsis-v"></i>
+                        {chatOption === 1 && (
+                            <div className='flex flex-col absolute right-9'>
+                                <div className='bg-white delete-chat right-9' onClick={() => { deleteAllChat() }}>Delete Chats</div>
+                                <div className='bg-white delete-chat right-9'>Block User</div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+            <div className={`MessageArea`} ref={messageAreaRef}>
+                {chat.presentChat ? renderMessagesWithDateDividers() : (
+                    <div className='flex flex-row justify-center'>
+                        <img className='empty-cart' src="Screenshot_2024-08-23_194614-removebg-preview.png" alt="empty chat" />
+                    </div>
+                )}
             </div>
             <MessageWrite />
         </div>

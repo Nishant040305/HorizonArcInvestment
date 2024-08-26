@@ -3,7 +3,9 @@
     flex-direction: column;
     justify-content: space-between;
     /* background-image: url('https://mcdn.wallpapersafari.com/medium/27/32/jt4AoG.jpg'); */
-    background-image: url('Screenshot 2024-08-24 133916.png');
+    /* background-image: url('Screenshot 2024-08-24 133916.png'); */
+    /* background-image: url('imagebackchat.png'); */
+    background-image: url('8c98994518b575bfd8c949e91d20548b.jpg');
 }
 .MessageData-head{
     display: flex;
@@ -69,4 +71,21 @@
 }
 .f-15{
     font-size:15px;
+}
+.date-divider{
+    width:fit-content;
+    margin:auto;
+    padding:10px;
+    padding-left:20px;
+    padding-right:20px;
+    background-color: rgb(254, 254, 220);
+    color:rgb(75, 75, 75);
+    border-radius: 15px;
+    font-weight: 600;
+}
+.message-editoption{
+    background-color: white;
+    padding:10px;
+    padding-left:20px;
+    padding-right:20px;
 }
