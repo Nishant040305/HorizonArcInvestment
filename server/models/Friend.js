@@ -9,7 +9,8 @@ const FriendListSchema = Schema({
         
     },
     Friends:{
-        type:[Object],
+        type:[Schema.Types.ObjectId],
+        ref:'users',
         default:[]
     }
 })

@@ -25,16 +25,18 @@ module.exports = (io, socket) => {
     socket.on('friend-request/accept', async (requestData) => {
         const { notification, userInfo } = requestData;
         await Notification.findByIdAndDelete(notification._id);
-        const chatRoom = await new ChatRoom({
-            users: [notification.SenderId, userInfo.receiverId],
-            usersImage: [notification.message.image, userInfo.image],
-            userUsername: [notification.message.Username, userInfo.Username]
-        }).save();
-        ChatRoomController.AddTwoUserToChat(notification.SenderId, userInfo.receiverId, chatRoom._id);
-        FriendController.addFriends(notification.SenderId, userInfo.receiverId);
-        await socket.join(chatRoom._id);
-        io.to(chatRoom._id).emit('friend-request/accept',{chatRoom:chatRoom,friend:{_id:notification.SenderId,image:notification.message.image,Username:notification.message.Username}});
-        io.to(notification.SenderId.toString()).emit('friend-request/accept',{chatRoom:chatRoom,friend:{_id:userInfo.receiverId,image:userInfo.image,Username:userInfo.Username}});
+        const isFriend =await FriendController.AreFriends(notification.SenderId,userInfo.receiverId);
+        if(!isFriend){
+            const chatRoom = await new ChatRoom({
+                users: [notification.SenderId, userInfo.receiverId],
+            }).save();
+            ChatRoomController.AddTwoUserToChat(notification.SenderId, userInfo.receiverId, chatRoom._id);
+            FriendController.addFriends(notification.SenderId, userInfo.receiverId);
+            await socket.join(chatRoom._id);
+            io.to(chatRoom._id).emit('friend-request/accept',{chatRoom:chatRoom,friend:notification.SenderId});
+            io.to(notification.SenderId.toString()).emit('friend-request/accept',{chatRoom:chatRoom,friend:userInfo.receiverId});
+    
+        }
     });
 
     socket.on('friend-request/reject', async (requestData) => {

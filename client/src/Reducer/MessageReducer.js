@@ -57,7 +57,6 @@ const DeleteAllMessage = async(Data)=>{
 export const MessageReducer =(state,action)=>{
     switch(action.type){
         case 'message/Addmessage':
-            action.payload;
                 const State = {
                     ...state,
                     message: {

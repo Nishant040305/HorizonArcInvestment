@@ -88,6 +88,7 @@ const Message_Send = (props) => {
 const MessageData = () => {
     const chat = useSelector(state => state.message);
     const user = useSelector(state => state.user);
+    const globaluser = useSelector(state=>state.globalUsers.Users);
     const [chatOption, setOption] = useState(0);
     const [deleteStates, setDeleteStates] = useState([]);
     const dispatch = useDispatch();
@@ -98,10 +99,10 @@ const MessageData = () => {
     };
 
     const image = chat?.presentChat?.ChatIcon === 'NULL'
-        ? (user._id === chat?.presentChat?.users[0] ? chat?.presentChat?.usersImage[1] : chat?.presentChat?.usersImage[0])
+        ? (user._id === chat?.presentChat?.users[0] ? globaluser[chat.presentChat.users[1]].image : globaluser[chat.presentChat.users[0]].image)
         : chat?.presentChat?.ChatIcon;
     const name = chat?.presentChat?.ChatIcon === 'NULL'
-        ? (user._id === chat?.presentChat?.users[0] ? chat?.presentChat?.userUsername[1] : chat?.presentChat?.userUsername[0])
+        ? (user._id === chat?.presentChat?.users[0] ? globaluser[chat.presentChat.users[1]].Username : globaluser[chat.presentChat.users[0]].Username)
         : chat?.presentChat?.ChatIcon;
 
     const messageAreaRef = useRef(null);

@@ -31,13 +31,14 @@ const addFriends = async(userId1,userId2)=>{
         const user2 = await Friends.findById(user_2.friendId);
 
         if (!user1 || !user2) {
-            console.log('User not found');
             return 400;
         }
-
+        if(user1.Friends.findIndex((item)=>item==userId1)!==-1||user2.Friends.findIndex((item)=>item==userId2)!==-1){
+            return 400;
+        }
         // Add ChatRoom to their chatRoom arrays
-        user2.Friends.push({_id:user_1._id,Username:user_1.Username,image:user_1.image});
-        user1.Friends.push({_id:user_2._id,Username:user_2.Username,image:user_2.image});
+        user2.Friends.push(user_1._id);
+        user1.Friends.push(user_2._id);
 
         // Save the updated users
         await user1.save();
@@ -58,6 +59,9 @@ const addFriendsAPI = async(req,res)=>{
             return res.status(404).json({message:"User not found"});
 
         }
+        else if(status==400){
+            return res.status(400).json({message:"Bad Request"})
+        }
         else{
             return res.status(500).json({message:"Internal Server Error"});
 
@@ -66,4 +70,14 @@ const addFriendsAPI = async(req,res)=>{
         return res.status(500).json({message:e})
     }
 }
-module.exports = { getAllUser ,getFriends,addFriends,addFriendsAPI};
+const AreFriends =async(fid1,fid2)=>{
+    const user1 = await User.findById(fid1);
+    const user1_Friends = await Friends.findById(user1.friendId);
+    if(user1_Friends.Friends.findIndex((item)=>item==fid2)!==-1){
+            return 1;
+    }else{
+        return 0;
+    }
+}
+
+module.exports = { AreFriends,getAllUser ,getFriends,addFriends,addFriendsAPI};

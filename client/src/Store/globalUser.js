@@ -5,7 +5,7 @@ import { globalUsers } from "../Reducer/AllUserReducer";
 const globalUserSlice = createSlice(
     {
         name:'globalUsers',
-        initialState:{global:[],friends:[]},
+        initialState:{global:[],friends:[],Users:{}},
         reducers:{
             setglobalUser:globalUsers,
             setFriends:globalUsers,

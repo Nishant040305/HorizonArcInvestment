@@ -55,13 +55,13 @@ const MessageBar = () => {
     const chatUser = chatRoom.chatRoom;
     const chatMessage = chatRoom.message;
     const [searchText, setSearchText] = useState('');
-
+    const globaluser = useSelector(state=>state.globalUsers.Users)
 
   
 
     const sortedChatUsers = chatUser.slice().sort((a, b) => {
-        const otherUsernameA = user._id === a.users[0] ? a.userUsername[1] : a.userUsername[0];
-        const otherUsernameB = user._id === b.users[0] ? b.userUsername[1] : b.userUsername[0];
+        const otherUsernameA = user._id === a.users[0] ? globaluser[a.users[1]].Username :globaluser[a.users[0]].Username;
+        const otherUsernameB = user._id === b.users[0] ? globaluser[b.users[1]].Username : globaluser[b.users[0]].Username;
         const isMatchA = otherUsernameA.toLowerCase().includes(searchText.toLowerCase());
         const isMatchB = otherUsernameB.toLowerCase().includes(searchText.toLowerCase());
         const lastMessageA = chatMessage[a._id]?.filter(msg => msg.SenderId !== user._id).slice(-1)[0];
@@ -95,10 +95,10 @@ const MessageBar = () => {
                                     key={info?._id || index} 
                                     chatRoomId={info?._id}
                                     image={info?.ChatIcon === 'NULL' 
-                                        ? (user._id === info.users[0] ? info.usersImage[1] : info.usersImage[0]) 
+                                        ? (user._id === info.users[0] ? globaluser[info.users[1]].image : globaluser[info.users[0]].image) 
                                         : info.ChatIcon}
                                     name={info?.ChatIcon === 'NULL' 
-                                        ? (user._id === info.users[0] ? info.userUsername[1] : info.userUsername[0]) 
+                                        ? (user._id === info.users[0] ? globaluser[info.users[1]].Username : globaluser[info.users[0]].Username) 
                                         : info.ChatIcon}
                                     timestamp={lastMessageTimestamp}
                                     unseenCount={unseenCount}

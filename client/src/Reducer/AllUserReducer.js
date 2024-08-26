@@ -1,9 +1,17 @@
 export const globalUsers = (state,action)=>{
     switch(action.type){
         case 'globalUsers/setglobalUser':
-            const data_={
+            let data_={
                 ...state,
                 global:action.payload,
+            }
+            let dataUser = {};
+            for(let i=0;i<data_.global.length;i++){
+                dataUser[data_.global[i]._id] = data_.global[i];
+            }
+            data_={
+                ...data_,
+                Users:dataUser,
             }
             return data_;
         case "globalUsers/setFriends":

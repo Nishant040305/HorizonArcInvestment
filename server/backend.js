@@ -9,14 +9,9 @@ const PORT = process.env.PORT;
 const web = process.env.FRONTWEB;
 const SPORT = process.env.SPORT;
 const { cookie } = require("express-validator");
-const router = express.Router();
 const http = require('http');
 const {Server} = require('socket.io');
 const server = http.createServer(app);
-const User = require('./models/user');
-const Notification = require('./models/Notification');
-const ChatRoom = require('./models/ChatRoom');
-const ChatRoomController = require('./controller/ChatRoomController');
 const socketHandlers = require('./events');
 
 
