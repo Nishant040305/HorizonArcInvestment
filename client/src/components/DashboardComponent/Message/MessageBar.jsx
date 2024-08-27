@@ -30,7 +30,6 @@ const MessageBlock = (props) => {
                 <div className={`Message-Block-name ${props.unseenCount > 0 ? 'bold_name' : ''}`}>
                     {props.name}
                 </div>
-              
             </div>
             <div className='flex flex-col'>
                 <div className='Message-block-timestamp'>
@@ -46,21 +45,25 @@ const MessageBlock = (props) => {
     )
 }
 
-
-
 const MessageBar = () => {
-    const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const chatRoom = useSelector(state => state.message);
     const chatUser = chatRoom.chatRoom;
     const chatMessage = chatRoom.message;
     const [searchText, setSearchText] = useState('');
-    const globaluser = useSelector(state=>state.globalUsers.Users)
-
-  
+    const presentChat = chatRoom.presentChat;
+    const globaluser = useSelector(state=>state.globalUsers.Users);
+    useEffect(() => {
+        if (presentChat) {
+            socket.emit('markAsSeen', {
+                chatRoomId: presentChat._id,
+                userId: user._id,
+            });
+        }
+    }, [presentChat, user._id,chatMessage[presentChat._id]]);
 
     const sortedChatUsers = chatUser.slice().sort((a, b) => {
-        const otherUsernameA = user._id === a.users[0] ? globaluser[a.users[1]].Username :globaluser[a.users[0]].Username;
+        const otherUsernameA = user._id === a.users[0] ? globaluser[a.users[1]].Username : globaluser[a.users[0]].Username;
         const otherUsernameB = user._id === b.users[0] ? globaluser[b.users[1]].Username : globaluser[b.users[0]].Username;
         const isMatchA = otherUsernameA.toLowerCase().includes(searchText.toLowerCase());
         const isMatchB = otherUsernameB.toLowerCase().includes(searchText.toLowerCase());

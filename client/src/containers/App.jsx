@@ -16,12 +16,12 @@ import { register } from '../Store/UserAuthSlice';
 import { setSeen } from '../Store/LoginSeenSlice';
 import {  configDatastock, setStock } from '../Store/BuyStockSlice';
 import { configData, setBuyData } from '../Store/BuyDataSlice';
-import { setglobalUser,setFriends, addFriend } from '../Store/globalUser';
+import { setglobalUser,setFriends, addFriend, unFriendUser } from '../Store/globalUser';
 import { setNotification,addNotification } from '../Store/NotificationSlice';
 import { socket } from '../Lib/socket';
 import { setShortlist } from '../Store/ShortListSlice';
 import { numTowords, ShortListData } from '../Lib/ImportantFunc';
-import { setMessage ,Addmessage, addUserChat,updateSeenStatus, deleteMessageId, deleteAllMessageIO} from '../Store/MessageSlice';
+import { setMessage ,Addmessage, addUserChat,updateSeenStatus, deleteMessageId, deleteAllMessageIO, deleteChatRoom} from '../Store/MessageSlice';
 import { setBuyStockData,setLocationFilterBuy,setPriceFilterBuy,setPriceFilterStocks, setTag } from '../Store/FilterDataSlice';
 import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
@@ -390,6 +390,16 @@ useEffect(()=>{
     socket.off('message-delete')
   }
 })
+useEffect(()=>{
+  socket.on('unFriend-user',(data)=>{
+    dispatch(unFriendUser({...data,userId:user._id,friendsId:data.userId}));
+    dispatch(deleteChatRoom(data))
+  })
+  return ()=>{
+    socket.off('unFriend-user')
+  }
+})
+
 useEffect(() => {
   parseQueryParams();
 }, [location.search]); // Run this effect whenever the URL changes

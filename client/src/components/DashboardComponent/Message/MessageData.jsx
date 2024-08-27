@@ -1,8 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './MessageData.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteAllMessage, deleteMessageIndex, SendMessage } from '../../../Store/MessageSlice';
+import { deleteAllMessage, deleteChatRoom, deleteMessageIndex, SendMessage } from '../../../Store/MessageSlice';
 import { socket } from '../../../Lib/socket';
+import ConfirmPopup from '../../ConfirmPopup'; 
+import { unFriendUser } from '../../../Store/globalUser';
 
 const formatTime = (timestamp) => {
     const date = new Date(timestamp);
@@ -80,7 +82,18 @@ const Message_Send = (props) => {
                             <i className="fa-solid fa-chevron-down" style={{ fontSize: 13, paddingLeft: 10 }} onClick={props.toggleDelete}></i>
                         }
                     </div>
-                    <div className={`message-time ${props.user === '0' ? "text-left" : "text-right"}`}>{props.time}</div>
+                    <div className={`message-time ${props.user === '0' ? "text-left" : "text-right"}`}>
+                        {props.time}
+                        {props.user === '0' && (
+                            <>
+                                {props.isSeen.includes(props.otherUserId) ? (
+                                    <i className="fa-solid fa-check-double text-blue-500" style={{ paddingLeft: 5 }}></i>
+                                ) : (
+                                    <i className="fa-solid fa-check text-green-400" style={{ paddingLeft: 5 }}></i>
+                                )}
+                            </>
+                        )}
+                    </div>
                     {props.del &&
                         <div className={`absolute right-0 text-right message-editoption `} onClick={deleteMessage}>
                             Delete 
@@ -98,6 +111,7 @@ const MessageData = () => {
     const globaluser = useSelector(state => state.globalUsers.Users);
     const [chatOption, setOption] = useState(0);
     const [deleteStates, setDeleteStates] = useState([]);
+    const [showConfirmPopup, setShowConfirmPopup] = useState(false);
     const dispatch = useDispatch();
     const messageAreaRef = useRef(null);
 
@@ -124,20 +138,32 @@ const MessageData = () => {
         dispatch(deleteAllMessage(chat.presentChat._id));
         socket.emit('Delete-All-Chat', chat.presentChat._id);
     };
+    const unfriendUser = () => {
+        // Logic to unfriend the user
+        console.log("User unfriended");
+        // Then delete the chats
+        dispatch(deleteAllMessage(chat.presentChat._id));
+        socket.emit('Delete-All-Chat', chat.presentChat._id);
+        dispatch(unFriendUser({userId:user._id,ChatRoomId:chat.presentChat._id,friendsId:chat.presentChat.users[0]==user._id?chat.presentChat.users[1]:chat.presentChat.users[0]}))
+        socket.emit('unFriend-user',{userId:user._id,ChatRoomId:chat.presentChat._id,friendsId:chat.presentChat.users[0]==user._id?chat.presentChat.users[1]:chat.presentChat.users[0]})
+        dispatch(deleteChatRoom({ChatRoomID:chat.presentChat._id}))
+        // Close the popup
+        setShowConfirmPopup(false);
+    };
 
     const renderMessagesWithDateDividers = () => {
         let lastMessageDate = null;
-
+    
         return chat?.message[chat?.presentChat?._id].map((info, index) => {
             const messageDate = new Date(info.createdAt);
             const formattedDate = messageDate.toLocaleDateString();
             let showDateDivider = false;
             let dateLabel = formattedDate;
-
+    
             const today = new Date();
             const yesterday = new Date();
             yesterday.setDate(today.getDate() - 1);
-
+    
             if (formattedDate === today.toLocaleDateString()) {
                 dateLabel = "Today";
             } else if (formattedDate === yesterday.toLocaleDateString()) {
@@ -145,12 +171,15 @@ const MessageData = () => {
             } else {
                 dateLabel = messageDate.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             }
-
+    
             if (formattedDate !== lastMessageDate) {
                 lastMessageDate = formattedDate;
                 showDateDivider = true;
             }
-
+    
+            // Determine the ID of the other user in the chat
+            const otherUserId = chat.presentChat.users.find(id => id !== user._id);
+    
             return (
                 <React.Fragment key={index}>
                     {showDateDivider && <DateDivider label={dateLabel} />}
@@ -163,11 +192,14 @@ const MessageData = () => {
                         Id={info._id}
                         del={deleteStates[index]}
                         toggleDelete={() => toggleDelete(index)}
+                        isSeen={info?.isSeen || []}  // Pass the isSeen array
+                        otherUserId={otherUserId}    // Pass the other user's ID
                     />
                 </React.Fragment>
             );
         });
     };
+    
 
     return (
         <div className={`MessageData ${image ? 'width-80' : 'width-100'}`}>
@@ -182,7 +214,7 @@ const MessageData = () => {
                         {chatOption === 1 && (
                             <div className='flex flex-col absolute right-9'>
                                 <div className='bg-white delete-chat right-9' onClick={() => { deleteAllChat() }}>Delete Chats</div>
-                                <div className='bg-white delete-chat right-9'>Block User</div>
+                                <div className='bg-white delete-chat right-9' onClick={() => setShowConfirmPopup(true)}>Unfriend User</div>
                             </div>
                         )}
                     </div>
@@ -196,6 +228,11 @@ const MessageData = () => {
                 )}
             </div>
             <MessageWrite />
+            <ConfirmPopup 
+                show={showConfirmPopup} 
+                onClose={() => setShowConfirmPopup(false)} 
+                onConfirm={unfriendUser} 
+            />
         </div>
     );
 };

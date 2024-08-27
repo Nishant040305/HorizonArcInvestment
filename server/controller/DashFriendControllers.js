@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const ChatRoom = require('../models/ChatRoom');
+const UsersChatRoom = require('../models/UsersChatRoom');
 const Friends = require('../models/Friend');
 const getAllUser = async (req, res) => {
     try {
@@ -79,5 +81,39 @@ const AreFriends =async(fid1,fid2)=>{
         return 0;
     }
 }
+const unfriendUser = async (req, res) => {
+    try {
+        const { userId, friendId, chatRoomId } = req.body;
 
-module.exports = { AreFriends,getAllUser ,getFriends,addFriends,addFriendsAPI};
+        // Remove friendId from userId's friend list
+        await Friends.findOneAndUpdate(
+            { userId: userId },
+            { $pull: { Friends: friendId } }
+        );
+
+        // Remove userId from friendId's friend list
+        await Friends.findOneAndUpdate(
+            { userId: friendId },
+            { $pull: { Friends: userId } }
+        );
+
+        // Delete the chatroom
+        await ChatRoom.findByIdAndDelete(chatRoomId);
+
+        // Remove the chatRoomId from both users' chatroom ID list
+        await UsersChatRoom.updateOne(
+            { userId: userId },
+            { $pull: { ChatRooms: chatRoomId } }
+        );
+        await UsersChatRoom.updateOne(
+            { userId: friendId },
+            { $pull: { ChatRooms: chatRoomId } }
+        );
+
+        return res.status(200).json({ message: 'Unfriended successfully and chatroom deleted.' });
+    } catch (e) {
+        console.error(e);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+module.exports = {unfriendUser, AreFriends,getAllUser ,getFriends,addFriends,addFriendsAPI};

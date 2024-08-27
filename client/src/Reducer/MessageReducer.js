@@ -128,7 +128,6 @@ export const MessageReducer =(state,action)=>{
 
             // Create a new state object to hold the updated messages
                     const updatedMessages = { ...state.message };
-                    console.log(action.payload)
                     // Iterate over each message in the payload
                     action.payload.forEach(msg => {
                         // Get the current messages for the chat room
@@ -188,6 +187,28 @@ export const MessageReducer =(state,action)=>{
                     [action.payload]:[]
                 }
             }
+            case "message/deleteChatRoom":
+                let presentChat_ = state.presentChat;
+                if (presentChat_._id == action.payload.ChatRoomId) {
+                    if (state.chatRoom.length == 1) {
+                        presentChat_ = 0;
+                    } else {
+                        presentChat_ = state.chatRoom[0]._id == action.payload.ChatRoomId
+                            ? state.chatRoom[1]
+                            : state.chatRoom[0];
+                    }
+                }
+                const newChatRooms = state.chatRoom.filter((item) => item._id !== action.payload.ChatRoomId);
+                const newMessages_ = { ...state.message };
+                delete newMessages_[action.payload.ChatRoomId];
+            
+                return {
+                    ...state,
+                    presentChat: presentChat_,
+                    chatRoom: newChatRooms,
+                    message: newMessages_
+                };
+            
         default:
             return state;
     }

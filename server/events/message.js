@@ -44,4 +44,7 @@ module.exports = (io, socket) => {
     socket.on('Delete-All-Chat',async(data)=>{
         io.to(data.toString()).emit('Delete-All-Chat',data.toString())
     })
+    socket.on('unFriend-user',async(data)=>{
+        io.to(data.ChatRoomId.toString()).emit('unFriend-user',data);
+    })
     };
