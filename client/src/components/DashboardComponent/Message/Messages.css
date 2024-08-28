@@ -5,3 +5,6 @@
     flex-direction: row;
     height: inherit;
 }
+.MaxWidth965{
+    max-width: 83vw;
+}

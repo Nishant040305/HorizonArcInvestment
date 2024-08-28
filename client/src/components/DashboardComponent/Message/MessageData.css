@@ -44,14 +44,6 @@
     height: 65vh;
     overflow-y: scroll;
 }
-.Messages-send{
-    padding: 15px;
-    max-width: 70%;
-    width:fit-content;
-    font-size: 18px;
-    border-radius: 20px;
-    margin:10px;
-}
 .float-right{
     float:right;
 }
@@ -64,10 +56,6 @@
 }
 .width-80{
     width:80%;
-}
-.message-time{
-    color:rgb(61, 61, 61);
-    font-size: 14px;
 }
 .f-15{
     font-size:15px;
@@ -88,4 +76,39 @@
     padding:10px;
     padding-left:20px;
     padding-right:20px;
+}
+.Messages-send {
+    padding: 15px;
+    max-width: 60%;
+    width: fit-content;
+    font-size: 18px;
+    border-radius: 20px;
+    margin: 10px;
+    display: flex;
+    align-items: center; /* Ensures all items are aligned in the center */
+    justify-content: space-between; /* Ensures space between text and options */
+}
+
+.text-block {
+    /* word-wrap: break-word;  */
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: left;
+    white-space: normal; /* Allows the text to wrap to a new line when necessary */
+
+    max-width: 90%; /* Adjust as needed to control the width */
+}
+
+.message-options {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Ensures options are pushed to the end */
+}
+
+.message-time {
+    color: rgb(61, 61, 61);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    margin-left:2px;
 }

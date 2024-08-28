@@ -73,35 +73,39 @@ const Message_Send = (props) => {
     };
 
     return (
-        <>
-            <div className='width-100'>
-                <div className={`Messages-send text-black ${props.user === '0' ? "float-right bg-green-200" : "float-left bg-yellow-50"} relative`}>
-                    <div>
-                        {props.text}
-                        {props.user === '0' &&
-                            <i className="fa-solid fa-chevron-down" style={{ fontSize: 13, paddingLeft: 10 }} onClick={props.toggleDelete}></i>
-                        }
-                    </div>
-                    <div className={`message-time ${props.user === '0' ? "text-left" : "text-right"}`}>
-                        {props.time}
-                        {props.user === '0' && (
-                            <>
-                                {props.isSeen.includes(props.otherUserId) ? (
-                                    <i className="fa-solid fa-check-double text-blue-500" style={{ paddingLeft: 5 }}></i>
-                                ) : (
-                                    <i className="fa-solid fa-check text-green-400" style={{ paddingLeft: 5 }}></i>
-                                )}
-                            </>
-                        )}
-                    </div>
-                    {props.del &&
-                        <div className={`absolute right-0 text-right message-editoption `} onClick={deleteMessage}>
-                            Delete 
-                        </div>
-                    }
+<div className='width-100'>
+    <div className={`Messages-send flex text-black ${props.user === '0' ? "float-right bg-green-200" : "float-left bg-yellow-50"} relative`}>
+        <div className='text-block'>
+            {props.text}
+        </div>
+        {props.user === '0' ? (
+            <div className="message-options flex items-center">
+                <i className="fa-solid fa-chevron-down" style={{ fontSize: 13, paddingLeft: 10 }} onClick={props.toggleDelete}></i>
+                <div className={`message-time ${props.user === '0' ? "text-left" : "text-right"}`}>
+                    {props.time}
+                    {props.isSeen.includes(props.otherUserId) ? (
+                        <i className="fa-solid fa-check-double text-blue-500" style={{ paddingLeft: 5 }}></i>
+                    ) : (
+                        <i className="fa-solid fa-check text-green-400" style={{ paddingLeft: 5 }}></i>
+                    )}
                 </div>
             </div>
-        </>
+        ):(
+            <div className="message-options flex items-center">
+                <div className={`message-time ${props.user === '0' ? "text-left" : "text-right"}`}>
+                    {props.time} 
+                </div>
+            </div>
+        )}
+        {props.del &&
+            <div className={`absolute right-0 text-right message-editoption`} onClick={deleteMessage}>
+                Delete 
+            </div>
+        }
+    </div>
+</div>
+
+     
     );
 };
 

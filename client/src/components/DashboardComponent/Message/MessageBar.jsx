@@ -60,7 +60,7 @@ const MessageBar = () => {
                 userId: user._id,
             });
         }
-    }, [presentChat, user._id,chatMessage[presentChat._id]]);
+    }, [presentChat, user._id,presentChat._id!=0?chatMessage[presentChat._id]:0]);
 
     const sortedChatUsers = chatUser.slice().sort((a, b) => {
         const otherUsernameA = user._id === a.users[0] ? globaluser[a.users[1]].Username : globaluser[a.users[0]].Username;

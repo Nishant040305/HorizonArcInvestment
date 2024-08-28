@@ -2,3 +2,6 @@
     display: flex;
     flex-direction: row;
 }
+.MaxWidth95{
+    max-width: 100vw;
+}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../components/DashboardComponent/DashNavSide/Dashboard.css';
 import ProfileBar from '../components/DashboardComponent/DashNavSide/profile-bar';
 import Profile from '../components/DashboardComponent/Profile/profile';
@@ -16,14 +16,15 @@ import { useSelector } from 'react-redux';
 import ShortList from '../components/DashboardComponent/ShortList/ShortList';
 const Dashboard = () => {
   const option = useSelector(state=>state.dashboard)
+  const [orientation,setOrient] = useState(1);
   return (
   <>
   <Navbar></Navbar>
   <SideBar></SideBar>
   <NavDash></NavDash>
-    <div className='Dashboard'>
-      <ProfileBar></ProfileBar>
-      {option=="profile"?<Profile/>:option=="shares"?<Shares/>:option=="messages"?<Messages></Messages>:option=="notification"?<Notification/>:option=="shortlist"?<ShortList></ShortList>:option=="settings"?<SettingsComponent></SettingsComponent>:<FindPeople></FindPeople>}
+    <div className={`Dashboard ${orientation==1?'MaxWidth95':''}`}>
+      <ProfileBar stateChange={setOrient} state={orientation} ></ProfileBar>
+      {option=="profile"?<Profile/>:option=="shares"?<Shares/>:option=="messages"?<Messages stateChange={setOrient} state={orientation}></Messages>:option=="notification"?<Notification/>:option=="shortlist"?<ShortList></ShortList>:option=="settings"?<SettingsComponent></SettingsComponent>:<FindPeople></FindPeople>}
     
     </div>
   <Footer></Footer>
