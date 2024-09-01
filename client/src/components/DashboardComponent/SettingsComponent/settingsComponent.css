@@ -30,7 +30,7 @@
     margin-top:2rem;
 }
 .data-bank-info{
-    width:15rem;
+    width:7rem;
 }
 
 .input-bank-detail{
@@ -39,7 +39,8 @@
     border:1px solid ;
     padding-left:10px;
     border-color: rgb(190, 190, 190);
-    background-color: white;;
+    background-color: white;
+    min-width: 20rem;
 }
 .submit-bank-detail{
     background-color: rgb(7, 15, 51);

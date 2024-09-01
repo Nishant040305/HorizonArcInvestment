@@ -3,6 +3,7 @@ import './settingsComponent.css';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { register } from '../../../Store/UserAuthSlice';
+import PasswordInput from '../../PasswordInput';
 const SettingsComponent = () => {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -247,9 +248,7 @@ const SettingsComponent = () => {
             </div>
             <div className='flex flex-row'>
               <div className='data-bank-info'>Password:</div>
-              <input
-                className='input-bank-detail'
-                type='password'
+              <PasswordInput
                 name="password"
                 value={BankDetails.password}
                 onChange={handleBankDetail}
@@ -270,7 +269,7 @@ const SettingsComponent = () => {
                   <input className='input-bank-detail' name="email" onChange={handleEmail} value={EmailChange.email} placeholder="Enter new Email" />
                </div>
                 <div className='flex flex-row'><div className='data-bank-info'>Password:</div>
-                  <input className='input-bank-detail' type='password' name="password" onChange={handleEmail} value={EmailChange.password} placeholder='Enter your password' />
+                  <PasswordInput  type='password' name="password" onChange={handleEmail} value={EmailChange.password} placeholder='Enter your password' />
                 </div>
                 <div className='submit-div-bank'><button className='submit-bank-detail' onClick={submitEmailChange}>Submit</button></div>
               </div>
@@ -308,10 +307,10 @@ const SettingsComponent = () => {
             {step === 3 && (
               <div>
                 <div className='flex flex-row'><div className='data-bank-info'>New Password:</div>
-                  <input className='input-bank-detail' type='password' name="newPassword" value={passwordChange.newPassword} onChange={handlePassword} placeholder='Enter new password' />
+                  <PasswordInput className='input-bank-detail' type='password' name="newPassword" value={passwordChange.newPassword} onChange={handlePassword} placeholder='Enter new password' />
                 </div>
                 <div className='flex flex-row'><div className='data-bank-info'>Confirm Password:</div>
-                  <input className='input-bank-detail' type='password' name="confirmPassword" value={passwordChange.confirmPassword} onChange={handlePassword} placeholder='Confirm new password' />
+                  <PasswordInput className='input-bank-detail' type='password' name="confirmPassword" value={passwordChange.confirmPassword} onChange={handlePassword} placeholder='Confirm new password' />
                 </div>
                 <div className='submit-div-bank'><button className='submit-bank-detail' onClick={submitPasswordUpdate}>Update Password</button></div>
               </div>

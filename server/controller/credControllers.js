@@ -266,13 +266,17 @@ const LogIn = async(req,res)=>{
         return res.status(400).json({error:"please try to login with correct credentials"});
       }
     }
-    const passwordCompare = bcrypt.compare(req.body.password,user.password);
-    if(!passwordCompare||!user.verify){
+    const passwordCompare = await bcrypt.compare(req.body.password,user.password);
+    if(!user.verify){
+      return res.status(400).json({error:"please try to login with correct credentials"})
+
+    }
+    if(!passwordCompare){
       return res.status(400).json({error:"please try to login with correct credentials"})
     }
     delete user._doc.password;
     const jwtData = jwtToken.sign({...user._doc},process.env.jwt_secreat)
-    res.cookie('uid',jwtData)
+    res.cookie('uid', jwtData, { httpOnly: true, secure: true, sameSite: 'Strict' });
 		res.status(200).json({info:{...user._doc}, message: "Login successful" });
   }catch(e){
     res.status(500).json({message:'Internal Server Error'});

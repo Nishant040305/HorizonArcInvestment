@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import PasswordInput from '../../PasswordInput';
 // import './AdminCreate.css';
 
 const AdminCreate = () => {
@@ -36,6 +37,7 @@ const AdminCreate = () => {
           <label>Name:</label>
           <input
             type="text"
+            placeholder='Enter the Name'
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -46,17 +48,18 @@ const AdminCreate = () => {
           <input
             type="email"
             value={email}
+            placeholder='Enter the Users Email'
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
         <div className="form-group">
           <label>Password:</label>
-          <input
+          <PasswordInput
             type="password"
             value={password}
+            placeholder={"Enter your Password"}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
         </div>
         <button className="submit-button" type="submit">Create Admin</button>

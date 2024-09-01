@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { register } from '../Store/UserAuthSlice';
 import { setSeen, setSeenlog } from '../Store/LoginSeenSlice';
 import axios from "axios";
+import PasswordInput from './PasswordInput'; // Import the PasswordInput component
 
 const Login = () => {
     let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
@@ -223,7 +224,7 @@ const Login = () => {
                         <div className="Login-content">
                             <div className='text-red-500'>{mssg}</div>
                             <input className="Login-email-input" onChange={handleUserVer} name="Username" placeholder="Enter your Username/Email" value={userVer.Username}></input>
-                            <input className="Login-email-input" onChange={handleUserVer} name="password" placeholder="Enter your Password" value={userVer.password}></input>
+                            <PasswordInput onChange={handleUserVer} name="password" placeholder="Enter your Password" value={userVer.password}></PasswordInput>
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
                                 <button style={{ marginTop: 50, width: 250 }} className="btn Login-email-buttton" onClick={login_Confirm}>Confirm</button>
                                 {mssg === "An Email sent to your account please verify" && (
@@ -236,7 +237,7 @@ const Login = () => {
                         <div className="Login-content">
                             <div className='text-red-500'>{mssg}</div>
                             <input className="Login-email-input" onChange={handleUser} placeholder="Enter your FullName" name="fullName" value={user.fullName}></input>
-                            <input className="Login-email-input" onChange={handleUser} placeholder="Enter your Password" name="password" value={user.password}></input>
+                            <PasswordInput className="Login-email-input" onChange={handleUser} placeholder="Enter your Password" name="password" value={user.password}></PasswordInput>
                             <input className="Login-email-input" onChange={handleUser} placeholder="Enter your Email" name="email" value={user.email}></input>
                             <button className="btn Login-email-buttton" onClick={login_email}>Continue</button>
                         </div>
@@ -269,8 +270,8 @@ const Login = () => {
                             {step === 3 && (
                                 <div>
                                     <div className='text-red-500'>{mssg}</div>
-                                    <input className="Login-email-input" onChange={handlePasswordReset} name="newPassword" placeholder="Enter New Password" value={passwordReset.newPassword}></input>
-                                    <input className="Login-email-input" onChange={handlePasswordReset} name="confirmPassword" placeholder="Confirm Password" value={passwordReset.confirmPassword}></input>
+                                    <PasswordInput className="Login-email-input" onChange={handlePasswordReset} name="newPassword" placeholder="Enter New Password" value={passwordReset.newPassword}></PasswordInput>
+                                    <PasswordInput className="Login-email-input" onChange={handlePasswordReset} name="confirmPassword" placeholder="Confirm Password" value={passwordReset.confirmPassword}></PasswordInput>
                                     <button className="btn Login-email-buttton" onClick={handlePasswordUpdate}>Update Password</button>
                                 </div>
                             )}
