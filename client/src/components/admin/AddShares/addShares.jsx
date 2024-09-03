@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react'
 // import './addbuydata.css';
 import data from '../../../Constants/sorted_data.json';
 import axios from "axios"
+import {socket} from '../../../Lib/socket';
 import './addShares.css'
 let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB
 
@@ -234,11 +235,12 @@ const AddSharesData = () => {
                 },
             });
     
-            if (response.ok) {
-                const result = await response.json();
+            if (response.status==200) {
+                console.log(response);
                 alert("Data is submitted")
+                socket.emit('newShares',response.data.info);
             } else {
-                throw new Error(`Submission error: ${response.statusText}`);
+                throw new Error(`Submission error: ${response.data.message}`);
             }
         } catch (error) {
             console.error('Error:', error);

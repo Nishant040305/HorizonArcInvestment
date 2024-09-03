@@ -66,7 +66,6 @@ const ImageUpload = (req, res) => {
 
 const InsertBuyLand = async (req, res) => {
     try {
-        console.log("Incoming data:", req.body);
         let data = req.body.updatedLand;
 
         // Validate gataNumber
@@ -104,9 +103,8 @@ const InsertBuyLand = async (req, res) => {
             State: data.State,
             location: data.location,
         });
-        console.log(newLand);
         await newLand.save();
-       return res.status(200).json({ message: "Entry Successful" });
+       return res.status(200).json({ message: "Entry Successful",info:newLand });
     } catch (e) {
         console.log(e);
        return res.status(500).json({ message: "Internal Server Error" });
@@ -114,7 +112,6 @@ const InsertBuyLand = async (req, res) => {
 };
 const InsertStock = async (req, res) => {
     try {
-        console.log("Incoming data:", req.body);
         let data = req.body.updatedLand;
 
         // Validate gataNumber
@@ -153,9 +150,8 @@ const InsertStock = async (req, res) => {
             location: data.location,
             Stocks:data.Share,
         });
-        console.log(newLand);
         await newLand.save();
-       return res.status(200).json({ message: "Entry Successful" });
+       return res.status(200).json({ message: "Entry Successful",info:newLand });
     } catch (e) {
         console.log(e);
        return res.status(500).json({ message: "Internal Server Error" });

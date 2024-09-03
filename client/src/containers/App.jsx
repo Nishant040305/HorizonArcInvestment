@@ -14,7 +14,7 @@ import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { register } from '../Store/UserAuthSlice';
 import { setSeen } from '../Store/LoginSeenSlice';
-import {  configDatastock, setStock } from '../Store/BuyStockSlice';
+import {  addShares, configDatastock, setStock } from '../Store/BuyStockSlice';
 import { configData, setBuyData } from '../Store/BuyDataSlice';
 import { setglobalUser,setFriends, addFriend, unFriendUser } from '../Store/globalUser';
 import { setNotification,addNotification } from '../Store/NotificationSlice';
@@ -399,7 +399,16 @@ useEffect(()=>{
     socket.off('unFriend-user')
   }
 })
-
+useEffect(()=>{
+  socket.on('newShares',(data)=>{
+    console.log(data);
+    dispatch(addNotification(data));
+    dispatch(addShares(data.message));
+  })
+  return()=>{
+    socket.off('newShares')
+  }
+})
 useEffect(() => {
   parseQueryParams();
 }, [location.search]); // Run this effect whenever the URL changes

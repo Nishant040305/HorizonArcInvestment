@@ -21,7 +21,11 @@ const NotificationSchema = Schema({
         type:Date,
         default:Date.now(),
  
+    },
+    expiry: {
+        type: Date,
     }
+
 },
     
 )

@@ -8,8 +8,9 @@ const BuyStockSlice = createSlice({
     reducers:{
         setStock:setLandReducer,
         configDatastock:setLandReducer,
+        addShares:setLandReducer,
     }
 })
 
-export const {configDatastock, setStock } = BuyStockSlice.actions;
+export const {configDatastock, setStock,addShares } = BuyStockSlice.actions;
 export default BuyStockSlice.reducer;

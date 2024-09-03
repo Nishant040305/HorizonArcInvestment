@@ -8,6 +8,8 @@ export const setLandReducer=(state,action)=>{
                 const plainBuyArray = state.map(item => ({ ...item }));
                 const data = locationFilter(action.payload, plainBuyArray)
                 return data;
+        case "stock/addShares":
+            return [action.payload,...state];
         default:
             return state;
             break;

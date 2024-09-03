@@ -2,6 +2,7 @@ import React ,{useEffect}from 'react';
 import './Notification.css';
 import { useSelector,useDispatch } from 'react-redux';
 import { addNotification ,removeNotification} from '../../../Store/NotificationSlice';
+import BuyOption from '../../BuyLandIndi';
 import {socket} from '../../../Lib/socket'
 const FriendRequest = (props)=>{
   const dispatch = useDispatch();
@@ -36,6 +37,29 @@ const NotificationMess =(props)=>{
         </div>
     )
 }
+const ShareDataNotification=({info})=>{
+  return(
+    <> 
+    <div className='text-left' style={{fontSize:25,fontWeight:500,marginLeft:40}}>NEW STOCKS ADDED</div>
+    <BuyOption 
+                  Images={info.Images} 
+                  Price={info.Price[info.Price.length-1]} 
+  
+                  amount={info.Area.amount}
+                  gataNumber={info.gataNumber}
+                  unit = {info.Area.unit}
+                  State={info.State}
+                  District={info.District} 
+                  Village = {info.Village}
+                  Description={info.Description} 
+                  Highlights={info.Highlights}
+                  Category={info.Category}
+                  Property={info.Property}
+                  id={info._id}
+                  tab ="stock"
+              /></>
+  )
+}
 const Notification = () => {
   const notification = useSelector(state=>state.notification);
   const dispatch = useDispatch();
@@ -45,7 +69,7 @@ const Notification = () => {
       <div className='Notification-head '>Notification</div>
       <div className='Notification-container'>
         {notification.map((info,index)=>(
-          (info.NotifType=='friend-request/send')?<FriendRequest key={index} _id={info._id} index = {index} SenderId={info.SenderId} message={info.message}></FriendRequest>:<></>
+          (info.NotifType=='friend-request/send')?<FriendRequest key={index} _id={info._id} index = {index} SenderId={info.SenderId} message={info.message}></FriendRequest>:(info.NotifType=='newShares')?<ShareDataNotification key={index} info={info.message}/>:<></>
         ))}
       </div>
     </div>

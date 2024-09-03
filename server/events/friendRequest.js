@@ -4,6 +4,7 @@ const ChatRoom = require('../models/ChatRoom');
 const FriendController = require('../controller/DashFriendControllers');
 module.exports = (io, socket) => {
     socket.on('friend-request/send', async (requestData) => {
+
         const notification = await Notification.findOne({
             SenderId: requestData.SenderId,
             receiverId: [requestData.receiverId],
@@ -11,11 +12,13 @@ module.exports = (io, socket) => {
         });
 
         if (!notification) {
+            const expiryDate = new Date(Date.now() + 24*7*60 * 60 * 1000); // Calculate expiry time
             const noti = await new Notification({
                 SenderId: requestData.SenderId,
                 receiverId: [requestData.receiverId],
                 NotifType: 'friend-request/send',
                 message: requestData.message,
+                expiry:expiryDate
             }).save();
 
             io.to(requestData.receiverId).emit('friend-request/send', noti);
