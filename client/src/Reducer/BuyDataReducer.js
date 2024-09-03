@@ -5,9 +5,8 @@ export const setBuyDataLand=(state,action)=>{
         case "buyData/setBuyData":
             return action.payload;
 
-        case "buyData/setOneBuyData":
-            state.push(action.payload);
-            return state;
+        case "buyData/addLand":
+            return [action.payload,...state];
 
         case "buyData/delBuyData":
             const index = state.indexOf(action.payload);

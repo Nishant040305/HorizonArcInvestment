@@ -22,4 +22,13 @@ module.exports = (io, socket) => {
         }).save();
         io.emit('newShares',Notif);
     })
+    socket.on('newLand',async(req)=>{
+        const _ = new Date(Date.now() + 24*3*60 * 60 * 1000); // Calculate expiry time
+
+        const Notif_ = await new Notification({
+            NotifType:"newShares",
+            message:req,
+            expiry:_
+        }).save();
+        io.emit('newLand',Notif_);})
 };

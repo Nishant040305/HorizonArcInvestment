@@ -234,8 +234,8 @@ const AddBuyData = () => {
             });
     
             if (response.ok) {
-                const result = await response.json();
-                console.log('Success:', result);
+                alert("Data is submitted")
+                socket.emit('newLand',response.data.info);
             } else {
                 throw new Error(`Submission error: ${response.statusText}`);
             }

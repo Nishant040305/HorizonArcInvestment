@@ -5,8 +5,9 @@ const BuyDataSlice = createSlice({
     initialState:[],
     reducers:{
         setBuyData: setBuyDataLand,
-        configData:setBuyDataLand
+        configData:setBuyDataLand,
+        addLand:setBuyDataLand,
     }
 })
-export const {configData,setBuyData} = BuyDataSlice.actions;
+export const {configData,setBuyData,addLand} = BuyDataSlice.actions;
 export default BuyDataSlice.reducer;

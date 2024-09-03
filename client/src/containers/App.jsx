@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import { register } from '../Store/UserAuthSlice';
 import { setSeen } from '../Store/LoginSeenSlice';
 import {  addShares, configDatastock, setStock } from '../Store/BuyStockSlice';
-import { configData, setBuyData } from '../Store/BuyDataSlice';
+import { addLand, configData, setBuyData } from '../Store/BuyDataSlice';
 import { setglobalUser,setFriends, addFriend, unFriendUser } from '../Store/globalUser';
 import { setNotification,addNotification } from '../Store/NotificationSlice';
 import { socket } from '../Lib/socket';
@@ -401,12 +401,20 @@ useEffect(()=>{
 })
 useEffect(()=>{
   socket.on('newShares',(data)=>{
-    console.log(data);
     dispatch(addNotification(data));
     dispatch(addShares(data.message));
   })
   return()=>{
     socket.off('newShares')
+  }
+})
+useEffect(()=>{
+  socket.on('newLand',(data)=>{
+    dispatch(addNotification(data));
+    dispatch(addLand(data.message))
+  })
+  return()=>{
+    socket.off('newLand')
   }
 })
 useEffect(() => {
