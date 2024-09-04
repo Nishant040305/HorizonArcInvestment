@@ -31,7 +31,7 @@ const BlockData = ({ articles }) => {
   };
   
 const Articles = React.forwardRef((props, ref) => {
-    const articles = useSelector(state=>state.articles)
+    const articles = useSelector(state=>state.article)
   const [currentPage, setCurrentPage] = useState(1);
   const articlesPerPage = 4;
   const totalPages = Math.ceil(articles.length / articlesPerPage);

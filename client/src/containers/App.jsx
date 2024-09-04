@@ -197,6 +197,20 @@ const BuyLand = async()=>{
 }catch(e){
 }
 }
+const article =async()=>{
+  try{
+    const response = await axios.get(`${BACKWEB}/article`);
+    if(response.status==200){
+        return dispatch(getArticle(response.data.info));
+    }
+    else{
+        return [];
+    }
+  }catch(e){
+
+  }
+  
+}
 const getChats =async(Chat)=>{
   try{
     const response = await axios.post(`${BACKWEB}/chat/getChat`,
@@ -267,7 +281,7 @@ useEffect(()=>{
   BuyLand();
   User();
   globalUser();
-  dispatch(getArticle({}));
+  article();
 },[]);
 // const [data_,setData] = useState('');
 useEffect(()=>{
