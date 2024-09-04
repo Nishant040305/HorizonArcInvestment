@@ -21,3 +21,29 @@
 .block{
     padding-right:10vw;
 }
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px; /* Adjust the gap between items */
+  }
+  
+  .grid-item {
+    padding: 15px; /* Padding inside each item */
+    border-radius: 8px; /* Rounded corners */
+    text-align: left;
+  }
+  
+  .grid-item a {
+    text-decoration: none;
+    color: #333; /* Text color */
+    font-weight: 500;
+  }
+  
+  .grid-item a:hover {
+    color: #007BFF; 
+  }
+  
+  .news:hover{
+    color: #007BFF; 
+
+  }

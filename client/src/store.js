@@ -11,6 +11,7 @@ import NotificationSlice from './Store/NotificationSlice';
 import FilterDataSlice from './Store/FilterDataSlice';
 import MessageSlice from './Store/MessageSlice';
 import IsAdminSlice from './Store/IsAdminSlice';
+import ArticleSlice from './Store/ArticleSlice';
 const rootReducer = combineReducers({
   user:userSlice,
   url:urlSlice,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   filter:FilterDataSlice,
   message:MessageSlice,
   admin:IsAdminSlice,
+  article:ArticleSlice,
 });
 export const store = configureStore({
   reducer:{
@@ -38,7 +40,9 @@ export const store = configureStore({
   notification:NotificationSlice,
   filter:FilterDataSlice,
   message:MessageSlice,
-  admin:IsAdminSlice
+  admin:IsAdminSlice,
+  article:ArticleSlice,
+
   }
 })
 

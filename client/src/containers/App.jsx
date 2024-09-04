@@ -26,6 +26,7 @@ import { setBuyStockData,setLocationFilterBuy,setPriceFilterBuy,setPriceFilterSt
 import { PriceFilter } from '../Lib/Filter';
 import Admin from '../components/admin/Admin';
 import { setAdmin } from '../Store/IsAdminSlice';
+import { getArticle } from '../Store/ArticleSlice';
 const App=() =>{
   let BACKWEB = import.meta.env.VITE_REACT_APP_BACKWEB;
   const url = useSelector(state=>state.url);
@@ -266,7 +267,7 @@ useEffect(()=>{
   BuyLand();
   User();
   globalUser();
-  
+  dispatch(getArticle({}));
 },[]);
 // const [data_,setData] = useState('');
 useEffect(()=>{
