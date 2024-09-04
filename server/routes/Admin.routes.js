@@ -17,4 +17,6 @@ router.put('/lands/:id', AdminController.UpdateLand);
 router.get('/lands/:id',AdminController.getLandInfo);
 router.delete('/land/:id/:type',AdminController.DeleteLand);
 router.post('/register',AdminController.createAdmin)
+router.post('/articles',AdminController.NewArticles);
+
 module.exports = router;

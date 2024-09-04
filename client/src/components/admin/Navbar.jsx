@@ -13,6 +13,8 @@ const Navbar = ({ onTabChange }) => {
       <button className='admin-nav' onClick={() => onTabChange('CreateAdmin')}>Create Admin</button>
       <button className='admin-nav' onClick={() => onTabChange('TransactionDetails')}>Transaction Details</button>
       <button className='admin-nav' onClick={() => onTabChange('EditInfo')}>Edit Data</button>
+      <button className='admin-nav' onClick={() => onTabChange('Articles')}>Add Articles</button>
+
 
     </div>
   );

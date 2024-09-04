@@ -20,6 +20,7 @@ const upload = multer({ storage });
 const LandSchema = require('../models/LandForSale')
 const Stock = require('../models/Stock')
 const Notification = require('../models/Notification');
+const Article = require('../models/Article')
 // Configure Cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUDNAME,
@@ -327,5 +328,27 @@ const createAdmin = async(req,res) =>{
     return res.status(400).json({message:"User All ready Exist"})
   
   }
+const NewArticles = async (req, res) => {
+    const { title, image, link } = req.body;
 
-module.exports = {createAdmin,DeleteLand, ImageUpload,InsertBuyLand,InsertStock,NotificationGet,UpdateLand,getLandInfo};
+    if (!title || !image || !link) {
+        return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    try {
+        const newArticle = new Article({
+            title,
+            image,
+            link,
+        });
+
+        const savedArticle = await newArticle.save();
+        return res.status(200).json(savedArticle);
+    } catch (error) {
+        console.error('Error saving article:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
+module.exports = {NewArticles,createAdmin,DeleteLand, ImageUpload,InsertBuyLand,InsertStock,NotificationGet,UpdateLand,getLandInfo};

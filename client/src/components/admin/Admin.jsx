@@ -10,6 +10,7 @@ import { socket } from '../../Lib/socket';
 import Notification from './Notification/AdminNotification';
 import EditInfo from './EditInfo/EditInfo';
 import AdminCreate from './Users/AdminCreate';
+import Articles from './Articles';
 const Admin = () => {
   const [selectedTab, setSelectedTab] = useState('User');
 
@@ -31,6 +32,8 @@ const Admin = () => {
         return <EditInfo></EditInfo>
       case 'CreateAdmin':
         return <AdminCreate></AdminCreate>
+      case 'Articles':
+        return <Articles></Articles>
       default:
         return <User />;
 
